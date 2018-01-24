@@ -1,0 +1,16 @@
+<domain-models xmlns="http://axelor.com/xml/ns/domain-models"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="http://axelor.com/xml/ns/domain-models
+  http://axelor.com/xml/ns/domain-models/domain-models_4.0.xsd">
+
+    <module name="config" package="com.axelor.config.db"/>
+
+    <entity name="Grade" table="Grade" cachable="true">
+        <string name="code" required="true" unique="true" min="2" max="60"/>
+        <string name="nom" required="true" unique="true" min="2" max="60"/>
+        <string name="filiere"  max="255"/>
+        <string name="cadre" max="255"/>
+        <integer name="echelle" />
+    </entity>
+
+</domain-models>

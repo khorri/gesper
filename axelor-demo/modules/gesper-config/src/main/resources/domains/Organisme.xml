@@ -1,0 +1,18 @@
+<domain-models xmlns="http://axelor.com/xml/ns/domain-models"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="http://axelor.com/xml/ns/domain-models
+  http://axelor.com/xml/ns/domain-models/domain-models_4.0.xsd">
+
+    <module name="config" package="com.axelor.config.db"/>
+
+    <entity name="Organisme" table="ORGANISME" cachable="true">
+        <string name="nom" required="true" unique="true"  max="255"/>
+        <string name="abvreviation" required="true" unique="true" max="60"/>
+        <string name="rib"  unique="true" max="60"/>
+        <many-to-one name="banque" ref="Organisme"/>
+        <many-to-one name="type" ref="TypeOrganisme"/>
+        <many-to-one name="ville" ref="Ville"/>
+
+    </entity>
+
+</domain-models>

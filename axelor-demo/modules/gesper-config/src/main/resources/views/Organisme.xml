@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://axelor.com/xml/ns/object-views
+  http://axelor.com/xml/ns/object-views/object-views_4.0.xsd">
+
+    <grid name="organisme-grid" title="Organismes"
+          model="com.axelor.config.db.Organisme">
+        <field name="abvreviation" />
+        <field name="nom"/>
+        <field name="type"/>
+        <field name="banque"/>
+        <field name="ville"/>
+    </grid>
+
+    <form name="organisme-form" title="Organisme"
+          model="com.axelor.config.db.Organisme">
+        <panel title="Overview">
+            <field name="abvreviation"/>
+            <field name="nom"/>
+            <field name="type" title="Type"/>
+            <field name="ville" title="Ville"/>
+        </panel>
+
+        <panel title="Banque">
+            <field name="rib" title="RIB"/>
+            <field name="banque" title="Banque"/>
+        </panel>
+
+        <panel sidebar="true">
+            <field name="createdOn"/>
+            <field name="createdBy"/>
+            <field name="updatedOn"/>
+            <field name="updatedBy"/>
+        </panel>
+    </form>
+
+</object-views>

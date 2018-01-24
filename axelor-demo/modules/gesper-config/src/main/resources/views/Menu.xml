@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_4.1.xsd">
+
+	<menuitem name="gestPer-configuration"
+			  order="5"
+			  title="Configuration"
+			  icon="fa-cog"
+			  icon-background="#16a765"/>
+
+	<menuitem name="menu-ville-all" parent="gestPer-configuration"
+			  title="Villes"
+			  action="ville.all"/>
+
+
+
+
+	<action-view name="ville.all" title="Villes" model="com.axelor.config.db.Ville">
+		<view type="grid" name="ville-grid"/>
+		<view type="form" name="ville-form"/>
+	</action-view>
+
+	<!-- Organisme -->
+
+	<menuitem name="menu-organisme-all" parent="gestPer-configuration"
+			  title="Organismes"
+			  action="organisme.all"/>
+
+	<action-view name="organisme.all" title="Villes" model="com.axelor.config.db.Organisme">
+		<view type="grid" name="organisme-grid"/>
+		<view type="form" name="organisme-form"/>
+	</action-view>
+
+
+	<!-- Exercice -->
+	<menuitem name="menu-exercice-all" parent="gestPer-configuration"
+			  title="Exercices"
+			  action="exercice.all"/>
+
+	<action-view name="exercice.all" title="Exercices" model="com.axelor.config.db.Exercice">
+		<view type="grid" name="exercice-grid"/>
+		<view type="form" name="exercice-form"/>
+	</action-view>
+
+
+
+	<!-- Fonction -->
+	<menuitem name="menu-fonction-all" parent="gestPer-configuration"
+			  title="Fonctions"
+			  action="fonction.all"/>
+
+	<action-view name="fonction.all" title="Fonctions" model="com.axelor.config.db.Fonction">
+		<view type="grid" name="fonction-grid"/>
+		<view type="form" name="fonction-form"/>
+	</action-view>
+
+
+	<!-- Fonction -->
+	<menuitem name="menu-grade-all" parent="gestPer-configuration"
+			  title="Grade"
+			  action="grade.all"/>
+
+	<action-view name="grade.all" title="Grades" model="com.axelor.config.db.Grade">
+		<view type="grid" name="grade-grid"/>
+		<view type="form" name="grade-form"/>
+	</action-view>
+
+</object-views>

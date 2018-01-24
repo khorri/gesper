@@ -1,0 +1,8 @@
+apply plugin: 'axelor-module'
+apply plugin: 'groovy'
+
+module {
+	name "axelor-contact"
+	title "Axelor :: Contact"
+}
+

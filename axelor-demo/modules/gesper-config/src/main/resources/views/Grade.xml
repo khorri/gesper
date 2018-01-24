@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://axelor.com/xml/ns/object-views
+  http://axelor.com/xml/ns/object-views/object-views_4.0.xsd">
+
+    <grid name="grade-grid" title="Grades"
+          model="com.axelor.config.db.Grade">
+        <field name="code"/>
+        <field name="nom"/>
+        <field name="cadre"/>
+        <field name="filiere"/>
+        <field name="echelle"/>
+    </grid>
+    <selection name="grade.cadre">
+        <option value="S">Superieur</option>
+        <option value="M">Maitrise</option>
+        <option value="E">Execution</option>
+    </selection>
+    <selection name="grade.filiere">
+        <option value="T">Technique</option>
+        <option value="A">Administratif</option>
+    </selection>
+    <form name="grade-form" title="Grade"
+          model="com.axelor.config.db.Grade">
+        <panel title="Overview">
+            <field name="code"/>
+            <field name="nom"/>
+            <field name="cadre" selection="grade.cadre"/>
+            <field name="filiere" selection="grade.filiere"/>
+            <field name="echelle"/>
+        </panel>
+        <panel sidebar="true">
+            <field name="createdOn"/>
+            <field name="createdBy"/>
+            <field name="updatedOn"/>
+            <field name="updatedBy"/>
+        </panel>
+    </form>
+
+</object-views>

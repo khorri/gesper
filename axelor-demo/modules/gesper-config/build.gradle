@@ -1,0 +1,16 @@
+apply plugin: 'axelor-module'
+
+module {
+	name "gesper-config"
+	title "Configuration"
+	
+	version "1.0.0"
+	
+	description """Gesper config module demo.
+
+This is a demo module to provide quick demonstration of some new features.
+    """
+	removable true
+	// module dependencies
+	// module "modules:axelor-foo"
+}

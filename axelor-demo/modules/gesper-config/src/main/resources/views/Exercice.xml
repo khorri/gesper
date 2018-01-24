@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://axelor.com/xml/ns/object-views
+  http://axelor.com/xml/ns/object-views/object-views_4.0.xsd">
+
+    <grid name="exercice-grid" title="Exercices"
+          model="com.axelor.config.db.Exercice">
+        <field name="code" />
+        <field name="debut"/>
+        <field name="fin"/>
+        <field name="status"/>
+    </grid>
+    <selection name="exercice.status">
+        <option value="Ouvert">Ouvert</option>
+        <option value="Ferme">Fermé</option>
+    </selection>
+    <form name="exercice-form" title="Exercice"
+          model="com.axelor.config.db.Exercice">
+        <panel title="Overview">
+            <field name="code"/>
+            <field name="status" selection="exercice.status" />
+            <field name="debut"/>
+            <field name="fin"/>
+
+        </panel>
+        <panel sidebar="true">
+            <field name="createdOn"/>
+            <field name="createdBy"/>
+            <field name="updatedOn"/>
+            <field name="updatedBy"/>
+        </panel>
+    </form>
+
+</object-views>
