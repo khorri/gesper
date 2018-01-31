@@ -5,12 +5,12 @@
 
   <module name="sale" package="com.axelor.sale.db"/>
 
-  <entity name="Product" cachable="true">
+  <entity name="Products" cachable="true">
     <string name="code" required="true" unique="true" min="2"/>
     <string name="name" required="true" unique="true" min="2"/>
     <string name="color"/>
     <string name="colorVariants"/>
-    <many-to-one name="category" ref="ProductCategory"/>
+    <many-to-one name="category" ref="ProductCategorie"/>
     <one-to-one name="image" ref="com.axelor.meta.db.MetaFile" />
     <string name="notes" large="true" />
   </entity>

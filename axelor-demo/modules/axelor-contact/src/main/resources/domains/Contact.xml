@@ -35,9 +35,9 @@
     <one-to-many name="emails" ref="Email" mappedBy="contact" />
     <one-to-many name="phones" ref="Phone" mappedBy="contact" />
 
-    <one-to-many name="addresses" ref="Address" mappedBy="contact"/>
+    <one-to-many name="addresses" ref="Addresse" mappedBy="contact"/>
     <many-to-many name="circles" ref="Circle" />
-    <many-to-one name="company" ref="Company" massUpdate="true"/>
+    <many-to-one name="company" ref="Companie" massUpdate="true"/>
 
     <finder-method name="findByName" using="fullName" />
     <finder-method name="findByEmail" using="String:email" filter="self.emails[].email = :email" />

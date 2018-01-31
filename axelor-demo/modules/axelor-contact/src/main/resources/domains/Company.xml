@@ -5,10 +5,10 @@
 
   <module name="contact" package="com.axelor.contact.db"/>
 
-  <entity name="Company" cachable="true">
+  <entity name="Companie" cachable="true">
     <string name="code" required="true" unique="true" min="2"/>
     <string name="name" required="true" unique="true" min="2"/>
-    <many-to-one name="parent" ref="Company"/>
+    <many-to-one name="parent" ref="Companie"/>
     <one-to-many name="employees" ref="Contact" mappedBy="company" />
     <string name="notes" multiline="true"/>
   </entity>

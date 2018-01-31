@@ -21,10 +21,10 @@ import groovy.util.logging.Slf4j
 
 import javax.inject.Inject
 
-import com.axelor.contact.db.Address
-import com.axelor.contact.db.Company
+import com.axelor.contact.db.Addresse
+import com.axelor.contact.db.Companie
 import com.axelor.contact.db.Contact
-import com.axelor.contact.db.Country
+import com.axelor.contact.db.Countrie
 import com.axelor.contact.service.HelloService
 import com.axelor.db.JPA
 import com.axelor.rpc.ActionRequest
@@ -54,7 +54,7 @@ class HelloController {
 
 	void about(ActionRequest request, ActionResponse response) {
 		
-		def address = request.context as Address
+		def address = request.context as Addresse
 		def contact = request.context.parentContext as Contact
 		
 		def name = contact?.fullName
@@ -85,23 +85,23 @@ class HelloController {
 		}
 	}
 	
-	private List<Address> createAddresses() {
+	private List<Addresse> createAddresses() {
 		
-		Country fr = Country.all().filter("code = ?", "FR").fetchOne()
+		Countrie fr = Countrie.all().filter("code = ?", "FR").fetchOne()
 		
 		if (fr == null) {
 
 			log.debug('creating a Country record: { code: "FR", name: "France"}')
 
-			fr = new Country(code: "FR", name: "France")
+			fr = new Countrie(code: "FR", name: "France")
 			JPA.runInTransaction {
 				fr.save()
 			}
 		}
 		
 		return [
-			new Address(street: "My", area: "Home", city: "Paris", country: fr),
-			new Address(street: "My", area: "Office", city: "Paris", country: fr)
+			new Addresse(street: "My", area: "Home", city: "Paris", country: fr),
+			new Addresse(street: "My", area: "Office", city: "Paris", country: fr)
 		]
 	}
 
@@ -113,7 +113,7 @@ class HelloController {
 	void showCompanyList(ActionRequest request, ActionResponse response) {
 
 		def contact = request.context as Contact
-		def view = [title : "All Companies", resource : Company.class.name]
+		def view = [title : "All Companies", resource : Companie.class.name]
 		
 		if (contact.company != null) {
 			view += [domain: "self.code = '${contact.company.code}' OR self.parent.code = '${contact.company.code}'"]

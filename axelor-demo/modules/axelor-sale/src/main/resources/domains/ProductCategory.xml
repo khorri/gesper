@@ -5,10 +5,10 @@
 
   <module name="sale" package="com.axelor.sale.db"/>
 
-  <entity name="ProductCategory" cachable="true">
+  <entity name="ProductCategorie" cachable="true">
     <string name="code" required="true" unique="true" min="2"/>
     <string name="name" required="true" unique="true" min="2"/>
-    <many-to-one name="parent" ref="ProductCategory"/>
+    <many-to-one name="parent" ref="ProductCategorie"/>
   </entity>
 
 </domain-models>

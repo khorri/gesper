@@ -5,14 +5,14 @@
 
   <module name="contact" package="com.axelor.contact.db" />
 
-  <entity name="Address" cachable="true">
+  <entity name="Addresse" cachable="true">
     <many-to-one name="contact" ref="Contact" required="true" />
     <string name="street" required="true" max="255" />
     <string name="area" max="255" />
     <string name="city" />
     <string name="zip" />
     <string name="state" />
-    <many-to-one name="country" ref="Country" />
+    <many-to-one name="country" ref="Countrie" />
   </entity>
 
 </domain-models>
