@@ -6,7 +6,7 @@
     <module name="config" package="com.axelor.config.db"/>
 
     <entity name="Ville" table="VILLE" cachable="true">
-        <string name="nom" required="true" unique="true" min="2" max="60"/>
+        <string name="name" required="true" unique="true" min="2" max="60"/>
     </entity>
 
 </domain-models>

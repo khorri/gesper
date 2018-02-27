@@ -1,0 +1,42 @@
+<?xml version="1.0" ?>
+<domain-models xmlns="http://axelor.com/xml/ns/domain-models"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://axelor.com/xml/ns/domain-models http://axelor.com/xml/ns/domain-models/domain-models_4.1.xsd">
+
+  <module name="rh" package="com.axelor.rh.db"/>
+
+  <entity name="Employe" cachable="true">
+    <string name="sex" title="Sexe"></string>
+    <string name="sex_ar" title="الجنس"></string>
+    <string name="title" title="Titre"></string>
+    <string name="firstname" required="true" title="Nom"></string>
+    <string name="lastname" required="true" title="Prénom"></string>
+    <string name="firstname_ar" title="النسب"></string>
+    <string name="lastname_ar" title="الاسم"></string>
+    <string name="address" title="Adresse"></string>
+    <string name="address_ar" title="العنوان"></string>
+    <string name="city" title="Ville"></string>
+    <string name="city_ar" title="المدينة"></string>
+    <string name="email" title="Email"></string>
+    <string name="fax" title="Fax"></string>
+    <string name="phone" title="Phone"></string>
+    <string name="mobile" title="GSM"></string>
+    <boolean name="activated" title="Activé"></boolean>
+    <integer name="empNumber" required="true" title="Matricule"></integer>
+    <date name="hireDate" title="Date d'embauche"></date>
+    <date name="repriseDate" title="Date de reprise"/>
+    <string name="status" title="Status"></string>
+    <date name="radiationDate" title="Date de radiation"/>
+    <date name="birthday" title="Date de naissance"/>
+    <string name="birthplace" title="Lieu de naissance"/>
+    <string name="birthplace_ar" title="مكان الازدياد"/>
+    <string name="nationality" title="Nationalité"/>
+    <string name="cin" title="C.I.N"/>
+    <integer name="echelle" title="Echelle"></integer>
+    <integer name="echelon" title="Echelon"></integer>
+    <integer name="indice" title="Indice"></integer>
+    <many-to-one name="grade" title="Grade" ref="com.axelor.config.db.Grade"></many-to-one>
+    <many-to-one name="fonction" title="Corps" ref="com.axelor.config.db.Fonction"></many-to-one>
+  </entity>
+  
+</domain-models>

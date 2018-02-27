@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://axelor.com/xml/ns/object-views
+  http://axelor.com/xml/ns/object-views/object-views_4.0.xsd">
+
+    <grid name="employe-rh-grid" title="Fiche agent"
+          model="com.axelor.rh.db.Employe">
+        <field name="empNumber"/>
+        <field name="firstname"/>
+        <field name="lastname"/>
+        <field name="lastname_ar"/>
+        <field name="firstname_ar"/>
+        <field name="cin"/>
+        <field name="activated"/>
+    </grid>
+
+    <form name="employe-rh-form" title="Fiche agent"
+          model="com.axelor.rh.db.Employe">
+        <panel name="contact" title="Contact">
+
+            <field name="sex" colSpan="1" selection="employee.sex.type.select"/>
+            <field name="title" colSpan="1" selection="employee.title.type.select"/>
+            <field name="firstname" colSpan="2"/>
+            <field name="lastname" colSpan="2"/>
+            <field name="lastname_ar" colSpan="2"/>
+            <field name="firstname_ar" colSpan="3"/>
+            <field name="sex_ar" colSpan="1" selection="employee.sexar.type.select"/>
+            <field name="address" colSpan="3"/>
+            <field name="city" colSpan="3"/>
+            <field name="city_ar" colSpan="3"/>
+            <field name="address_ar" colSpan="3"/>
+            <field name="email" colSpan="3"/>
+            <field name="fax" colSpan="3"/>
+            <field name="phone" colSpan="3"/>
+            <field name="mobile" colSpan="3"/>
+        </panel>
+        <panel-tabs>
+            <panel name="informations" title="Informations">
+                <field name="activated" colSpan="1"></field>
+                <field name="empNumber" colSpan="2"></field>
+                <field name="hireDate" colSpan="2"></field>
+                <field name="repriseDate" colSpan="2"></field>
+                <field name="status" colSpan="2"></field>
+                <field name="radiationDate" colSpan="2"></field>
+                <field name="fonction" colSpan="3"></field>
+                <field name="grade" colSpan="3"></field>
+                <field name="Echelle" colSpan="2"></field>
+                <field name="Echelon" colSpan="2"></field>
+                <field name="Indice" colSpan="2"></field>
+
+                <panel title="Info.personnelles" colSpan="12">
+                    <field name="birthplace" colSpan="4"></field>
+                    <field name="birthday" colSpan="4"></field>
+                    <field name="birthplace_ar" colSpan="4"></field>
+                    <field name="nationality"></field>
+                    <field name="cin"></field>
+                </panel>
+
+            </panel>
+        </panel-tabs>
+
+    </form>
+
+</object-views>

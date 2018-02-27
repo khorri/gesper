@@ -6,8 +6,7 @@
 
     <grid name="grade-grid" title="Grades"
           model="com.axelor.config.db.Grade">
-        <field name="code"/>
-        <field name="nom"/>
+        <field name="name"/>
         <field name="cadre"/>
         <field name="filiere"/>
         <field name="echelle"/>
@@ -24,8 +23,7 @@
     <form name="grade-form" title="Grade"
           model="com.axelor.config.db.Grade">
         <panel title="Overview">
-            <field name="code"/>
-            <field name="nom"/>
+            <field name="name"/>
             <field name="cadre" selection="grade.cadre"/>
             <field name="filiere" selection="grade.filiere"/>
             <field name="echelle"/>

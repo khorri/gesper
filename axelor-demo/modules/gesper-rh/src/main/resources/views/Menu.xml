@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_4.1.xsd">
+
+	<menuitem name="menu-gesper-rh" order="-10" title="Gestion Administrative" icon="fa-user" icon-background="orange" />
+
+	<menuitem name="menu-emplaye-all" parent="menu-gesper-rh"
+    	title="Fiche Agent"
+    	action="employe.all"/>
+
+	<action-view name="employe.all" title="Agents" model="com.axelor.rh.db.Employe">
+    	<view type="grid" name="employe-rh-grid"/>
+	    <view type="form" name="employe-rh-form"/>
+	</action-view>
+
+</object-views>

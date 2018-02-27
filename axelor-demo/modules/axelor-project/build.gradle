@@ -1,9 +1,0 @@
-apply plugin: 'axelor-module'
-
-module {
-
-	name "axelor-project"
-	title "Axelor :: Project"
-
-	module "modules:axelor-contact"
-}

@@ -6,13 +6,13 @@
 
     <grid name="ville-grid" title="Villes"
           model="com.axelor.config.db.Ville">
-        <field name="nom"/>
+        <field name="name"/>
     </grid>
 
     <form name="ville-form" title="Ville"
           model="com.axelor.config.db.Ville">
         <panel title="Overview">
-            <field name="nom"/>
+            <field name="name"/>
         </panel>
         <panel sidebar="true">
             <field name="createdOn"/>
