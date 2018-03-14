@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <object-views xmlns="http://axelor.com/xml/ns/object-views" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 	xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_4.1.xsd">
-
+	<menuitem name="Menu3"
+			  order="5"
+			  title="Menu 3"
+			  icon="fa-cog"
+			  icon-background="#16a765"/>
 	<menuitem name="gestPer-configuration"
 			  order="5"
 			  title="Configuration"
@@ -11,8 +15,6 @@
 	<menuitem name="menu-ville-all" parent="gestPer-configuration"
 			  title="Villes"
 			  action="ville.all"/>
-
-
 
 
 	<action-view name="ville.all" title="Villes" model="com.axelor.config.db.Ville">
@@ -42,6 +44,25 @@
 		<view type="form" name="exercice-form"/>
 	</action-view>
 
+	<!-- Depart -->
+	<menuitem name="menu-depart-all" parent="gestPer-configuration"
+			  title="Depart"
+			  action="depart.all"/>
+
+	<action-view name="depart.all" title="Departs" model="com.axelor.config.db.Depart">
+		<view type="grid" name="depart-grid"/>
+		<view type="form" name="depart-form"/>
+	</action-view>
+<!--Sanction-->
+
+	<menuitem name="menu-sanction-all" parent="gestPer-configuration"
+			  title="Sanction"
+			  action="sanction.all"/>
+
+	<action-view name="sanction.all" title="Sanctions" model="com.axelor.config.db.Sanction">
+		<view type="grid" name="sanction-grid"/>
+		<view type="form" name="sanction-form"/>
+	</action-view>
 
 
 	<!-- Fonction -->
@@ -64,5 +85,6 @@
 		<view type="grid" name="grade-grid"/>
 		<view type="form" name="grade-form"/>
 	</action-view>
+
 
 </object-views>

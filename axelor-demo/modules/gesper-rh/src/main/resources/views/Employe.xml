@@ -19,13 +19,21 @@
           model="com.axelor.rh.db.Employe">
         <panel name="contact" title="Contact">
 
-            <field name="sex" colSpan="1" selection="employee.sex.type.select"/>
             <field name="title" colSpan="1" selection="employee.title.type.select"/>
+
+            <field name="Matricule" colSpan="2"></field>
+
+            <field name="sex" colSpan="1" selection="employee.sex.type.select"/>
             <field name="firstname" colSpan="2"/>
             <field name="lastname" colSpan="2"/>
             <field name="lastname_ar" colSpan="2"/>
             <field name="firstname_ar" colSpan="3"/>
             <field name="sex_ar" colSpan="1" selection="employee.sexar.type.select"/>
+
+        </panel>
+            <panel>
+
+
             <field name="address" colSpan="3"/>
             <field name="city" colSpan="3"/>
             <field name="city_ar" colSpan="3"/>

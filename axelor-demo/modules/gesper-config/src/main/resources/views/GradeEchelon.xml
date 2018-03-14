@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://axelor.com/xml/ns/object-views
+  http://axelor.com/xml/ns/object-views/object-views_4.0.xsd">
+
+    <grid name="gradeEchelon-grid" title="GradeEchelon"
+          model="com.axelor.config.db.GradeEchelon">
+        <field name="name" />
+        <field name="codeEchelon"/>
+        <field name="epgLen"/>
+        <field name="epgMoy"/>
+        <field name="epgRap"/>
+
+    </grid>
+
+    <form name="gradeEchelon-form" title="GradeEchelon"
+          model="com.axelor.config.db.GradeEchelon">
+        <panel title="Overview">
+            <field name="name"/>
+            <field name="codeEchelon"/>
+            <field name="epgLen"/>
+            <field name="epgMoy"/>
+            <field name="epgRap"/>
+
+
+        </panel>
+
+    </form>
+
+</object-views>

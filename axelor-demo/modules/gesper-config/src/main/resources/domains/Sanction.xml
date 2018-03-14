@@ -1,0 +1,17 @@
+<domain-models xmlns="http://axelor.com/xml/ns/domain-models"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="http://axelor.com/xml/ns/domain-models
+  http://axelor.com/xml/ns/domain-models/domain-models_4.0.xsd">
+
+    <module name="config" package="com.axelor.config.db"/>
+
+    <entity name="Sanction" table="SANCTION" cachable="true">
+        <date name="dateEffet" required="true" unique="true"/>
+        <integer name="periodeSanction" />
+        <string name="natureSanction"/>
+        <string name="motifSanction"/>
+        <string name="gradeSanction"/>
+        <integer name="echelonSanction"/>
+    </entity>
+
+</domain-models>

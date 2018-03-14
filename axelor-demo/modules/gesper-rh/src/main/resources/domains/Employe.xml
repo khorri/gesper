@@ -2,13 +2,13 @@
 <domain-models xmlns="http://axelor.com/xml/ns/domain-models"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://axelor.com/xml/ns/domain-models http://axelor.com/xml/ns/domain-models/domain-models_4.1.xsd">
-
   <module name="rh" package="com.axelor.rh.db"/>
 
   <entity name="Employe" cachable="true">
     <string name="sex" title="Sexe"></string>
-    <string name="sex_ar" title="الجنس"></string>
     <string name="title" title="Titre"></string>
+    <string name="sex_ar" title="الجنس"></string>
+<string name="matricule" title="matricule"></string>
     <string name="firstname" required="true" title="Nom"></string>
     <string name="lastname" required="true" title="Prénom"></string>
     <string name="firstname_ar" title="النسب"></string>
