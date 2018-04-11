@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://axelor.com/xml/ns/object-views
+  http://axelor.com/xml/ns/object-views/object-views_4.0.xsd">
+
+    <grid name="grade-grid" title="Grades"
+          model="com.axelor.config.db.GradeEchelon" >
+        <field name="name" domain="com.axelor.config.db.Grade"/>
+        <field name="cadre" domain="com.axelor.config.db.Grade"/>
+        <field name="filiere" domain="com.axelor.config.db.Grade"/>
+        <field name="echelle" domain="com.axelor.config.db.Grade"/>
+        <field name="echelon" domain="com.axelor.config.db.GradeEchelon"/>
+        <field name="indice" domain="com.axelor.config.db.GradeEchelon"/>
+        <field name="rythmeRapide" domain="com.axelor.config.db.GradeEchelon"/>
+        <field name="rythmeMoyen" domain="com.axelor.config.db.GradeEchelon"/>
+        <field name="rythmeLent" domain="com.axelor.config.db.GradeEchelon"/>
+
+    </grid>
+
+    <form name="grade-form" title="Grade"
+          model="com.axelor.config.db.GradeEchelon">
+        <panel title="Overview">
+            <field name="grade"/>
+            <field name="echelon"/>
+            <field name="indice"/>
+            <field name="rythmeRapide"/>
+            <field name="rythmeMoyen"/>
+            <field name="rythmeLent"/>
+
+        </panel>
+    </form>
+
+</object-views>

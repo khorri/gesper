@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://axelor.com/xml/ns/object-views
+  http://axelor.com/xml/ns/object-views/object-views_4.0.xsd">
+
+    <grid name="depart-grid" title="Depart"
+          model="com.axelor.config.db.Depart">
+        <field name="dateDepart" />
+        <field name="typeDepart"/>
+        <field name="descriptionDepart"/>
+        <field name="motifDepart"/>
+    </grid>
+    <selection name="depart.typeDepart">
+        <option value="demission">Démission</option>
+        <option value="retraite">retraite</option>
+        <option value="deces">Déces</option>
+    </selection>
+    <form name="depart-form" title="Depart"
+          model="com.axelor.config.db.Depart">
+        <panel title="Overview">
+            <field name="dateDepart"/>
+            <field name="typeDepart" selection="depart.typeDepart" />
+            <field name="descriptionDepart"/>
+            <field name="motifDepart"/>
+
+        </panel>
+
+    </form>
+
+</object-views>

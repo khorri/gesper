@@ -5,8 +5,10 @@
 
     <module name="config" package="com.axelor.config.db"/>
 
-    <entity name="Ville" table="VILLE" cachable="true">
-        <string name="name" required="true" unique="true" min="2" max="60"/>
+    <entity name="Cadre"  cachable="true">
+        <string name="name" title="Désignation"  unique="true" max="255"/>
+        <string name="code"  max="255"/>
+        <one-to-many name="grades" ref="Grade" mappedBy="cadre"></one-to-many>
     </entity>
 
 </domain-models>

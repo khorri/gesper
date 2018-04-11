@@ -5,9 +5,10 @@
 
     <module name="config" package="com.axelor.config.db"/>
 
-    <entity name="TypeOrganisme" table="TYPE_ORGANISME" cachable="true">
-        <string name="code" required="true" unique="true" max="60"/>
-        <string name="name" required="true" unique="true" max="60"/>
+    <entity name="Cadre"  cachable="true">
+        <string name="name" title="Désignation"  unique="true" max="255"/>
+        <string name="code"  max="255"/>
+        <one-to-many name="grades" ref="Grade" mappedBy="cadre"></one-to-many>
     </entity>
 
 </domain-models>

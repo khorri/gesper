@@ -1,0 +1,17 @@
+<domain-models xmlns="http://axelor.com/xml/ns/domain-models"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="http://axelor.com/xml/ns/domain-models
+  http://axelor.com/xml/ns/domain-models/domain-models_4.0.xsd">
+
+    <module name="config" package="com.axelor.config.db"/>
+
+    <entity name="Depart" table="DEPART" cachable="true">
+        <date name="dateDepart" required="true" unique="true" />
+        <string name="typeDepart"/>
+        <string name="descriptionDepart"/>
+        <string name="motifDepart"/>
+
+
+    </entity>
+
+</domain-models>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://axelor.com/xml/ns/object-views
+  http://axelor.com/xml/ns/object-views/object-views_4.0.xsd">
+
+    <grid name="filiere-grid" title="Filiere"
+          model="com.axelor.config.db.Filiere">
+        <field name="codeFiliere" />
+        <field name="filiereLib"/>
+
+    </grid>
+    <selection name="filiere.filiereLib">
+        <option value="T">Technique</option>
+        <option value="A">Administratif</option>
+    </selection>
+    <form name="filiere-form" title="Filiere"
+          model="com.axelor.config.db.Filiere">
+        <panel title="Overview">
+            <field name="codeFiliere"/>
+            <field name="filiereLib" selection="filiere.filiereLib" />
+
+
+        </panel>
+
+    </form>
+
+</object-views>
