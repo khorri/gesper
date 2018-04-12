@@ -7,20 +7,20 @@
   <entity name="Employe" cachable="true">
     <string name="sex" title="Sexe"></string>
     <string name="title" title="Titre"></string>
-    <string name="sex_ar" title="الجنس"></string>
+    <string name="sexAr" title="الجنس"></string>
 <string name="matricule" title="matricule"></string>
     <string name="firstname" required="true" title="Nom"></string>
     <string name="lastname" required="true" title="Prénom"></string>
-    <string name="firstname_ar" title="النسب"></string>
-    <string name="lastname_ar" title="الاسم"></string>
-    <string name="address" title="Adresse"></string>
-    <string name="address_ar" title="العنوان"></string>
-    <string name="city" title="Ville"></string>
-    <string name="city_ar" title="المدينة"></string>
+    <string name="firstnameAr" title="النسب"></string>
+    <string name="lastnameAr" title="الاسم"></string>
+    <many-to-one name="address" ref="Adresse" title="Adresse"></many-to-one>
+    <many-to-one name="address_ar" ref="Adresse" title="العنوان"></many-to-one>
     <string name="email" title="Email"></string>
     <string name="fax" title="Fax"></string>
     <string name="phone" title="Phone"></string>
     <string name="mobile" title="GSM"></string>
+      <string name="urgentContactName" title="GSM"></string>
+      <string name="mobile" title="GSM"></string>
     <boolean name="activated" title="Activé"></boolean>
     <integer name="empNumber" required="true" title="Matricule"></integer>
     <date name="hireDate" title="Date d'embauche"></date>

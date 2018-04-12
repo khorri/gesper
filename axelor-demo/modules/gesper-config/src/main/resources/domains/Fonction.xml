@@ -5,8 +5,8 @@
 
     <module name="config" package="com.axelor.config.db"/>
 
-    <entity name="Fonction" table="FONCTION" cachable="true">
-        <string name="name" required="true" unique="true" max="255"/>
+    <entity name="Fonction"  cachable="true">
+        <string name="name" required="true" unique="true" max="255" title="Désignation"/>
         <boolean name="responsable" column="is_responsable" />
     </entity>
 

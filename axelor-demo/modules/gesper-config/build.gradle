@@ -12,5 +12,5 @@ This is a demo module to provide quick demonstration of some new features.
     """
 	removable true
 	// module dependencies
-	// module "modules:axelor-foo"
+	 module "modules:axelor-base"
 }

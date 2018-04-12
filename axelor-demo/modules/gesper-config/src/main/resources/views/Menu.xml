@@ -8,17 +8,6 @@
 			  icon="fa-cog"
 			  icon-background="#16a765"/>
 
-	<menuitem name="menu-ville-all" parent="gestPer-configuration"
-			  title="Villes"
-			  action="ville.all"/>
-
-
-
-
-	<action-view name="ville.all" title="Villes" model="com.axelor.config.db.Ville">
-		<view type="grid" name="ville-grid"/>
-		<view type="form" name="ville-form"/>
-	</action-view>
 
 	<!-- Organisme -->
 
@@ -26,7 +15,8 @@
 			  title="Organismes"
 			  action="organisme.all"/>
 
-	<action-view name="organisme.all" title="Villes" model="com.axelor.config.db.Organisme">
+	<action-view name="organisme.all" title="Organismes" model="com.axelor.config.db.Organisme">
+		<view type="cards" name="organisme-cards"/>
 		<view type="grid" name="organisme-grid"/>
 		<view type="form" name="organisme-form"/>
 	</action-view>
@@ -60,9 +50,19 @@
 			  title="Grade"
 			  action="grade.all"/>
 
-	<action-view name="grade.all" title="Grades" model="com.axelor.config.db.Grade">
+	<action-view name="grade.all" title="Grades" model="com.axelor.config.db.GradeEchelon">
 		<view type="grid" name="grade-grid"/>
 		<view type="form" name="grade-form"/>
+	</action-view>
+
+	<!-- Entite -->
+	<menuitem name="menu-entite-all" parent="gestPer-configuration"
+			  title="Entité"
+			  action="entite.all"/>
+
+	<action-view name="entite.all" title="Entités" model="com.axelor.config.db.Entite">
+		<view type="grid" name="entite-grid"/>
+		<view type="form" name="entite-form"/>
 	</action-view>
 
 </object-views>

@@ -5,12 +5,14 @@
 
     <module name="config" package="com.axelor.config.db"/>
 
-    <entity name="GradeEchlon" table="GRADEECHELON" cachable="true">
-        <string name="name"/>
-        <integer name="codeEchelon"/>
-        <integer name="epgLen"/>
-        <integer name="epgMoy"/>
-        <integer name="epgRap"/>
+    <entity name="GradeEchelon"  cachable="true">
+        <integer name="echelon"/>
+        <integer name="rythmeLent"/>
+        <integer name="rythmeMoyen"/>
+        <integer name="rythmeRapide"/>
+        <integer name="indice"/>
+        <many-to-one name="grade" ref="Grade" title="Grade"/>
+
     </entity>
 
 </domain-models>

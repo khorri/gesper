@@ -5,13 +5,10 @@
 
     <module name="config" package="com.axelor.config.db"/>
 
-    <entity name="Grade"  cachable="true">
-        <string name="name" title="Désignation"  unique="true" min="2" max="60"/>
-        <string name="filiere"  max="255"/>
-        <string name="cadre" max="255"/>
-        <integer name="echelle" />
-        <integer name="tri"/>
-        <one-to-many name="echelons" ref="GradeEchelon" mappedBy="grade"></one-to-many>
+    <entity name="Cadre"  cachable="true">
+        <string name="name" title="Désignation"  unique="true" max="255"/>
+        <string name="code"  max="255"/>
+        <one-to-many name="grades" ref="Grade" mappedBy="cadre"></one-to-many>
     </entity>
 
 </domain-models>

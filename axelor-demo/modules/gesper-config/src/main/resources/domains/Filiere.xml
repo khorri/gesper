@@ -5,10 +5,10 @@
 
     <module name="config" package="com.axelor.config.db"/>
 
-    <entity name="Filiere" table="FILIERE" cachable="true">
-        <string name="codeFiliere" required="true" unique="true" max="60"/>
-        <string name="filiereLib"/>
-
+    <entity name="Filiere"  cachable="true">
+        <string name="name" title="Désignation"  unique="true" max="255"/>
+        <string name="code"  max="255"/>
+        <one-to-many name="grades" ref="Grade" mappedBy="filiere"></one-to-many>
     </entity>
 
 </domain-models>

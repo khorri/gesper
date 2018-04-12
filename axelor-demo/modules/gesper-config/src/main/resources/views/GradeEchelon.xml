@@ -4,30 +4,33 @@
               xsi:schemaLocation="http://axelor.com/xml/ns/object-views
   http://axelor.com/xml/ns/object-views/object-views_4.0.xsd">
 
-    <grid name="grade-grid" title="Grades"
-          model="com.axelor.config.db.GradeEchelon" >
-        <field name="name" domain="com.axelor.config.db.Grade"/>
-        <field name="cadre" domain="com.axelor.config.db.Grade"/>
-        <field name="filiere" domain="com.axelor.config.db.Grade"/>
-        <field name="echelle" domain="com.axelor.config.db.Grade"/>
-        <field name="echelon" domain="com.axelor.config.db.GradeEchelon"/>
-        <field name="indice" domain="com.axelor.config.db.GradeEchelon"/>
-        <field name="rythmeRapide" domain="com.axelor.config.db.GradeEchelon"/>
-        <field name="rythmeMoyen" domain="com.axelor.config.db.GradeEchelon"/>
-        <field name="rythmeLent" domain="com.axelor.config.db.GradeEchelon"/>
-
+    <grid name="grade-grid" title="Grades" model="com.axelor.config.db.GradeEchelon" orderBy="grade.tri" canEdit="false" canDelete="false" edit-icon="false">
+        <field name="grade.name"/>
+        <field name="grade.cadre"/>
+        <field name="grade.filiere"/>
+        <field name="grade.echelle"/>
+        <field name="echelon"/>
+        <field name="indice"/>
+        <field name="rythmeRapide" title="Av.Rapide"/>
+        <field name="rythmeMoyen" title="Av.Moyen"/>
+        <field name="rythmeLent" title="Av.Lent"/>
     </grid>
 
-    <form name="grade-form" title="Grade"
-          model="com.axelor.config.db.GradeEchelon">
-        <panel title="Overview">
-            <field name="grade"/>
-            <field name="echelon"/>
-            <field name="indice"/>
-            <field name="rythmeRapide"/>
-            <field name="rythmeMoyen"/>
-            <field name="rythmeLent"/>
-
+    <form name="grade-form" title="Grade" model="com.axelor.config.db.GradeEchelon">
+        <panel name="grade" title="Grade">
+            <field name="grade" colSpan="12" readonly="true"/>
+        </panel>
+        <panel name="gradeechelon" title="Avancement par grade (en mois)" colSpan="12">
+            <field name="echelon" colSpan="2" readonly="true"/>
+            <field name="indice" colSpan="3" readonly="true"/>
+            <field name="rythmeRapide" title="Rapide" colSpan="2"/>
+            <field name="rythmeMoyen" title="Moyen" colSpan="2"/>
+            <field name="rythmeLent" title="Lent" colSpan="2"/>
+        </panel>
+        <panel name="attributes" title="Attributes" readonly="true" sidebar="true">
+            <field name="grade.echelle" title="Echèlle" colSpan="4"/>
+            <field name="grade.cadre" title="Cadre" colSpan="4" readonly="true"/>
+            <field name="grade.filiere" title="Filière" colSpan="4" readonly="true"/>
         </panel>
     </form>
 

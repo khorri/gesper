@@ -6,27 +6,48 @@
 
     <grid name="organisme-grid" title="Organismes"
           model="com.axelor.config.db.Organisme">
-        <field name="abvreviation" />
-        <field name="nom"/>
+        <field name="shortName" />
+        <field name="name"/>
         <field name="type"/>
+        <field name="phone"/>
+        <field name="address.fullName"/>
         <field name="banque"/>
-        <field name="ville"/>
+        <field name="city"/>
     </grid>
 
-    <form name="organisme-form" title="Organisme"
-          model="com.axelor.config.db.Organisme">
-        <panel title="Overview">
-            <field name="abvreviation"/>
-            <field name="nom"/>
-            <field name="type" title="Type"/>
-            <field name="ville" title="Ville"/>
+    <form name="organisme-form" title="Organisme" model="com.axelor.config.db.Organisme" width="large">
+        <panel name="main">
+            <panel colSpan="3">
+                <field name="picture" showTitle="false" colSpan="12" widget="Image"/>
+                <panel showIf="fullName != null" colSpan="8">
+                    <label name="google" title="&lt;a class='fa fa-google-plus' href='http://www.google.com' target='_blank' />" colSpan="2"/>
+                    <label name="facebook" title="&lt;a class='fa fa-facebook' href='http://www.facebook.com' target='_blank' />" colSpan="2"/>
+                    <label name="twitter" title="&lt;a class='fa fa-twitter' href='http://www.twitter.com' target='_blank' />" colSpan="2"/>
+                    <label name="linkedin" title="&lt;a class='fa fa-linkedin' href='http://www.linkedin.com' target='_blank' />" colSpan="2"/>
+                    <label name="youtube" title="&lt;a class='fa fa-youtube' href='http://www.youtube.com' target='_blank' />" colSpan="2"/>
+                </panel>
+            </panel>
+            <panel colSpan="9">
+                <field name="type" title="Type" canNew="true"/>
+                <field name="shortName" x-bind="{{shortName|uppercase}}"/>
+                <field name="name" x-bind="{{name|uppercase}}" colSpan="12"/>
+            </panel>
         </panel>
-
-        <panel title="Banque">
-            <field name="rib" title="RIB"/>
-            <field name="banque" title="Banque"/>
+        <panel name="coordonnes" title="Coordonnées">
+            <field name="address" canNew="true" form-view="address-form" grid-view="address-grid" colSpan="12"/>
+            <field name="phone" placeholder="+21200000000" pattern="^\+?(?:[0-9]{2,3}(?:\s|\.)?){3,6}[0-9]{2,3}$"/>
+            <field name="fax" placeholder="+21200000000" pattern="^\+?(?:[0-9]{2,3}(?:\s|\.)?){3,6}[0-9]{2,3}$"/>
+            <field name="email" placeholder="email@example.com" pattern="^[a-z0-9A-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ!#$%&amp;'*+/=?^_`{|}~-]+(?:\.[a-z0-9A-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ!#$%&amp;'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?:[a-z]{2,})$"/>
+            <field name="website" placeholder="www.example.com"/>
         </panel>
-
+        <panel-tabs>
+            <panel name="information"  title="Informations bancaire">
+                <field name="rib" placeholder="24 chiffres" pattern="^[0-9A-Z]{24}$"/>
+                <field name="banque" canNew="true" domain="self.type='BANQUE'"/>
+                <field name="city"/>
+                <field name="agenceBanquaire" canNew="true" domain="self.type='AGENCE_BANCAIRE'"/>
+            </panel>
+        </panel-tabs>
         <panel sidebar="true">
             <field name="createdOn"/>
             <field name="createdBy"/>
@@ -34,5 +55,33 @@
             <field name="updatedBy"/>
         </panel>
     </form>
+
+    <cards name="organanisme-cards" title="Organismes" css="rect-image" model="com.axelor.config.db.Organisme">
+        <field name="name"/>
+        <field name="picture"/>
+        <field name="phone"/>
+        <field name="fax"/>
+        <field name="email"/>
+        <field name="address.fullName"/>
+        <field name="type"/>
+        <template><![CDATA[
+    <div class="span8"><strong>{{name}}</strong></div>
+<div class="span4 text-right"><strong> {{type}}</strong></div>
+	<div>
+	  <div class="span4 card-image">
+	    <img ng-src="{{$image('picture', 'content')}}" />
+	  </div>
+	  <div class="span8">
+			  	<address ng-if="address.fullName" class="span12">
+			  	    <i class="fa fa-home text-success"/>{{address.fullName}}
+			  	</address>
+			    <span ng-if="phone" class="span12"><i class="fa fa-phone text-success"/> {{phone}}</span>
+			    <span ng-if="fax" class="span12"><i class="fa fa-fax text-success"/> {{fax}}</span>
+			  </div>
+	</div>
+
+          ]]></template>
+    </cards>
+
 
 </object-views>
