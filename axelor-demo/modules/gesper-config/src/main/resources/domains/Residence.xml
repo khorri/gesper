@@ -1,0 +1,14 @@
+<domain-models xmlns="http://axelor.com/xml/ns/domain-models"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="http://axelor.com/xml/ns/domain-models
+  http://axelor.com/xml/ns/domain-models/domain-models_4.0.xsd">
+
+    <module name="config" package="com.axelor.config.db"/>
+
+    <entity name="Residence"  cachable="true">
+        <string name="name" title="Désignation"  unique="true" max="255"/>
+        <many-to-one name="localite" ref="Localite"></many-to-one>
+        <many-to-one name="zone" ref="Zone"></many-to-one>
+    </entity>
+
+</domain-models>

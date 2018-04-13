@@ -17,4 +17,14 @@
         <option value="1">ذ</option>
         <option value="2">أ</option>
     </selection>
+    <selection name="employee.status.type.select">
+        <option value="C">CDC</option>
+        <option value="D">DETACHE</option>
+        <option value="H">HONORAIRE</option>
+        <option value="S">STAGIERE</option>
+        <option value="T">TITULAIRE</option>
+    </selection>
+
+
+
 </object-views>

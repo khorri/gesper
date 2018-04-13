@@ -8,30 +8,34 @@
     <string name="sex" title="Sexe"></string>
     <string name="title" title="Titre"></string>
     <string name="sexAr" title="الجنس"></string>
-<string name="matricule" title="matricule"></string>
+    <string name="matricule" title="matricule"></string>
     <string name="firstname" required="true" title="Nom"></string>
     <string name="lastname" required="true" title="Prénom"></string>
     <string name="firstnameAr" title="النسب"></string>
     <string name="lastnameAr" title="الاسم"></string>
-    <many-to-one name="address" ref="Adresse" title="Adresse"></many-to-one>
-    <many-to-one name="address_ar" ref="Adresse" title="العنوان"></many-to-one>
+    <many-to-one name="address" ref="com.axelor.apps.base.db.Address" title="Adresse"></many-to-one>
+    <many-to-one name="address_ar" ref="com.axelor.apps.base.db.Address" title="العنوان"></many-to-one>
     <string name="email" title="Email"></string>
     <string name="fax" title="Fax"></string>
     <string name="phone" title="Phone"></string>
     <string name="mobile" title="GSM"></string>
-      <string name="urgentContactName" title="GSM"></string>
-      <string name="mobile" title="GSM"></string>
+      <string name="urgentContactName" title="Nom"></string>
+      <string name="urgentContactPhone" title="Mobile"></string>
     <boolean name="activated" title="Activé"></boolean>
-    <integer name="empNumber" required="true" title="Matricule"></integer>
+      <string name="cin" title="C.I.N"/>
+      <string name="nationality" title="Nationalité"/>
+      <date name="birthday" title="Date de naissance"/>
+      <string name="birthplace" title="Lieu de naissance"/>
+      <string name="birthplace_ar" title="مكان الازدياد"/>
     <date name="hireDate" title="Date d'embauche"></date>
+      <date name="mutationDate" title="Date de mutation"></date>
     <date name="repriseDate" title="Date de reprise"/>
     <string name="status" title="Status"></string>
     <date name="radiationDate" title="Date de radiation"/>
-    <date name="birthday" title="Date de naissance"/>
-    <string name="birthplace" title="Lieu de naissance"/>
-    <string name="birthplace_ar" title="مكان الازدياد"/>
-    <string name="nationality" title="Nationalité"/>
-    <string name="cin" title="C.I.N"/>
+      <string name="motifRadiation" title="Motif de radiation"></string>
+
+
+
     <integer name="echelle" title="Echelle"></integer>
     <integer name="echelon" title="Echelon"></integer>
     <integer name="indice" title="Indice"></integer>
