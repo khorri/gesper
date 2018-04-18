@@ -17,11 +17,7 @@
  */
 package com.axelor.data.csv;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.Reader;
+import java.io.*;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -247,7 +243,7 @@ public class CSVImporter implements Importer {
 	 * @throws ClassNotFoundException
 	 */
 	private void process(CSVInput input, File file) throws IOException, ClassNotFoundException {
-		this.process(input, new FileReader(file));
+		this.process(input, new InputStreamReader(new FileInputStream(file), "UTF-8"));
 	}
 
 	/**

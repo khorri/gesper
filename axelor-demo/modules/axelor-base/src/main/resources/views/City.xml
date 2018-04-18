@@ -13,7 +13,8 @@
     
     <form name="city-form" title="City" model="com.axelor.apps.base.db.City" width="large">
     	<panel name="main">
-			<field name="name"/>
+			<field name="name" colSpan="3"/>
+			<field name="nameAr" colSpan="3"/>
 			<field name="artmin" colSpan="2"/>
 			<field name="zip" colSpan="4"/>
 			<field name="inseeCode"/>
