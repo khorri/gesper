@@ -9,10 +9,15 @@
 
     <string name="importId"/>
     <string name="addressL2" title="Recipient details"/>
+    <string name="addressL2Ar" title="معلومات"/>
     <string name="addressL3" title="Address precisions" />
+    <string name="addressL3Ar" title="العنوان" />
     <string name="addressL4" title="N° and Street label" required="true"/>
+    <string name="addressL4Ar" title="زنقة"/>
     <string name="addressL5" title="Distribution precisions (POB, Village...)"/>
+    <string name="addressL5Ar" title="الصندوق"/>
     <string name="addressL6" title="Zip/City"/>
+    <string name="addressL6Ar" title="رقم البريد\\المدينة"/>
     <many-to-one name="addressL7Country" ref="com.axelor.apps.base.db.Country" title="Country"/>
     <many-to-one name="city" ref="City" title="City"/>
     <decimal name="latit" title="Latitude" precision="38" scale="18" />

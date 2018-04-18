@@ -13,14 +13,14 @@
     <string name="lastname" required="true" title="Prénom"></string>
     <string name="firstnameAr" title="النسب"></string>
     <string name="lastnameAr" title="الاسم"></string>
-    <many-to-one name="address" ref="Adresse" title="Adresse"></many-to-one>
-    <many-to-one name="address_ar" ref="Adresse" title="العنوان"></many-to-one>
+    <!--<many-to-one name="address" ref="Adresse" title="Adresse"></many-to-one>-->
+    <!--<many-to-one name="address_ar" ref="Adresse" title="العنوان"></many-to-one>-->
     <string name="email" title="Email"></string>
     <string name="fax" title="Fax"></string>
     <string name="phone" title="Phone"></string>
     <string name="mobile" title="GSM"></string>
       <string name="urgentContactName" title="GSM"></string>
-      <string name="mobile" title="GSM"></string>
+      <!--<string name="mobile" title="GSM"></string>-->
     <boolean name="activated" title="Activé"></boolean>
     <integer name="empNumber" required="true" title="Matricule"></integer>
     <date name="hireDate" title="Date d'embauche"></date>

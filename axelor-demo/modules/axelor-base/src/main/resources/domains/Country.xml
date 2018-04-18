@@ -14,8 +14,13 @@
     <string name="name" required="true" title="Country name" />
     <string name="cog" title="COG"/>
     <string name="phonePrefix" title="Calling code"/>
-    
-    
+    <string name="nameAr" title="البلد" />
+    <string name="fullName" namecolumn="true" search="name,nameAr">
+      <![CDATA[
+        if (nameAr != null)
+          return name + " - " + nameAr;
+        return name;
+    ]]></string>
   </entity>
 
 </domain-models>
