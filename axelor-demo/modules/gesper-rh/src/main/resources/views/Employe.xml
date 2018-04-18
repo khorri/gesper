@@ -16,58 +16,65 @@
     </grid>
 
     <form name="employe-rh-form" title="Fiche agent"
-          model="com.axelor.rh.db.Employe">
-        <panel name="contact" title="Contact">
+          model="com.axelor.rh.db.Employe" width="large">
 
-            <field name="title" colSpan="1" selection="employee.title.type.select"/>
-
-            <field name="Matricule" colSpan="2"></field>
-
-            <field name="sex" colSpan="1" selection="employee.sex.type.select"/>
-            <field name="firstname" colSpan="2"/>
-            <field name="lastname" colSpan="2"/>
-            <field name="lastname_ar" colSpan="2"/>
-            <field name="firstname_ar" colSpan="3"/>
-            <field name="sex_ar" colSpan="1" selection="employee.sexar.type.select"/>
-
+        <panel name="main">
+            <panel colSpan="3">
+                <field name="activated" hidden="true"/>
+                <field name="id" hidden="true"/>
+                <field name="picture" showTitle="false" colSpan="12" widget="Image"/>
+                <field name="matricule" showTitle="false" colSpan="6" css="matricule hilite-success strong text-center" placeholder="Matricule">
+                    <hilite background="danger" strong="true" if="!activated &amp;&amp; id!=null"/>
+                </field>
+            </panel>
+            <panel colSpan="9">
+                <field name="title" title="Titre" colSpan="1" selection="employee.title.type.select"/>
+                <field name="firstname" colSpan="3" css="label-bold bold large" x-bind="{{firstname|uppercase}}"/>
+                <field name="lastname" colSpan="2" css="label-bold bold large"/>
+                <field name="lastnameAr" colSpan="2" css="label-bold bold large"/>
+                <field name="firstnameAr" colSpan="3" css="label-bold bold large"/>
+                <field name="sex" onChange="action-employee-change-sex" selection="employee.sex.type.select"/>
+                <field name="sexAr" selection="employee.sexar.type.select"/>
+            </panel>
         </panel>
-            <panel>
-
-
-            <field name="address" colSpan="3"/>
-            <field name="city" colSpan="3"/>
-            <field name="city_ar" colSpan="3"/>
-            <field name="address_ar" colSpan="3"/>
+        <panel name="coordonnee" title="Coordonnées">
+            <field name="address" colSpan="12" canDelete="true" canNew="true" form-view="address-form" grid-view="address-grid"/>
             <field name="email" colSpan="3"/>
             <field name="fax" colSpan="3"/>
             <field name="phone" colSpan="3"/>
             <field name="mobile" colSpan="3"/>
+            <panel name="urgentContact" title="Contact d'urgence">
+                <field name="urgentContactName"/>
+                <field name="urgentContactPhone"/>
+            </panel>
         </panel>
         <panel-tabs>
             <panel name="informations" title="Informations">
-                <field name="activated" colSpan="1"></field>
-                <field name="empNumber" colSpan="2"></field>
-                <field name="hireDate" colSpan="2"></field>
-                <field name="repriseDate" colSpan="2"></field>
-                <field name="status" colSpan="2"></field>
-                <field name="radiationDate" colSpan="2"></field>
-                <field name="fonction" colSpan="3"></field>
-                <field name="grade" colSpan="3"></field>
-                <field name="Echelle" colSpan="2"></field>
-                <field name="Echelon" colSpan="2"></field>
-                <field name="Indice" colSpan="2"></field>
+                <field name="cin" colSpan="2"/>
+                <field name="cinImage" showTitle="false" colSpan="2" widget="binary-link" canNew="true" form-view="meta-files-form" grid-view="meta-files-grid"/>
+                <field name="nationality" colSpan="2"/>
+                <field name="birthday" colSpan="2"/>
+                <field name="birthplace" colSpan="2"/>
+                <field name="birthplaceAr" colSpan="2"/>
 
-                <panel title="Info.personnelles" colSpan="12">
-                    <field name="birthplace" colSpan="4"></field>
-                    <field name="birthday" colSpan="4"></field>
-                    <field name="birthplace_ar" colSpan="4"></field>
-                    <field name="nationality"></field>
-                    <field name="cin"></field>
+                <panel title="Info.professionnelles" colSpan="12">
+                    <field name="hireDate" colSpan="3"/>
+                    <field name="mutationDate" colSpan="3"/>
+                    <field name="radiationDate" colSpan="3"/>
+                    <field name="motifRadiation" colSpan="3"/>
                 </panel>
-
             </panel>
         </panel-tabs>
 
     </form>
+    <action-record name="action-employee-change-sex" model="com.axelor.rh.db.Employe">
+        <field if="sex == '0'" name="sexAr" expr="0"/>
+        <field if="sex == '1'" name="sexAr" expr="1"/>
+    </action-record>
+    <action-record name="action-employee-change-sex-ar" model="com.axelor.rh.db.Employe">
+        <field if="sexAr == '0'" name="sex" expr="0"/>
+        <field if="sexAr == '1'" name="sex" expr="1"/>
+    </action-record>
+
 
 </object-views>

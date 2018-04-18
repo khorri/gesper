@@ -1,0 +1,18 @@
+<domain-models xmlns="http://axelor.com/xml/ns/domain-models"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="http://axelor.com/xml/ns/domain-models
+  http://axelor.com/xml/ns/domain-models/domain-models_4.0.xsd">
+
+    <module name="rh" package="com.axelor.rh.db"/>
+
+    <entity name="Enfant"  cachable="true">
+        <string name="name" title="Nom &amp; Prénom"/>
+        <date name="dateNaissance" title="Date naissance"  />
+        <boolean name="scolarise" title="Scolarisé?"  />
+        <date name="infirme" title="Infirmé?"  />
+        <date name="handicape" title="Handicapé?"  />
+        <date name="dateDeces" title="date décès"  />
+        <many-to-one name="employee" ref="com.axelor.rh.db.Employe" title="Agent"></many-to-one>
+    </entity>
+
+</domain-models>

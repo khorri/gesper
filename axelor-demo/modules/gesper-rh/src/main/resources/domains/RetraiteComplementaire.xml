@@ -1,0 +1,18 @@
+<domain-models xmlns="http://axelor.com/xml/ns/domain-models"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="http://axelor.com/xml/ns/domain-models
+  http://axelor.com/xml/ns/domain-models/domain-models_4.0.xsd">
+
+    <module name="rh" package="com.axelor.rh.db"/>
+
+    <entity name="RetraiteComplementaire"  cachable="true">
+        <string name="affiliationNum" title="N° d'affiliation"/>
+        <date name="dateDebut" title="date debut"  />
+        <date name="dateFin" title="date fin"  />
+        <decimal name="cotisation" title="Montant de cotisation"></decimal>
+        <decimal name="assurance" title="Montant d'assurance"></decimal>
+        <many-to-one name="organisme" ref="com.axelor.config.db.Organisme" title="Organisme"/>
+        <many-to-one name="employee" ref="com.axelor.rh.db.Employe" title="Agent"></many-to-one>
+    </entity>
+
+</domain-models>

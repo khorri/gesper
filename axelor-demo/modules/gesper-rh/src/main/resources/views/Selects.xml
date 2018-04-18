@@ -10,12 +10,12 @@
         <option value="4">Prof.</option>
     </selection>
     <selection name="employee.sex.type.select">
-        <option value="1">M</option>
-        <option value="2">F</option>
+        <option value="0">Homme</option>
+        <option value="1">Femme</option>
     </selection>
     <selection name="employee.sexar.type.select">
-        <option value="1">ذ</option>
-        <option value="2">أ</option>
+        <option value="0">ذكر</option>
+        <option value="1">أنثى</option>
     </selection>
     <selection name="employee.status.type.select">
         <option value="C">CDC</option>

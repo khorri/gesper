@@ -1,0 +1,15 @@
+<domain-models xmlns="http://axelor.com/xml/ns/domain-models"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="http://axelor.com/xml/ns/domain-models
+  http://axelor.com/xml/ns/domain-models/domain-models_4.0.xsd">
+
+    <module name="rh" package="com.axelor.rh.db"/>
+
+    <entity name="Aos"  cachable="true">
+        <string name="affiliationNum" title="N° d'affiliation"/>
+        <date name="dateDebut" title="date debut"  />
+        <date name="dateFin" title="date fin"  />
+        <many-to-one name="employee" ref="com.axelor.rh.db.Employe" title="Agent"></many-to-one>
+    </entity>
+
+</domain-models>

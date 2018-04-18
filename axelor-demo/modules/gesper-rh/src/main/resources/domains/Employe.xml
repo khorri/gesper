@@ -6,9 +6,9 @@
 
   <entity name="Employe" cachable="true">
     <string name="sex" title="Sexe"></string>
-    <string name="title" title="Titre"></string>
+    <string name="title" title="Civilité"></string>
     <string name="sexAr" title="الجنس"></string>
-    <string name="matricule" title="matricule"></string>
+    <string name="matricule" title="matricule" unique="true"></string>
     <string name="firstname" required="true" title="Nom"></string>
     <string name="lastname" required="true" title="Prénom"></string>
     <string name="firstnameAr" title="النسب"></string>
@@ -21,26 +21,25 @@
     <string name="mobile" title="GSM"></string>
       <string name="urgentContactName" title="Nom"></string>
       <string name="urgentContactPhone" title="Mobile"></string>
-    <boolean name="activated" title="Activé"></boolean>
+    <boolean name="activated" title="Activé" default="true"></boolean>
       <string name="cin" title="C.I.N"/>
       <string name="nationality" title="Nationalité"/>
       <date name="birthday" title="Date de naissance"/>
       <string name="birthplace" title="Lieu de naissance"/>
-      <string name="birthplace_ar" title="مكان الازدياد"/>
+      <string name="birthplaceAr" title="مكان الازدياد"/>
     <date name="hireDate" title="Date d'embauche"></date>
       <date name="mutationDate" title="Date de mutation"></date>
     <date name="repriseDate" title="Date de reprise"/>
     <string name="status" title="Status"></string>
     <date name="radiationDate" title="Date de radiation"/>
       <string name="motifRadiation" title="Motif de radiation"></string>
-
-
-
     <integer name="echelle" title="Echelle"></integer>
     <integer name="echelon" title="Echelon"></integer>
     <integer name="indice" title="Indice"></integer>
     <many-to-one name="grade" title="Grade" ref="com.axelor.config.db.Grade"></many-to-one>
     <many-to-one name="fonction" title="Corps" ref="com.axelor.config.db.Fonction"></many-to-one>
+    <many-to-one name="picture" ref="com.axelor.meta.db.MetaFile" title="Photo" index="false"/>
+    <many-to-one name="cinImage" ref="com.axelor.meta.db.MetaFile"/>
   </entity>
   
 </domain-models>

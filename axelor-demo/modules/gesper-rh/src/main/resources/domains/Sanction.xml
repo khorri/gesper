@@ -1,0 +1,18 @@
+<domain-models xmlns="http://axelor.com/xml/ns/domain-models"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="http://axelor.com/xml/ns/domain-models
+  http://axelor.com/xml/ns/domain-models/domain-models_4.0.xsd">
+
+    <module name="rh" package="com.axelor.rh.db"/>
+
+    <entity name="Sanction"  cachable="true">
+        <string name="nature" title="Nature"  />
+        <date name="dateeffet" title="Date d'effet"  />
+        <integer name="period" title="Période(j)"  />
+        <string name="motif" title="Motif"  />
+        <many-to-one name="grade" ref="com.axelor.config.db.GradeEchelon" title="GradeEchelon"></many-to-one>
+        <many-to-one name="employee" ref="com.axelor.rh.db.Employe" title="Agent"></many-to-one>
+        <many-to-one name="decision" ref="com.axelor.config.db.Decision" title="decision"></many-to-one>
+    </entity>
+
+</domain-models>
