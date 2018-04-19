@@ -26,9 +26,15 @@
     <string name="inseeCode" title="National Code" readonly="true"/>
     <boolean name="certifiedOk" title="Address certified by QAS engine" default="false" readonly="true"/>
     <one-to-many name="pickList" ref="com.axelor.apps.base.db.PickListEntry" title="QAS Proposal lists" mappedBy="address"/>
-    
-    <string name="fullName" namecolumn="true" search="addressL2,addressL3,addressL4,addressL5,addressL6" title="Address"/>
-    
+    <string name="fullName" namecolumn="true" search="addressL4,addressL4Ar,addressL6,city">
+      <![CDATA[
+        String displayName = addressL4;
+        if (addressL6 != null)
+          displayName+= " - " + addressL6;
+        if (addressL4Ar != null)
+          displayName+= " - " + addressL4Ar;
+        return displayName;
+    ]]></string>
   </entity>
 
   <!--

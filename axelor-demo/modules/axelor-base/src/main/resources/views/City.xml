@@ -13,8 +13,7 @@
     
     <form name="city-form" title="City" model="com.axelor.apps.base.db.City" width="large">
     	<panel name="main">
-			<field name="name" colSpan="3"/>
-			<field name="nameAr" colSpan="3"/>
+			<field name="name"/>
 			<field name="artmin" colSpan="2"/>
 			<field name="zip" colSpan="4"/>
 			<field name="inseeCode"/>
@@ -28,6 +27,17 @@
 		<panel name="demography" title="Demography">
 			<field name="nbInhCommune"/>
 		</panel> 
+    </form>
+	<form name="city-form-org-adr" title="City" model="com.axelor.apps.base.db.City" width="large">
+    	<panel name="main">
+			<field name="name" colSpan="3"/>
+			<field name="nameAr" colSpan="3"/>
+			<field name="zip" colSpan="3"/>
+		</panel>
+		<panel name="localization" title="Localization">
+			<field name="country" form-view="country-form" grid-view="country-grid" />
+			<field name="department" form-view="department-form" grid-view="department-grid"/>
+		</panel>
     </form>
     
 </object-views>
