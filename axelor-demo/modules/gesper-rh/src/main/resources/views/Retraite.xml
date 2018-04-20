@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://axelor.com/xml/ns/object-views
+  http://axelor.com/xml/ns/object-views/object-views_4.0.xsd">
+
+
+    <grid name="retraite-rh-grid" title="Retraite"
+          model="com.axelor.rh.db.Retraite">
+        <field name="organisme"/>
+        <field name="affiliationNum"/>
+        <field name="affiliationDate"/>
+    </grid>
+
+    <form name="retraite-rh-form" title="Retraite"
+          model="com.axelor.rh.db.Retraite" width="large">
+
+        <panel name="Retraite" colSpan="12">
+            <field name="organisme" colSpan="4"/>
+            <field name="affiliationNum" colSpan="4"/>
+            <field name="affiliationDate" colSpan="4"/>
+        </panel>
+
+    </form>
+
+
+
+</object-views>

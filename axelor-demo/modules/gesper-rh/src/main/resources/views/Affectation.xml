@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://axelor.com/xml/ns/object-views
+  http://axelor.com/xml/ns/object-views/object-views_4.0.xsd">
+
+    <grid name="affectation-rh-grid" title="Affectation"
+          model="com.axelor.rh.db.Affectation">
+
+        <field name="affectationDate"/>
+        <field name="service"/>
+        <field name="entite"/>
+        <field name="fonction"/>
+        <field name="decision.decisionCode"/>
+        <field name="decision.decisionDate"/>
+        <field name="principal"/>
+        <field name="decision.status"/>
+    </grid>
+
+    <form name="affectation-rh-form" title="Affectation"
+          model="com.axelor.rh.db.Affectation">
+
+        <panel name="main">
+            <field name="decision.status" showTitle="false" widget="NavSelect" colSpan="12"/>
+            <field name="affectationDate" title="Date de l'affectation"/>
+            <field name="type" title="Type de l'affecation"/>
+            <field name="entite" colSpan="12" title="Entité"/>
+            <field name="service" colSpan="4" title="Service"/>
+            <field name="caida" colSpan="4" title="Caida"/>
+            <field name="caida.province" colSpan="4" title="Province"/>
+            <field name="residence" colSpan="4" title="Résidence"/>
+            <field name="residence.zone" colSpan="4" title="Zone"/>
+            <field name="residence.localite" colSpan="4" title="Localité"/>
+            <field name="fonction" colSpan="4" title="Fonction"/>
+            <field name="fonctionDate" colSpan="4" title="Date de fonction"/>
+            <field name="principal" colSpan="4" title="Principale?"/>
+            <field name="observation" title="Observation" colSpan="12"/>
+        </panel>
+        <panel name="actions" title="Actions" sidebar="true" stacked="true" colSpan="3">
+            <button name="createButton" title="Créer" colSpan="4" icon="fa-plus"/>
+            <button name="validateButton" title="Validate" colSpan="4" icon="fa-check"/>
+            <button name="refuseButton" title="Refuse" colSpan="4" icon="fa-close"/>
+            <button name="cancelButton" title="Cancel" colSpan="4" icon="fa-close"/>
+        </panel>
+        <panel-include view="decision-situation-form" from="gesper-config"></panel-include>
+    </form>
+
+
+</object-views>

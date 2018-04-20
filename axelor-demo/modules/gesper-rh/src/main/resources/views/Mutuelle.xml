@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://axelor.com/xml/ns/object-views
+  http://axelor.com/xml/ns/object-views/object-views_4.0.xsd">
+
+    <grid name="mutuelle-rh-grid" title="Mutuelle"
+          model="com.axelor.rh.db.Situation">
+        <field name="organisme"/>
+        <field name="mutuelleNum"/>
+        <field name="affiliationNum"/>
+        <field name="affiliationDate"/>
+    </grid>
+
+    <form name="mutuelle-rh-form" title="Fiche agent"
+          model="com.axelor.rh.db.Mutuelle" width="large">
+
+        <panel name="Mutuelle" colSpan="12">
+            <field name="organisme" colSpan="3"/>
+            <field name="mutuelleNum" colSpan="3"/>
+            <field name="affiliationNum" colSpan="3"/>
+            <field name="affiliationDate" colSpan="3"/>
+        </panel>
+
+
+    </form>
+
+
+
+</object-views>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://axelor.com/xml/ns/object-views
+  http://axelor.com/xml/ns/object-views/object-views_4.0.xsd">
+
+
+    <grid name="retraite-rh-grid" title="Retraite Complémentaire"
+          model="com.axelor.rh.db.RetraiteComplementaire">
+        <field name="organisme"/>
+        <field name="affiliationNum"/>
+        <field name="dateDebut"/>
+        <field name="dateFin"/>
+        <field name="cotisation"></field>
+        <field name="assurance"></field>
+    </grid>
+
+    <form name="retraite-rh-form" title="RetraiteComplementaire"
+          model="com.axelor.rh.db.Retraite" width="large">
+
+        <panel name="Retraite" colSpan="12">
+            <field name="organisme"/>
+            <field name="affiliationNum"/>
+            <field name="dateDebut"/>
+            <field name="dateFin"/>
+            <field name="cotisation"></field>
+            <field name="assurance"></field>
+        </panel>
+
+    </form>
+
+
+
+</object-views>

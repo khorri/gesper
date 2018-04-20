@@ -4,18 +4,17 @@
               xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_4.1.xsd">
 
     <selection name="employee.title.type.select">
-        <option value="1">M.</option>
-        <option value="2">Ms.</option>
-        <option value="3">Dr</option>
-        <option value="4">Prof.</option>
+        <option value="MONSIEUR">MONSIEUR</option>
+        <option value="MADAME">MADAME</option>
+        <option value="MADEMOISELLE">MADEMOISELLE</option>
     </selection>
     <selection name="employee.sex.type.select">
-        <option value="0">Homme</option>
-        <option value="1">Femme</option>
+        <option value="M">Homme</option>
+        <option value="F">Femme</option>
     </selection>
     <selection name="employee.sexar.type.select">
-        <option value="0">ذكر</option>
-        <option value="1">أنثى</option>
+        <option value="M">ذكر</option>
+        <option value="F">أنثى</option>
     </selection>
     <selection name="employee.status.type.select">
         <option value="C">CDC</option>

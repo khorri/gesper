@@ -39,10 +39,10 @@
         </panel>
         <panel name="coordonnee" title="Coordonnées">
             <field name="address" colSpan="12" canDelete="true" canNew="true" form-view="address-form" grid-view="address-grid"/>
-            <field name="email" colSpan="3"/>
-            <field name="fax" colSpan="3"/>
-            <field name="phone" colSpan="3"/>
-            <field name="mobile" colSpan="3"/>
+            <field name="email" colSpan="3" placeholder="email@example.com" pattern="^[a-z0-9A-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ!#$%&amp;'*+/=?^_`{|}~-]+(?:\.[a-z0-9A-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ!#$%&amp;'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?:[a-z]{2,})$"/>
+            <field name="fax" colSpan="3" placeholder="+21200000000" pattern="^\+?(?:[0-9]{2,3}(?:\s|\.)?){3,6}[0-9]{2,3}$"/>
+            <field name="phone" colSpan="3" placeholder="+21200000000" pattern="^\+?(?:[0-9]{2,3}(?:\s|\.)?){3,6}[0-9]{2,3}$"/>
+            <field name="mobile" colSpan="3" placeholder="+21200000000" pattern="^\+?(?:[0-9]{2,3}(?:\s|\.)?){3,6}[0-9]{2,3}$"/>
             <panel name="urgentContact" title="Contact d'urgence">
                 <field name="urgentContactName"/>
                 <field name="urgentContactPhone"/>
@@ -62,18 +62,31 @@
                     <field name="mutationDate" colSpan="3"/>
                     <field name="radiationDate" colSpan="3"/>
                     <field name="motifRadiation" colSpan="3"/>
+                    <panel-related field="situationList" form-view="situation-rh-form" grid-view="situation-rh-grid" title="Situation Administrative"  colSpan="12"/>
                 </panel>
+            </panel>
+            <panel name="affectation" title="Affectation &amp; Mutation">
+                <panel-related field="affectationList" form-view="affectation-rh-form" grid-view="affectation-rh-grid" title="Historique des affactations"  colSpan="12"/>
+            </panel>
+            <panel name="affectation" title="Retraite/Mutuelle/AOS/MED">
+                <panel title="Retraite" colSpan="12">
+                    <panel-related field="retraite" form-view="retraite-rh-form" grid-view="retraite-rh-grid" title="Retraite"  colSpan="12"/>
+                </panel>
+                <panel title="Mutuelle" colSpan="12">
+                    <panel-include view="mutuelle-rh-form" from="gesper-rh"></panel-include>
+                </panel>
+
             </panel>
         </panel-tabs>
 
     </form>
     <action-record name="action-employee-change-sex" model="com.axelor.rh.db.Employe">
-        <field if="sex == '0'" name="sexAr" expr="0"/>
-        <field if="sex == '1'" name="sexAr" expr="1"/>
+        <field if="sex == 'M'" name="sexAr" expr="M"/>
+        <field if="sex == 'F'" name="sexAr" expr="F"/>
     </action-record>
     <action-record name="action-employee-change-sex-ar" model="com.axelor.rh.db.Employe">
-        <field if="sexAr == '0'" name="sex" expr="0"/>
-        <field if="sexAr == '1'" name="sex" expr="1"/>
+        <field if="sexAr == 'M'" name="sex" expr="M"/>
+        <field if="sexAr == 'F'" name="sex" expr="F"/>
     </action-record>
 
 

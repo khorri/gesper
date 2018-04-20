@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://axelor.com/xml/ns/object-views
+  http://axelor.com/xml/ns/object-views/object-views_4.0.xsd">
+
+    <grid name="situation-rh-grid" title="Situation Administrative"
+          model="com.axelor.rh.db.Situation">
+        <field name="decision.status"/>
+        <field name="gradeDate"/>
+        <field name="echelonDate"/>
+        <field name="nature"/>
+        <field name="type"/>
+        <field name="corps"/>
+        <field name="active"/>
+    </grid>
+
+    <form name="situation-rh-form" title="Situation Administrative"
+          model="com.axelor.rh.db.Situation">
+
+        <panel name="main">
+            <field name="decision.status" showTitle="false" widget="NavSelect" colSpan="12"/>
+            <field name="status" selection="employee.status.type.select"/>
+            <field name="situationDate"/>
+            <field name="filiere"/>
+            <field name="corps"/>
+            <field name="grade.grade" />
+            <field name="grade.grade.echelle" colSpan="3"/>
+            <field name="gradeDate" colSpan="3"/>
+            <field name="grade.echelon"/>
+            <field name="grade.indice" colSpan="3"/>
+            <field name="echelonDate" colSpan="3"/>
+            <field name="nature"/>
+            <field name="type"/>
+            <field name="active"/>
+        </panel>
+        <panel name="actions" title="Actions" sidebar="true" stacked="true" colSpan="3">
+            <button name="createButton" title="Créer" colSpan="4" icon="fa-plus"/>
+            <button name="validateButton" title="Validate" colSpan="4" icon="fa-check"/>
+            <button name="refuseButton" title="Refuse" colSpan="4" icon="fa-close"/>
+            <button name="cancelButton" title="Cancel" colSpan="4" icon="fa-close"/>
+        </panel>
+        <panel-include view="decision-situation-form" from="gesper-config"></panel-include>
+    </form>
+
+
+</object-views>

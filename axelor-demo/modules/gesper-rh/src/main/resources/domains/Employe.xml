@@ -40,6 +40,9 @@
     <many-to-one name="fonction" title="Corps" ref="com.axelor.config.db.Fonction"></many-to-one>
     <many-to-one name="picture" ref="com.axelor.meta.db.MetaFile" title="Photo" index="false"/>
     <many-to-one name="cinImage" ref="com.axelor.meta.db.MetaFile"/>
+    <one-to-many name="situationList" ref="com.axelor.rh.db.Situation" mappedBy="employee" title="Situations administratives" help="true"/>
+    <one-to-many name="affectationList" ref="com.axelor.rh.db.Affectation" mappedBy="employee"/>
+    <one-to-one name="retraite" ref="com.axelor.rh.db.Retraite" mappedBy="employee"></one-to-one>
   </entity>
   
 </domain-models>
