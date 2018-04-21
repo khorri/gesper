@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://axelor.com/xml/ns/object-views
+  http://axelor.com/xml/ns/object-views/object-views_4.0.xsd">
+
+
+    <grid name="aos-rh-grid" title="AOS"
+          model="com.axelor.rh.db.Aos">
+        <field name="affiliationNum"/>
+        <field name="dateDebut"/>
+        <field name="dateFin"/>
+    </grid>
+
+    <form name="aos-rh-form" title="AOS"
+          model="com.axelor.rh.db.Aos" width="large">
+
+        <panel name="Aos" colSpan="12">
+            <field name="affiliationNum" colSpan="4"/>
+            <field name="dateDebut" colSpan="4"/>
+            <field name="dateFin" colSpan="4"/>
+        </panel>
+
+    </form>
+</object-views>
