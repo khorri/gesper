@@ -70,12 +70,31 @@
             </panel>
             <panel name="affectation" title="Retraite/Mutuelle/AOS/MED">
                 <panel title="Retraite" colSpan="12">
-                    <panel-related field="retraite" form-view="retraite-rh-form" grid-view="retraite-rh-grid" title="Retraite"  colSpan="12"/>
+                    <field name="retraite" showTitle="false" colSpan="12" canNew="true" form-view="retraite-rh-form" grid-view="retraite-rh-grid">
+        	            <editor x-viewer="true">
+          	                <field name="organisme"/>
+        	                <field name="affiliationNum"/>
+        	                <field name="affiliationDate"/>
+        	            </editor>
+      	            </field>
                 </panel>
                 <panel title="Mutuelle" colSpan="12">
-                    <panel-include view="mutuelle-rh-form" from="gesper-rh"></panel-include>
+                    <!--panel-include view="mutuelle-rh-form" from="gesper-rh"></panel-include-->
+                    <field name="mutuelle" showTitle="false" colSpan="12" canNew="true" form-view="mutuelle-rh-form">
+        	            <editor x-viewer="true">
+          	                <field name="organisme"/>
+                            <field name="mutuelleNum"/>
+                            <field name="affiliationNum"/>
+                            <field name="affiliationDate"/>
+        	            </editor>
+      	            </field>
                 </panel>
-
+                <panel title="Aos" colSpan="12">
+      	            <panel-related colSpan="12" field="aos" canNew="true" form-view="aos-rh-form" grid-view="aos-rh-grid"/>
+                </panel>
+                <!-- <panel title="Mise en disponibilité" colSpan="12">
+      	            <panel-related colSpan="12" field="decision" canNew="true" form-view="decision-situation-form" grid-view="decision-situation-grid"/>
+                </panel> -->
             </panel>
         </panel-tabs>
 
