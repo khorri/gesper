@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_4.1.xsd">
+
+
+	<!-- Nomenclature : * name : "interfaceName" + "fieldName" + ".select" -->
+
+	<selection name="echelon.0.up.to.13.select">
+		<option value="0">0</option>
+		<option value="1">1</option>
+		<option value="2">2</option>
+		<option value="3">3</option>
+		<option value="4">4</option>
+		<option value="5">5</option>
+		<option value="6">6</option>
+		<option value="7">7</option>
+		<option value="8">8</option>
+		<option value="9">9</option>
+		<option value="10">10</option>
+		<option value="11">11</option>
+		<option value="12">12</option>
+		<option value="13">13</option>
+	</selection>
+
+
+	<selection name="grade.cadre">
+		<option value="S">Superieur</option>
+		<option value="M">Maitrise</option>
+		<option value="E">Execution</option>
+	</selection>
+	<selection name="grade.filiere">
+		<option value="T">Technique</option>
+		<option value="A">Administratif</option>
+	</selection>
+
+	<selection name="config.type.organisme">
+		<option value="MUTUELLE">MUTUELLE</option>
+		<option value="ASSURANCE">ASSURANCE</option>
+		<option value="BANQUE">BANQUE</option>
+		<option value="RETRAITE">RETRAITE</option>
+		<option value="ASSOCIATION">ASSOCIATION</option>
+		<option value="AGENCE_BANCAIRE">AGENCE BANCAIRE</option>
+		<option value="AUTRE">AUTRE</option>
+	</selection>
+
+	<selection name="decision.config.status">
+		<option value="1">Brouillon</option>
+		<option value="2">En attente de validation</option>
+		<option value="3">Validé</option>
+		<option value="4">Refusé</option>
+		<option value="5">Annulé</option>
+	</selection>
+
+
+</object-views>
