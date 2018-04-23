@@ -45,7 +45,6 @@
     <many-to-one name="retraite" ref="com.axelor.rh.db.Retraite" mappedBy="employee"></many-to-one>
     <many-to-one name="mutuelle" ref="com.axelor.rh.db.Mutuelle" mappedBy="employee"></many-to-one>
     <one-to-many name="aos" ref="com.axelor.rh.db.Aos" mappedBy="employee" title="Aos" />
-    <!-- <many-to-one name="decision" ref="com.axelor.config.db.Decision" mappedBy="employee"/> -->
   </entity>
   
 </domain-models>

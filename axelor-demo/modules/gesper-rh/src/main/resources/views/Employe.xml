@@ -92,9 +92,9 @@
                 <panel title="Aos" colSpan="12">
       	            <panel-related colSpan="12" field="aos" canNew="true" form-view="aos-rh-form" grid-view="aos-rh-grid"/>
                 </panel>
-                <!-- <panel title="Mise en disponibilité" colSpan="12">
+                <panel title="Mise en disponibilité" colSpan="12">
       	            <panel-related colSpan="12" field="decision" canNew="true" form-view="decision-situation-form" grid-view="decision-situation-grid"/>
-                </panel> -->
+                </panel>
             </panel>
         </panel-tabs>
 
