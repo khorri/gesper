@@ -23,6 +23,11 @@
         <option value="S">STAGIERE</option>
         <option value="T">TITULAIRE</option>
     </selection>
+    <selection name="employee.civilStatus.type.select">
+        <option value="M">Marié</option>
+        <option value="C">Célébataire</option>
+        <option value="V">Veuf(ve)</option>
+    </selection>
 
 
 

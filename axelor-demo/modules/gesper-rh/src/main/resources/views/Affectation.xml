@@ -16,6 +16,12 @@
         <field name="principal"/>
         <field name="decision.status"/>
     </grid>
+    <grid name="affectation-decision-rh-grid" title="Mise en disponibilité"
+          model="com.axelor.rh.db.Affectation">
+        <field name="decision.decisionCode"/>
+        <field name="decision.decisionDate"/>
+        <field name="decision.status"/>
+    </grid>
 
     <form name="affectation-rh-form" title="Affectation"
           model="com.axelor.rh.db.Affectation">
@@ -42,7 +48,16 @@
             <button name="refuseButton" title="Refuse" colSpan="4" icon="fa-close"/>
             <button name="cancelButton" title="Cancel" colSpan="4" icon="fa-close"/>
         </panel>
-        <panel-include view="decision-situation-form" from="gesper-config"></panel-include>
+        <panel title="Decision" >  
+            <field name="decision" showTitle="false" colSpan="12" canNew="true" form-view="decision-situation-form" from="gesper-config">
+    	        <editor x-viewer="true">
+      	            <field name="decisionCode" colSpan="3"/>
+    	            <field name="decisionDate" colSpan="3"/>
+    	            <field name="status" colSpan="3"/>
+    	            <field name="motifRejet" colSpan="3"/>
+                </editor>
+            </field>
+	    </panel>
     </form>
 
 

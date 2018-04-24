@@ -5,7 +5,7 @@
   http://axelor.com/xml/ns/object-views/object-views_4.0.xsd">
 
 
-    <grid name="retraite-rh-grid" title="Retraite Complémentaire"
+    <grid name="retraiteCom-rh-grid" title="Retraite Complémentaire"
           model="com.axelor.rh.db.RetraiteComplementaire">
         <field name="organisme"/>
         <field name="affiliationNum"/>
@@ -15,11 +15,11 @@
         <field name="assurance"></field>
     </grid>
 
-    <form name="retraite-rh-form" title="RetraiteComplementaire"
+    <form name="retraiteCom-rh-form" title="RetraiteComplementaire"
           model="com.axelor.rh.db.Retraite" width="large">
 
         <panel name="Retraite" colSpan="12">
-            <field name="organisme"/>
+            <field name="organisme" domain="self.type='RETRAITE'"/>
             <field name="affiliationNum"/>
             <field name="dateDebut"/>
             <field name="dateFin"/>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://axelor.com/xml/ns/object-views
+  http://axelor.com/xml/ns/object-views/object-views_4.0.xsd">
+
+
+    <grid name="enfant-rh-grid" title="Enfant"
+          model="com.axelor.rh.db.Enfant">
+        <field name="name"/>
+        <field name="dateNaissance"/>
+        <field name="scolarise"/>
+        <field name="infirme"/>
+        <field name="handicape"/>
+        <field name="dateDeces"/>
+    </grid>
+
+    <form name="enfant-rh-form" title="Enfant"
+          model="com.axelor.rh.db.Enfant" width="large">
+
+        <panel name="Enfant" colSpan="12">
+            <field name="name" colSpan="4"/>
+            <field name="dateNaissance" colSpan="4"/>
+            <field name="scolarise" colSpan="4"/>
+            <field name="infirme" colSpan="4"/>
+            <field name="handicape" colSpan="4"/>
+            <field name="dateDeces" colSpan="4"/>
+        </panel>
+
+    </form>
+</object-views>

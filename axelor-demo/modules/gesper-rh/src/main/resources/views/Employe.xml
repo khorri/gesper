@@ -6,7 +6,8 @@
 
     <grid name="employe-rh-grid" title="Fiche agent"
           model="com.axelor.rh.db.Employe">
-        <field name="empNumber"/>
+        <!-- <field name="empNumber"/> -->
+        <field name="matricule"/>
         <field name="firstname"/>
         <field name="lastname"/>
         <field name="lastname_ar"/>
@@ -72,9 +73,9 @@
                 <panel title="Retraite" colSpan="12">
                     <field name="retraite" showTitle="false" colSpan="12" canNew="true" form-view="retraite-rh-form" grid-view="retraite-rh-grid">
         	            <editor x-viewer="true">
-          	                <field name="organisme"/>
-        	                <field name="affiliationNum"/>
-        	                <field name="affiliationDate"/>
+          	                <field name="organisme" domain="self.type='RETRAITE'" colSpan="4"/>
+        	                <field name="affiliationNum" colSpan="4"/>
+        	                <field name="affiliationDate" colSpan="4"/>
         	            </editor>
       	            </field>
                 </panel>
@@ -82,19 +83,21 @@
                     <!--panel-include view="mutuelle-rh-form" from="gesper-rh"></panel-include-->
                     <field name="mutuelle" showTitle="false" colSpan="12" canNew="true" form-view="mutuelle-rh-form">
         	            <editor x-viewer="true">
-          	                <field name="organisme"/>
-                            <field name="mutuelleNum"/>
-                            <field name="affiliationNum"/>
-                            <field name="affiliationDate"/>
+          	                <field name="organisme" domain="self.type='MUTUELLE'" colSpan="3"/>
+                            <field name="mutuelleNum" colSpan="3"/>
+                            <field name="affiliationNum" colSpan="3"/>
+                            <field name="affiliationDate" colSpan="3"/>
         	            </editor>
       	            </field>
                 </panel>
-                <panel title="Aos" colSpan="12">
-      	            <panel-related colSpan="12" field="aos" canNew="true" form-view="aos-rh-form" grid-view="aos-rh-grid"/>
-                </panel>
-                <panel title="Mise en disponibilité" colSpan="12">
-      	            <panel-related colSpan="12" field="decision" canNew="true" form-view="decision-situation-form" grid-view="decision-situation-grid"/>
-                </panel>
+                <panel-related colSpan="12" field="retraiteComplementaire" canNew="true" form-view="retraiteCom-rh-form" grid-view="retraiteCom-rh-grid" title="Retraite complémentaire"/>
+      	        <panel-related colSpan="12" field="aos" canNew="true" form-view="aos-rh-form" grid-view="aos-rh-grid" title="A.O.S"/>
+                <panel-related colSpan="12" field="affectationList" canNew="false" grid-view="affectation-decision-rh-grid" title="Mise en disponibilité"/>
+            </panel>
+            <panel name="situation" title="Situation familiale">
+                <field name="status" colSpan="12" selection="employee.civilStatus.type.select" placeholder="Situation familale de l'agent (Célébataire, Marié, ...)"/>
+      	        <panel-related colSpan="12" field="conjointe" canNew="true" form-view="conjointe-rh-form" grid-view="conjointe-rh-grid" title="Liste des conjointes"/>
+      	        <panel-related colSpan="12" field="enfant" canNew="true" form-view="enfant-rh-form" grid-view="enfant-rh-grid" title="Liste des enfants"/>
             </panel>
         </panel-tabs>
 

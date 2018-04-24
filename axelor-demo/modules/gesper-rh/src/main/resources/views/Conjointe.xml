@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://axelor.com/xml/ns/object-views
+  http://axelor.com/xml/ns/object-views/object-views_4.0.xsd">
+
+
+    <grid name="conjointe-rh-grid" title="Conjointe"
+          model="com.axelor.rh.db.Conjointe">
+        <field name="name"/>
+        <field name="profession"/>
+        <field name="dateNaissance"/>
+        <field name="dateMariage"/>
+        <field name="dateDivorce"/>
+        <field name="dateDeces"/>
+    </grid>
+
+    <form name="conjointe-rh-form" title="Conjointe"
+          model="com.axelor.rh.db.Conjointe" width="large">
+
+        <panel name="Conjointe" colSpan="12">
+            <field name="name" colSpan="4"/>
+            <field name="profession" colSpan="4"/>
+            <field name="dateNaissance" colSpan="4"/>
+            <field name="dateMariage" colSpan="4"/>
+            <field name="dateDivorce" colSpan="4"/>
+            <field name="dateDeces" colSpan="4"/>
+        </panel>
+
+    </form>
+</object-views>
