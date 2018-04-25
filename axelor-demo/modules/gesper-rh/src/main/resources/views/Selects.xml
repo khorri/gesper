@@ -28,6 +28,11 @@
         <option value="C">Célébataire</option>
         <option value="V">Veuf(ve)</option>
     </selection>
+    <selection name="employee.depart.type.select">
+        <option value="DEC">Décés</option>
+        <option value="DEM">Démission</option>
+        <option value="RET">Retraite</option>
+    </selection>
 
 
 

@@ -92,12 +92,28 @@
                 </panel>
                 <panel-related colSpan="12" field="retraiteComplementaire" canNew="true" form-view="retraiteCom-rh-form" grid-view="retraiteCom-rh-grid" title="Retraite complémentaire"/>
       	        <panel-related colSpan="12" field="aos" canNew="true" form-view="aos-rh-form" grid-view="aos-rh-grid" title="A.O.S"/>
-                <panel-related colSpan="12" field="affectationList" canNew="false" grid-view="affectation-decision-rh-grid" title="Mise en disponibilité"/>
+                <panel-related colSpan="12" field="med" canNew="true" form-view="med-rh-form"  grid-view="med-rh-grid" title="Mise en disponibilité"/>
             </panel>
             <panel name="situation" title="Situation familiale">
                 <field name="status" colSpan="12" selection="employee.civilStatus.type.select" placeholder="Situation familale de l'agent (Célébataire, Marié, ...)"/>
       	        <panel-related colSpan="12" field="conjointe" canNew="true" form-view="conjointe-rh-form" grid-view="conjointe-rh-grid" title="Liste des conjointes"/>
       	        <panel-related colSpan="12" field="enfant" canNew="true" form-view="enfant-rh-form" grid-view="enfant-rh-grid" title="Liste des enfants"/>
+            </panel>
+            <panel name="depart"  title="Départ">
+                <field name="depart" showTitle="false" colSpan="12" canNew="true" form-view="depart-rh-form" from="gesper-config">
+				    <editor>
+                        <panel title="Départ" colSpan="12" readonly="true">
+                         	<field name="dateDepart" colSpan="4"/>
+                         	<field name="type" selection="employee.status.type.select" colSpan="4"/>
+                         	<field name="motif" colSpan="4" readonly="true"/>
+                         	<field name="observation" widget="text" colSpan="12" height="5" />
+                        </panel>
+		            </editor>
+    	        </field>
+            </panel>
+            <panel title="Infomation de référence">
+                <panel-related colSpan="12" field="diplome" canNew="true" form-view="diplome-rh-form" grid-view="diplome-rh-grid" title="Formation"/>
+      	        <panel-related colSpan="12" field="experience" canNew="true" form-view="experience-rh-form" grid-view="experience-rh-grid" title="Experiences antérieures"/>
             </panel>
         </panel-tabs>
 

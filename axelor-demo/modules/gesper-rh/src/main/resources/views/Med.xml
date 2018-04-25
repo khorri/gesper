@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_4.1.xsd">
+
+	<grid name="Med-rh-grid" title="Mise en disponibilité"
+          model="com.axelor.rh.db.Med">
+
+        <field name="dateDebut"/>
+        <field name="dateFin"/>
+        <field name="decision.decisionCode"/>
+        <field name="decision.decisionDate"/>
+        <field name="decision.status"/>
+    </grid>
+
+    <form name="med-rh-form" title="Mise en disponibilité"
+          model="com.axelor.rh.db.Med">
+
+        <panel name="main">
+            <field name="decision.status" showTitle="false" widget="NavSelect" colSpan="12"/>
+            <field name="dateDebut"/>
+            <field name="dateFin"/>
+        </panel>
+        <panel name="actions" title="Actions" sidebar="true" stacked="true" colSpan="3">
+            <button name="createButton" title="Créer" colSpan="4" icon="fa-plus"/>
+            <button name="validateButton" title="Validate" colSpan="4" icon="fa-check"/>
+            <button name="refuseButton" title="Refuse" colSpan="4" icon="fa-close"/>
+            <button name="cancelButton" title="Cancel" colSpan="4" icon="fa-close"/>
+        </panel>
+        <panel title="Decision" >  
+            <field name="decision" showTitle="false" colSpan="12" canNew="true" form-view="decision-situation-form" from="gesper-config">
+    	        <editor x-viewer="true">
+      	            <field name="decisionCode" colSpan="3"/>
+    	            <field name="decisionDate" colSpan="3"/>
+    	            <field name="status" colSpan="3"/>
+    	            <field name="motifRejet" colSpan="3"/>
+                </editor>
+            </field>
+	    </panel>
+    </form>
+
+</object-views>

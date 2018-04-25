@@ -16,12 +16,6 @@
         <field name="principal"/>
         <field name="decision.status"/>
     </grid>
-    <grid name="affectation-decision-rh-grid" title="Mise en disponibilité"
-          model="com.axelor.rh.db.Affectation">
-        <field name="decision.decisionCode"/>
-        <field name="decision.decisionDate"/>
-        <field name="decision.status"/>
-    </grid>
 
     <form name="affectation-rh-form" title="Affectation"
           model="com.axelor.rh.db.Affectation">

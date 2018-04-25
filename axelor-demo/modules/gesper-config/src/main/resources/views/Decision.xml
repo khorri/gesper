@@ -7,6 +7,7 @@
     <grid name="decision-situation-grid" title="Décision" model="com.axelor.config.db.Decision"  canEdit="true" canDelete="true" edit-icon="true">
         <field name="decisionCode"/>
         <field name="decisionDate"/>
+        <field name="emitteur"/>
         <field name="status"/>
         <field name="motifRejet"/>
 

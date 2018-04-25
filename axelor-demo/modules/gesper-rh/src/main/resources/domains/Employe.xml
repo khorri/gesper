@@ -48,6 +48,11 @@
     <one-to-many name="enfant" ref="com.axelor.rh.db.Enfant" mappedBy="employee" title="Liste des enfants"/>
     <one-to-many name="conjointe" ref="com.axelor.rh.db.Conjointe" mappedBy="employee" title="Liste des conjointes"/>
     <one-to-many name="retraiteComplementaire" ref="com.axelor.rh.db.RetraiteComplementaire" mappedBy="employee" title="Retraite complementaire"/>
+    <one-to-many name="med" ref="com.axelor.rh.db.Med" mappedBy="employee" title="Mise en disponibilité"/>
+    <one-to-many name="diplome" ref="com.axelor.rh.db.Diplome" mappedBy="employee" title="Formation"/>
+    <one-to-many name="experience" ref="com.axelor.rh.db.Experience" mappedBy="employee" title="Experience antérieure"/>
+    <many-to-one name="depart" ref="com.axelor.rh.db.Depart" mappedBy="employee" title="Départ">
+    </many-to-one>
   </entity>
   
 </domain-models>

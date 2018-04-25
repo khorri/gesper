@@ -12,7 +12,6 @@
         <string name="titre" title="titre"  />
         <string name="specialite" title="Spécialité"  />
         <string name="etablissement" title="Etablissement"  />
-        <date name="dateDeces" title="Date décès"  />
         <many-to-one name="employee" ref="com.axelor.rh.db.Employe" title="Agent"></many-to-one>
     </entity>
 

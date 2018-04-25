@@ -11,7 +11,6 @@
         <date name="dateFin" title="date fin"  />
         <string name="etablissement" title="Etablissement"  />
         <many-to-one name="employee" ref="com.axelor.rh.db.Employe" title="Agent"></many-to-one>
-        <many-to-one name="decision" ref="com.axelor.config.db.Decision" title="decision"></many-to-one>
     </entity>
 
 </domain-models>

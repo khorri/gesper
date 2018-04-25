@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_4.1.xsd">
+
+	<grid name="diplome-rh-grid" title="Formation"
+          model="com.axelor.rh.db.Diplome">
+        <field name="name"/>
+        <field name="niveauScolaire"/>
+        <field name="dateDiplome"/>
+        <field name="titre"/>
+        <field name="specialite"/>
+        <field name="etablissement"/>
+    </grid>
+
+    <form name="diplome-rh-form" title="Formation"
+          model="com.axelor.rh.db.Diplome">
+
+        <panel name="main">
+            <field name="name"/>
+            <field name="niveauScolaire"/>
+            <field name="dateDiplome"/>
+            <field name="titre"/>
+            <field name="specialite"/>
+            <field name="etablissement"/>
+        </panel>
+    </form>
+
+</object-views>
