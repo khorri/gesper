@@ -43,7 +43,7 @@ INSERT INTO gesper.base_city
 (`id`,full_name,`name`,country,version,created_on) 
 SELECT @rownum := @rownum + 1 AS position, a.AGE_VIL as fn, a.AGE_VIL as n,  c.country as ctr, '0' as version, now() as co 
 FROM(
-	SELECT AGE_VIL FROM agents 
+	SELECT AGE_VIL FROM grh.agents 
 	where AGE_VIL is not null and AGE_VIL not like '' 
 	and AGE_VIL not in (SELECT gc.`name` FROM gesper.base_city gc)
 	GROUP BY AGE_VIL) as a
@@ -56,7 +56,7 @@ UPDATE gesper.base_city_seq  set next_val = (SELECT id+1 as seq from gesper.base
 INSERT INTO gesper.base_address (id,addressl4,city,addressl6,`full_name`,`version`,`created_on`)
 SELECT @rownumm := @rownumm + 1 AS id, ag.AGE_ADR as l4, gcity.id as city, gcity.`name` as l6, CONCAT_WS('',ag.AGE_ADR,' - ',gcity.`name`) as fullname, '0' as version, now() as co
 FROM(
-	SELECT AGE_ADR, AGE_VIL  FROM agents 
+	SELECT AGE_ADR, AGE_VIL  FROM grh.agents 
 	where AGE_ADR is not null and AGE_ADR not like ''
 	and AGE_ADR not in (SELECT ga.`addressl4` FROM gesper.base_address ga)
 	GROUP BY AGE_ADR) as ag

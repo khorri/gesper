@@ -52,6 +52,15 @@
     <one-to-many name="diplome" ref="com.axelor.rh.db.Diplome" mappedBy="employee" title="Formation"/>
     <one-to-many name="experience" ref="com.axelor.rh.db.Experience" mappedBy="employee" title="Experience antérieure"/>
     <many-to-one name="depart" ref="com.axelor.rh.db.Depart" mappedBy="employee" title="Départ">
+    <!-- <string name="fullName" namecolumn="true" search="addressL4,addressL4Ar,addressL6,city">
+      <![CDATA[
+        String displayName = "";
+        if (firstname != null)
+          displayName+= firstname;
+        if (lastname != null)
+          displayName+= "  " + lastname;
+        return displayName;
+    ]]></string> -->
     </many-to-one>
   </entity>
   

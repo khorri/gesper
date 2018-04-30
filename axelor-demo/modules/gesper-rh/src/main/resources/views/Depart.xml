@@ -29,5 +29,12 @@
             </field>
 	    </panel>
     </form>
+    <grid name="depart-rh-grid" title="Depart" model="com.axelor.rh.db.Depart" edit-icon="true">
+ <field name="decision.status"/>
+            <field name="dateDepart"/>
+            <field name="type"/>
+            <field name="motif"/>
+            <field name="observation"/>
+</grid>
 
 </object-views>
