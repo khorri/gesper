@@ -8,7 +8,7 @@
     <entity name="Organisme"  cachable="true">
         <string name="name" required="true" unique="true"  max="255"/>
         <string name="shortName"  unique="true" max="60" title="Abréviation"/>
-        <string name="rib"  unique="true" max="60" title="RIB"/>
+        <string name="rib"   max="60" title="RIB"/>
         <string name="phone" title="Téléphone"/>
         <string name="fax"/>
         <string name="email"/>
