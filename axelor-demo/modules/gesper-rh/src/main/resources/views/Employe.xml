@@ -16,7 +16,7 @@
         <field name="activated"/>
     </grid>
 
-    <form name="employe-rh-form" title="Fiche agent"
+    <form name="employe-rh-form" title="Fiche agent" onNew="action-employee-record-set-default"
           model="com.axelor.rh.db.Employe" width="large">
         <toolbar >
           	<button name="printFiche" icon="fa-print" title="Imprimer fiche"/>
@@ -35,7 +35,7 @@
                 </field>
             </panel>
             <panel colSpan="9">
-                <field name="title" title="Titre" colSpan="1" selection="employee.title.type.select"/>
+                <field name="title" title="Titre" colSpan="2" selection="employee.title.type.select"/>
                 <field name="firstname" colSpan="3" css="label-bold bold large" x-bind="{{firstname|uppercase}}"/>
                 <field name="lastname" colSpan="2" css="label-bold bold large"/>
                 <field name="lastnameAr" colSpan="2" css="label-bold bold large"/>
@@ -52,7 +52,7 @@
             <field name="mobile" colSpan="3" placeholder="+21200000000" pattern="^\+?(?:[0-9]{2,3}(?:\s|\.)?){3,6}[0-9]{2,3}$"/>
             <panel name="urgentContact" title="Contact d'urgence">
                 <field name="urgentContactName"/>
-                <field name="urgentContactPhone"/>
+                <field name="urgentContactPhone" placeholder="+21200000000"/>
             </panel>
         </panel>
         <panel-tabs>
@@ -131,6 +131,9 @@
     <action-record name="action-employee-change-sex-ar" model="com.axelor.rh.db.Employe">
         <field if="sexAr == 'M'" name="sex" expr="M"/>
         <field if="sexAr == 'F'" name="sex" expr="F"/>
+    </action-record>
+    <action-record name="action-employee-record-set-default" model="com.axelor.rh.db.Employe">
+        <field name="matricule" expr="call:com.axelor.rh.web.EmployeController:getLastMatricule()"/>
     </action-record>
 
 
