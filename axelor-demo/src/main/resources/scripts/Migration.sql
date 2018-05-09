@@ -203,3 +203,127 @@ WHERE ret.REFRC_AFFILIATION not in (SELECT rhrt.affiliation_num from gesper.rh_r
 
 UPDATE gesper.rh_retraite_complementaire_seq  
 set next_val = IF((SELECT id+1 as seq from gesper.rh_retraite_complementaire ORDER BY id desc LIMIT 1) is null,1,(SELECT id+1 as seq from gesper.rh_retraite_complementaire ORDER BY id desc LIMIT 1));
+
+
+#----- fonctions 
+INSERT INTO gesper.config_fonction (`id`, `name`, `is_responsable`,`version`)
+SELECT @rownum := @rownum + 1 AS position, foncts.*, '0' as v
+FROM (
+	SELECT f.FON_LIB as l, f.FON_RES as r from grh.fonctions f where f.FON_LIB not in (SELECT `name` from gesper.config_fonction)
+	union 
+	select ff.FONC_LIBELLE as l, ff.FLAG_RESP as r from gespaie.fonctions ff 
+		where FONC_CODE not in (SELECT FON_COD from grh.fonctions) AND ff.FONC_LIBELLE not in (SELECT `name` from gesper.config_fonction)
+) foncts 
+JOIN (SELECT @rownum := (select next_val from gesper.config_fonction_seq)-1) as r
+group by foncts.l;
+
+UPDATE gesper.config_fonction_seq  set next_val = (SELECT id+1 as seq from gesper.config_fonction ORDER BY id desc LIMIT 1);
+
+
+#----- services 
+INSERT INTO gesper.config_service (`id`,`short_name`, `name`, `version`)
+SELECT @rownum := @rownum + 1 AS position, serv.*, '0' as v from grh.services serv
+JOIN (SELECT @rownum := (select next_val from gesper.config_service_seq)-1) as r
+where serv.SER_COD not in ( select sr.short_name from gesper.config_service sr);
+
+UPDATE gesper.config_service_seq  set next_val = (SELECT id+1 as seq from gesper.config_service ORDER BY id desc LIMIT 1);
+
+#----- type entites
+
+INSERT INTO gesper.config_type_entite (`id`,`short_name`, `name`, `version`)
+SELECT @rownum := @rownum + 1 AS position, te.*, '0' as v from grh.types_entites te
+JOIN (SELECT @rownum := (select next_val from gesper.config_type_entite_seq)-1) as r
+where te.TYPENT_COD not in ( select cte.short_name from gesper.config_type_entite cte);
+
+UPDATE gesper.config_type_entite_seq  set next_val = (SELECT id+1 as seq from gesper.config_type_entite ORDER BY id desc LIMIT 1);
+
+#----- provinces
+INSERT INTO gesper.config_province (`id`,`code`, `name`, `version`)
+SELECT @rownum := @rownum + 1 AS position, pr.*, '0' as v from grh.provinces pr
+JOIN (SELECT @rownum := (select next_val from gesper.config_province_seq)-1) as r
+where pr.PRO_COD not in ( select gpr.`code` from gesper.config_province gpr);
+
+UPDATE gesper.config_province_seq  set next_val = (SELECT id+1 as seq from gesper.config_province ORDER BY id desc LIMIT 1);
+
+#----- caida 
+
+INSERT INTO gesper.config_caida (`id`,`code`, `name`, `province`, `version`)
+SELECT @rownum := @rownum + 1 AS position, ca.CAI_COD, ca.CAI_LIB, prov.id, '0' as v from grh.caida ca
+left join gesper.config_province prov on ca.PRO_COD = prov.`code`
+JOIN (SELECT @rownum := (select next_val from gesper.config_caida_seq)-1) as r
+where ca.CAI_COD not in ( select gca.`code` from gesper.config_caida gca);
+
+UPDATE gesper.config_caida_seq  set next_val = (SELECT id+1 as seq from gesper.config_caida ORDER BY id desc LIMIT 1);
+
+#----- entite 
+INSERT INTO gesper.config_entite(`id`,`short_name`, `name`, `organigrame`, `organigrame_officiel`, `caida`, `type`, `version`)
+SELECT @rownum := @rownum + 1 AS position,
+ eno.ENT_COD, eno.ENT_LIB, 
+IF(eno.ENT_FLAG_ORGA='Oui',1,0) as org, IF(eno.ENT_FLAG_ORGA_OFFICIEL='Oui',1,0) as orgoff ,
+ca.id as caida, te.id as type , '0' as v from grh.entites_ormvah eno
+left join gesper.config_caida ca on ca.`code` = eno.CAI_COD
+left join gesper.config_type_entite te on eno.TYPENT_COD = te.short_name
+JOIN (SELECT @rownum := (select next_val from gesper.config_entite_seq)-1) as r
+where eno.ENTENT_COD not in ( select ent.`short_name` from gesper.config_entite ent);
+
+UPDATE gesper.config_entite_seq  set next_val = (SELECT id+1 as seq from gesper.config_entite ORDER BY id desc LIMIT 1);
+
+UPDATE gesper.config_entite cce,
+(SELECT ce.id child , ce2.id parent from gesper.config_entite ce
+left join grh.entites_ormvah eo on eo.ENT_COD = ce.short_name
+left join gesper.config_entite ce2 on ce2.short_name = eo.ENTENT_COD) as pce
+  SET cce.parent = pce.parent
+WHERE cce.id = pce.child;
+
+#----- enfants
+
+INSERT INTO gesper.rh_enfant (`id`, `name`, `date_naissance`, `employee`, `scolarise`, `infirme`, `date_deces`, `version`)
+SELECT @rownum := @rownum + 1 AS position, enfs.a, enfs.b, enfs.c, enfs.d, enfs.e, enfs.f, '0' as v FROM (
+SELECT 
+CONCAT_WS(" ",emp.id,e.ENF_NOM, DATE(e.ENF_DNAI)) as fl,
+e.ENF_NOM as a, e.ENF_DNAI as b, emp.id as c, e.ENF_SCO as d, e.ENF_INF as e, e.ENF_DDEC as f FROM 
+	(SELECT * FROM grh.`enfants` e
+		union
+	SELECT * FROM grh.enfants2) e
+join gesper.rh_employe emp  on emp.matricule = e.AGE_MAT
+having fl not in (SELECT CONCAT_WS(" ", rhe.employee, rhe.`name`, rhe.date_naissance) as fl from gesper.rh_enfant rhe)
+) enfs
+JOIN (SELECT @rownum := (select next_val from gesper.rh_enfant_seq)-1) as r;
+UPDATE gesper.rh_enfant_seq  set next_val = (SELECT id+1 as seq from gesper.rh_enfant ORDER BY id desc LIMIT 1);
+
+
+#----- localites 
+
+INSERT INTO gesper.config_localite (`id`, `name`, `version`)
+SELECT @rownum := @rownum + 1 AS position, pl.LOCALITE, '0' as v FROM grh.p_localite pl
+JOIN (SELECT @rownum := (select next_val from gesper.config_localite_seq)-1) as r
+WHERE pl.LOCALITE not in (SELECT `name` from gesper.config_localite);
+
+UPDATE gesper.config_localite_seq  set next_val = (SELECT id+1 as seq from gesper.config_localite ORDER BY id desc LIMIT 1);
+
+
+#----- zones
+
+INSERT INTO gesper.config_zone (`id`, `name`, `version`)
+SELECT @rownum := @rownum + 1 AS position, z.ZON_LIB, '0' as v FROM grh.zones z
+JOIN (SELECT @rownum := (select next_val from gesper.config_zone_seq)-1) as r
+WHERE z.ZON_LIB not in (SELECT `name` from gesper.config_zone);
+
+UPDATE gesper.config_zone_seq  set next_val = (SELECT id+1 as seq from gesper.config_zone ORDER BY id desc LIMIT 1);
+
+
+#----- residences
+
+INSERT INTO gesper.config_residence (`id`, `name`, `zone`, `localite`, `version`)
+SELECT @rownum := @rownum + 1 AS position, res.RES_LIB, gcz.id, gcl.id, '0' as v FROM grh.residences res
+left join grh.zones gz on gz.ZON_COD =  res.ZON_COD
+left join gesper.config_zone gcz on gcz.`name` = gz.ZON_LIB
+left join grh.p_localite gpl on gpl.CDE_LOC =  res.LOC_COD
+left join gesper.config_localite gcl on gcl.`name` = gpl.LOCALITE
+
+
+JOIN (SELECT @rownum := (select next_val from gesper.config_residence_seq)-1) as r
+WHERE res.RES_LIB not in (SELECT `name` from gesper.config_residence);
+
+UPDATE gesper.config_residence_seq  set next_val = (SELECT id+1 as seq from gesper.config_residence ORDER BY id desc LIMIT 1);
+

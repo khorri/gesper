@@ -7,6 +7,7 @@
 
     <entity name="TypeEntite"  cachable="true">
         <string name="name" title="Désignation"  unique="true" max="255"/>
+        <string name="shortName" title="Abréviation" max="255" />
     </entity>
 
 </domain-models>
