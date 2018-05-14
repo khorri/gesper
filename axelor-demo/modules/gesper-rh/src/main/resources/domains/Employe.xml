@@ -8,7 +8,7 @@
     <string name="sex" title="Sexe"></string>
     <string name="title" title="Civilité"></string>
     <string name="sexAr" title="الجنس"></string>
-    <string name="matricule" title="matricule" unique="true">
+    <string name="matricule" title="matricule" unique="true" required="true">
     </string>
     <string name="firstname" required="true" title="Nom"></string>
     <string name="lastname" required="true" title="Prénom"></string>

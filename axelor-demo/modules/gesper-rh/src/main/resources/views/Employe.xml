@@ -16,7 +16,7 @@
         <field name="activated"/>
     </grid>
 
-    <form name="employe-rh-form" title="Fiche agent" onNew="action-employee-record-set-default"
+    <form name="employe-rh-form" title="Fiche agent" onNew="action-employee-record-set-default" onSave="com.axelor.rh.web.EmployeController:validate"
           model="com.axelor.rh.db.Employe" width="large">
         <toolbar >
           	<button name="printFiche" icon="fa-print" title="Imprimer fiche"/>
@@ -30,7 +30,7 @@
                 <field name="activated" hidden="true"/>
                 <field name="id" hidden="true"/>
                 <field name="picture" showTitle="false" colSpan="12" widget="Image"/>
-                <field name="matricule" showTitle="false" colSpan="6" css="matricule hilite-success strong text-center" placeholder="Matricule">
+                <field name="matricule" showTitle="false"  pattern="[0-9]+" colSpan="6" css="matricule hilite-success strong text-center" placeholder="Matricule">
                     <hilite background="danger" strong="true" if="!activated &amp;&amp; id!=null"/>
                 </field>
             </panel>
