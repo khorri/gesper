@@ -178,6 +178,11 @@ SELECT @rownum := @rownum + 1 AS position, ret.RET_NUM , ret.RET_DDEB, emp.id as
 where ret.RET_NUM not in (select c.affiliation_num from gesper.rh_retraite c);
 #----- updating retraites sequence 
 UPDATE gesper.rh_retraite_seq  set next_val = (SELECT id+1 as seq from gesper.rh_retraite ORDER BY id desc LIMIT 1);
+#----- linking retraites to employee 
+UPDATE gesper.rh_employe em,
+(select r.id, r.employee from gesper.rh_retraite r) as rhr
+set em.retraite = rhr.id
+where em.id = rhr.employee;
 
 #----- inserting grh mutuelles
 INSERT INTO gesper.rh_mutuelle ( `id`, `affiliation_num`, `mutuelle_num`,`affiliation_date`, `employee`, `organisme`, `version`) 
@@ -189,6 +194,11 @@ SELECT @rownum := @rownum + 1 AS position, mut.MUT_AFF, mut.MUT_IMM , mut.MUT_DD
 where mut.MUT_AFF not in (select c.affiliation_num from gesper.rh_mutuelle c);
 #----- updating mutuelles sequence 
 UPDATE gesper.rh_mutuelle_seq  set next_val = (SELECT id+1 as seq from gesper.rh_mutuelle ORDER BY id desc LIMIT 1);
+#----- linking mutuelles to employee 
+UPDATE gesper.rh_employe em,
+(select m.id, m.employee from gesper.rh_mutuelle m) as rhm
+set em.mutuelle = rhm.id
+where em.id = rhm.employee;
 
 #----- retraites_complementaire
 

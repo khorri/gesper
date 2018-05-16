@@ -28,7 +28,7 @@
       <date name="birthday" title="Date de naissance"/>
       <string name="birthplace" title="Lieu de naissance"/>
       <string name="birthplaceAr" title="مكان الازدياد"/>
-    <date name="hireDate" title="Date d'embauche"></date>
+    <date name="hireDate" title="Date d'embauche" required="true"></date>
       <date name="mutationDate" title="Date de mutation"></date>
     <date name="repriseDate" title="Date de reprise"/>
     <string name="status" title="Status"></string>
