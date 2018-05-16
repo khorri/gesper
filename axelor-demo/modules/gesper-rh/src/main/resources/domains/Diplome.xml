@@ -6,9 +6,9 @@
     <module name="rh" package="com.axelor.rh.db"/>
 
     <entity name="Diplome"  cachable="true">
-        <string name="name" title="Dîplome"/>
+        <string name="name" title="Diplôme"/>
         <string name="niveauScolaire" title="Niveau scolaire"/>
-        <date name="dateDiplome" title="Date diplome"  />
+        <date name="dateDiplome" title="Date diplôme"  />
         <string name="titre" title="titre"  />
         <string name="specialite" title="Spécialité"  />
         <string name="etablissement" title="Etablissement"  />

@@ -7,7 +7,7 @@
     <grid name="employe-rh-grid" title="Fiche agent"
           model="com.axelor.rh.db.Employe">
         <!-- <field name="empNumber"/> -->
-        <field name="matricule"/>
+        <field name="matricule" />
         <field name="firstname"/>
         <field name="lastname"/>
         <field name="lastname_ar"/>
@@ -124,6 +124,13 @@
         </panel-tabs>
 
     </form>
+
+    <dashboard title="Agents Dashboard" name="rh.employee.list.dashboard" width="large">
+        <dashlet action="dashlet.active.employees" height="450"   canSearch="true" colSpan="12"/>
+        <dashlet action="dashlet.deactive.employees" height="450"   canSearch="true" colSpan="12"/>
+    </dashboard>
+
+
     <action-record name="action-employee-change-sex" model="com.axelor.rh.db.Employe">
         <field if="sex == 'M'" name="sexAr" expr="M"/>
         <field if="sex == 'F'" name="sexAr" expr="F"/>
@@ -135,6 +142,18 @@
     <action-record name="action-employee-record-set-default" model="com.axelor.rh.db.Employe">
         <field name="matricule" expr="call:com.axelor.rh.web.EmployeController:getLastMatricule()"/>
     </action-record>
+
+    <action-view name="dashlet.active.employees" title="Agents Actifs" model="com.axelor.rh.db.Employe">
+        <view type="grid" name="employe-rh-grid"/>
+        <view type="form" name="employe-rh-form"/>
+        <domain>self.activated=true</domain>
+    </action-view>
+
+    <action-view name="dashlet.deactive.employees" title="Agents Inactifs" model="com.axelor.rh.db.Employe">
+        <view type="grid" name="employe-rh-grid"/>
+        <view type="form" name="employe-rh-form"/>
+        <domain>self.activated=false</domain>
+    </action-view>
 
 
 </object-views>

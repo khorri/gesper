@@ -22,7 +22,7 @@ public class EmployeController {
     private EmployeRepository employeRepository;
 
     public String getLastMatricule(){
-        String results = JPA.em().createNativeQuery(new SQLQueries().GET_LAST_MATRICULE_MYSQL).getSingleResult().toString();
+        String results = JPA.em().createNativeQuery(SQLQueries.GET_LAST_MATRICULE_MYSQL).getSingleResult().toString();
         String nextMatricule = (Integer.valueOf(results)+1)+"";
 
         return nextMatricule;
