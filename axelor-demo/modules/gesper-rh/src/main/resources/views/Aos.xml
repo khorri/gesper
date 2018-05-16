@@ -22,4 +22,7 @@
         </panel>
 
     </form>
+    <action-validate name="action-aos-validate-datedebut-datefin" model="com.axelor.rh.db.Aos">
+        <alert message="La date debut ne peut pas être plus grande que la date fin" if="dateDebut !=null &amp;&amp; dateFin!=null &amp;&amp; dateDebut > dateFin"/>
+    </action-validate>
 </object-views>

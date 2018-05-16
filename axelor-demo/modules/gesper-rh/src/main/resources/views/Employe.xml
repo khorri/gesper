@@ -64,12 +64,12 @@
                 <field name="birthplace" colSpan="2"/>
                 <field name="birthplaceAr" colSpan="2"/>
 
-                <panel title="Info.professionnelles" colSpan="12" hideIf="id==null">
-                    <field name="hireDate" colSpan="3"/>
-                    <field name="mutationDate" colSpan="3"/>
-                    <field name="radiationDate" colSpan="3"/>
+                <panel title="Info.professionnelles" colSpan="12">
+                    <field name="hireDate" onChange="action-employee-validate-date" colSpan="3"/>
+                    <field name="mutationDate" onChange="action-employee-validate-date" validIf="hireDate ==null || mutationDate==null || hireDate &lt;= mutationDate" colSpan="3"/>
+                    <field name="radiationDate" onChange="action-employee-validate-date" validIf="hireDate ==null || radiationDate==null || hireDate &lt;= radiationDate" colSpan="3"/>
                     <field name="motifRadiation" colSpan="3"/>
-                    <panel-related field="situationList" form-view="situation-rh-form" grid-view="situation-rh-grid" title="Situation Administrative"  colSpan="12"/>
+                                        <panel-related field="situationList" form-view="situation-rh-form" grid-view="situation-rh-grid" title="Situation Administrative"  colSpan="12"/>
                 </panel>
             </panel>
             <panel name="affectation" title="Affectation &amp; Mutation" hideIf="id==null">
@@ -136,5 +136,8 @@
         <field name="matricule" expr="call:com.axelor.rh.web.EmployeController:getLastMatricule()"/>
     </action-record>
 
-
+    <action-validate name="action-employee-validate-date" model="com.axelor.rh.db.Employe">
+        <alert message="La date d'embauche ne peut pas être plus grande que la date de mutation" if="hireDate !=null &amp;&amp; mutationDate!=null &amp;&amp; hireDate > mutationDate"/>
+        <alert message="La date d'embauche ne peut pas être plus grande que la date de radiation" if="hireDate !=null &amp;&amp; radiationDate!=null &amp;&amp; hireDate > radiationDate"/>
+    </action-validate>
 </object-views>

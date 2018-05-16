@@ -21,10 +21,10 @@
         <panel name="Enfant" colSpan="12">
             <field name="name" colSpan="4"/>
             <field name="dateNaissance" colSpan="4"/>
+            <field name="dateDeces" colSpan="4"/>
             <field name="scolarise" colSpan="4"/>
             <field name="infirme" colSpan="4"/>
             <field name="handicape" colSpan="4"/>
-            <field name="dateDeces" colSpan="4"/>
         </panel>
 
     </form>

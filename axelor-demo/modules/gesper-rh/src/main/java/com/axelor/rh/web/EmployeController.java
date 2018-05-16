@@ -7,9 +7,9 @@ import com.axelor.rh.db.repo.EmployeRepository;
 import com.axelor.rpc.ActionRequest;
 import com.axelor.rpc.ActionResponse;
 import com.axelor.rpc.Context;
-import com.google.common.base.Objects;
 import com.google.inject.persist.Transactional;
 import com.google.inject.Inject;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ public class EmployeController {
     private EmployeRepository employeRepository;
 
     public String getLastMatricule(){
-        String results = JPA.em().createNativeQuery(new SQLQueries().GET_LAST_MATRICULE_MYSQL).getSingleResult().toString();
+        String results = JPA.em().createNativeQuery(SQLQueries.GET_LAST_MATRICULE_MYSQL).getSingleResult().toString();
         String nextMatricule = (Integer.valueOf(results)+1)+"";
 
         return nextMatricule;
@@ -33,10 +33,10 @@ public class EmployeController {
         String numberRegex = "\\d+";
         String matricule = (String) context.get("matricule");
 
+        //validation matricule
         if (matricule == null) {
             return;
         }
-
         if(!matricule.matches(numberRegex)) {
             response.setError("Le matricule doit être un nombre");
             return;
@@ -46,6 +46,8 @@ public class EmployeController {
             if (emp.size()>0 && !emp.get(0).getId().equals(context.get("id"))) {
                 response.setError(I18n.get("ERR_FA_002"));
                 response.setValue("matricule", getLastMatricule());
+                return;
             }
+
     }
 }
