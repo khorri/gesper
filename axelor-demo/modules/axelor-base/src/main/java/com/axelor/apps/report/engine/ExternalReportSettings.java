@@ -102,9 +102,9 @@ public class ExternalReportSettings extends ReportSettings  {
 		defaultUrl = defaultUrl.substring(0, defaultUrl.lastIndexOf('/'));
 		defaultUrl += "/" + BIRT_PATH ;
 		
-		this.birtViewerUrl = appsSettings.get("axelor.report.engine", defaultUrl);
+		this.birtViewerUrl = appsSettings.get("axelor.reports.engine", defaultUrl);
 		
-		String resourcePath = appsSettings.get("axelor.report.resource.path", "report");
+		String resourcePath = appsSettings.get("axelor.reports.resource.path", "reports");
 		resourcePath = resourcePath.endsWith("/") ? resourcePath : resourcePath + "/";
 		
 		this.url +=  birtViewerUrl + "/frameset?__report=" + resourcePath + rptdesign;

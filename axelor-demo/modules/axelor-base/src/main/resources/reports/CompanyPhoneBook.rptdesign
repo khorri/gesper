@@ -445,7 +445,7 @@ Company.name , EmailAddress.address, Partner.is_contact, Partner.fixed_phone, Pa
 Partner.fax,employee_picture
 order by Employee.name]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
-<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
+<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/reports/model/adapter/odaModel">
   <Version>2.0</Version>
   <DataSetParameters>
     <parameter>
@@ -621,7 +621,7 @@ left outer join base_partner as Partner on (Company.partner = Partner.id)
 left outer join meta_file as MetaFile on (MetaFile.id = Company.logo)
 where AuthUser.id = ?]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
-<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
+<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/reports/model/adapter/odaModel">
   <Version>2.0</Version>
   <DataSetParameters>
     <parameter>
@@ -741,7 +741,7 @@ where AuthUser.id = ?]]></xml-property>
 from meta_translation as LangTranslate 
 where LangTranslate.message_key = ? and LangTranslate.language = ?]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
-<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
+<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/reports/model/adapter/odaModel">
   <Version>2.0</Version>
   <DataSetParameters>
     <parameter>
@@ -779,7 +779,7 @@ where LangTranslate.message_key = ? and LangTranslate.language = ?]]></xml-prope
         </oda-data-set>
     </data-sets>
     <styles>
-        <style name="report" id="4">
+        <style name="reports" id="4">
             <property name="fontFamily">sans-serif</property>
             <property name="fontSize">10pt</property>
         </style>

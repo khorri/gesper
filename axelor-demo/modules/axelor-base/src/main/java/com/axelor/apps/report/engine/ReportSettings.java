@@ -72,7 +72,7 @@ public class ReportSettings {
 	}
 	
 	/**
-	 * This method generate the Birt report output.
+	 * This method generate the Birt reports output.
 	 * @return
 	 * 		The ReportSettings instance.
 	 * @throws AxelorException
@@ -87,15 +87,15 @@ public class ReportSettings {
 	}
 	
 	/**
-	 * The method get the generated report file link.
+	 * The method get the generated reports file link.
 	 * @return
-	 * 		The generated report file link.
+	 * 		The generated reports file link.
 	 */
 	public String getFileLink()  {
 		
 		if(output == null)  {  return null;  }
 		
-		String fileLink = String.format("ws/files/report/%s?name=%s", output.getName(), fileName);
+		String fileLink = String.format("ws/files/reports/%s?name=%s", output.getName(), fileName);
 		
 		logger.debug("URL : {}", fileLink);
 		
@@ -108,9 +108,9 @@ public class ReportSettings {
 	}
 	
 	/**
-	 * This method get the generated report file.
+	 * This method get the generated reports file.
 	 * @return
-	 * 		The generated report file.
+	 * 		The generated reports file.
 	 */
 	public File getFile()  {
 		return output;
@@ -143,7 +143,7 @@ public class ReportSettings {
 	
 	
 	/**
-	 * This method can be use to define a specific report output format. The default format is PDF.
+	 * This method can be use to define a specific reports output format. The default format is PDF.
 	 * @param format
 	 * 		The ouput format
 	 * 		<p><ul>
@@ -167,7 +167,7 @@ public class ReportSettings {
 	}
 	
 	/**
-	 * Method that link the generated report as attachment to the model passed in parameter
+	 * Method that link the generated reports as attachment to the model passed in parameter
 	 * @param model
 	 * 		An Axelor Model
 	 * @return
@@ -183,11 +183,11 @@ public class ReportSettings {
 	}
 
 	/**
-	 * This method is use to pass a parameter to the Birt report.
+	 * This method is use to pass a parameter to the Birt reports.
 	 * @param param
 	 * 		A string key.
 	 * @param value
-	 * 		An object value. The type of value must be a supported type per the Birt report. 
+	 * 		An object value. The type of value must be a supported type per the Birt reports.
 	 * @return
 	 * 		The ReportSettings instance.
 	 */
@@ -227,7 +227,7 @@ public class ReportSettings {
 		
 		AppSettings appsSettings = AppSettings.get();
 		
-		String useIntegratedEngine = appsSettings.get("axelor.report.use.embedded.engine", "true");
+		String useIntegratedEngine = appsSettings.get("axelor.reports.use.embedded.engine", "true");
 		
 		if(useIntegratedEngine.equals("true"))  {  return true;  }
 		return false;

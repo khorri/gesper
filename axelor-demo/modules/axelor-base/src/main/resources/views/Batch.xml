@@ -32,7 +32,7 @@
 		    <button name="showPartner" title="Partners" hidden="true" colSpan="2" onClick="save,action-batch-show-partner"/>
 		    <button name="showAccountingSituation" title="Accounting situations" hidden="true" colSpan="2" onClick="save,action-batch-show-accounting-situation"/>
 		    <button name="showPaymentVoucher" title="Payment vouchers" hidden="true" colSpan="2" onClick="save,action-batch-show-payment-voucher"/>
-		    <button name="showMoveLineReport" title="Accounting Export" hidden="true" colSpan="2" onClick="save,action-batch-show-move-line-report"/>
+		    <button name="showMoveLineReport" title="Accounting Export" hidden="true" colSpan="2" onClick="save,action-batch-show-move-line-reports"/>
 		</panel>
     </form>
     
@@ -107,10 +107,10 @@
 		<context name="batch" expr="eval: id"/>
 	</action-view>
 	
-	<action-view name="action-batch-show-move-line-report" title="Move exports"
+	<action-view name="action-batch-show-move-line-reports" title="Move exports"
 		model="com.axelor.apps.account.db.MoveLineReport">
-		<view type="grid" name="move-line-report-export-grid"/>
-		<view type="form" name="move-line-report-export-form"/>
+		<view type="grid" name="move-line-reports-export-grid"/>
+		<view type="form" name="move-line-reports-export-form"/>
 		<domain>:batch MEMBER OF self.batchSet</domain>
 		<context name="batch" expr="eval: id"/>
 	</action-view>
