@@ -6,11 +6,16 @@
 
 	<menuitem name="menu-emplaye-all" parent="menu-gesper-rh"
     	title="Fiche Agent"
-    	action="employe.all"/>
+    	action="employee.list.dashboard.view"/>
 
 	<action-view name="employe.all" title="Agents" model="com.axelor.rh.db.Employe">
     	<view type="grid" name="employe-rh-grid"/>
 	    <view type="form" name="employe-rh-form"/>
 	</action-view>
+
+	<action-view name="employee.list.dashboard.view" title="Agents">
+		<view type="dashboard" name="rh.employee.list.dashboard" />
+	</action-view>
+
 
 </object-views>
