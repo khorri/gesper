@@ -17,8 +17,8 @@
 
         <panel name="Aos" colSpan="12">
             <field name="affiliationNum" colSpan="4"/>
-            <field name="dateDebut" colSpan="4"/>
-            <field name="dateFin" colSpan="4"/>
+            <field name="dateDebut"  onChange="action-aos-validate-datedebut-datefin" validIf="dateDebut ==null || dateFin==null || dateDebut &lt;= dateFin" colSpan="4"/>
+            <field name="dateFin" onChange="action-aos-validate-datedebut-datefin"  validIf="dateDebut ==null || dateFin==null || dateDebut &lt;= dateFin" colSpan="4"/>
         </panel>
 
     </form>

@@ -13,29 +13,31 @@
     </grid>
 
     <form name="med-rh-form" title="Mise en disponibilité"
-          model="com.axelor.rh.db.Med">
+          model="com.axelor.rh.db.Med"  onNew="default-decision-company">
 
         <panel name="main">
             <field name="decision.status" showTitle="false" widget="NavSelect" colSpan="12"/>
-            <field name="dateDebut"/>
-            <field name="dateFin"/>
+            <field name="dateDebut"  onChange="action-aos-validate-datedebut-datefin" validIf="dateDebut ==null || dateFin==null || dateDebut &lt;= dateFin"/>
+            <field name="dateFin"  onChange="action-aos-validate-datedebut-datefin" validIf="dateDebut ==null || dateFin==null || dateDebut &lt;= dateFin"/>
         </panel>
         <panel name="actions" title="Actions" sidebar="true" stacked="true" colSpan="3">
-            <button name="createButton" title="Créer" colSpan="4" icon="fa-plus"/>
-            <button name="validateButton" title="Validate" colSpan="4" icon="fa-check"/>
-            <button name="refuseButton" title="Refuse" colSpan="4" icon="fa-close"/>
-            <button name="cancelButton" title="Cancel" colSpan="4" icon="fa-close"/>
+            <button name="createButton" title="Créer" css="btn-info" colSpan="4" icon="fa-plus" onClick="save,close"/>
+            <button name="validateButton" title="Validate"  colSpan="4" icon="fa-check"/>
+            <button name="refuseButton" title="Refuse" css="btn-danger" colSpan="4" icon="fa-close"/>
+            <button name="cancelButton" title="Cancel" css="btn-warning" colSpan="4" icon="fa-ban"/>
         </panel>
         <panel title="Decision" >  
-            <field name="decision" showTitle="false" colSpan="12" canNew="true" form-view="decision-situation-form" from="gesper-config">
-    	        <editor x-viewer="true">
-      	            <field name="decisionCode" colSpan="3"/>
-    	            <field name="decisionDate" colSpan="3"/>
-    	            <field name="status" colSpan="3"/>
-    	            <field name="motifRejet" colSpan="3"/>
+            <field  name="decision" showTitle="false" canEdit="false" canNew="false" colSpan="12">
+  	            <editor >
+                	<field name="attachement" canNew="true" canAttach="true" widget="binary"/>
+                    <field name="decisionCode" colSpan="3"/>
+                    <field name="emitteur" colSpan="3"/>
+                    <field name="entreprise" colSpan="3"/>
+                	<field name="decisionDate" colSpan="3"/>
+                	<field name="motifRejet" colSpan="3"/>
                 </editor>
             </field>
-	    </panel>
+        </panel>
     </form>
 
 </object-views>

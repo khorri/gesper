@@ -21,5 +21,7 @@
             <field name="motifRejet" colSpan="2"/>
         </panel>
     </form>
-
+    <action-record name="default-decision-company" model="com.axelor.config.db.Decision">
+      <field name="decision" expr="eval: new Decision()"/>
+    </action-record>
 </object-views>
