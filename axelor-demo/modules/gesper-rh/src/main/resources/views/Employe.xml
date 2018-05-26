@@ -110,7 +110,7 @@
 				    <editor>
                         <panel title="Départ" colSpan="12" readonly="true">
                          	<field name="dateDepart" colSpan="4"/>
-                         	<field name="type" selection="employee.status.type.select" colSpan="4"/>
+                         	<field name="type" selection="employee.depart.type.select" colSpan="4"/>
                          	<field name="motif" colSpan="4" readonly="true"/>
                          	<field name="observation" widget="text" colSpan="12" height="5" />
                         </panel>

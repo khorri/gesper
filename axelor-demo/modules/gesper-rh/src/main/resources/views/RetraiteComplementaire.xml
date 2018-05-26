@@ -21,8 +21,8 @@
         <panel name="Retraite" colSpan="12">
             <field name="organisme" domain="self.type='RETRAITE'"/>
             <field name="affiliationNum"/>
-            <field name="dateDebut"/>
-            <field name="dateFin"/>
+            <field name="dateDebut"  onChange="action-aos-validate-datedebut-datefin" validIf="dateDebut ==null || dateFin==null || dateDebut &lt;= dateFin"/>
+            <field name="dateFin"  onChange="action-aos-validate-datedebut-datefin" validIf="dateDebut ==null || dateFin==null || dateDebut &lt;= dateFin"/>
             <field name="cotisation"></field>
             <field name="assurance"></field>
         </panel>

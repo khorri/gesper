@@ -15,8 +15,8 @@
 
         <panel name="main">
             <field name="name"/>
-            <field name="dateDebut"/>
-            <field name="dateFin"/>
+            <field name="dateDebut"  onChange="action-aos-validate-datedebut-datefin" validIf="dateDebut ==null || dateFin==null || dateDebut &lt;= dateFin"/>
+            <field name="dateFin"  onChange="action-aos-validate-datedebut-datefin" validIf="dateDebut ==null || dateFin==null || dateDebut &lt;= dateFin"/>
             <field name="etablissement"/>
         </panel>
     </form>
