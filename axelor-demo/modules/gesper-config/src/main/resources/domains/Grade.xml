@@ -11,6 +11,8 @@
         <many-to-one name="cadre" ref="Cadre" title="Cadre"/>
         <integer name="echelle" />
         <integer name="tri"/>
+        <date name="dateEffet" title="Date d'effet"></date>
+        <date name="dateMaj" title="Date de mise à jour"></date>
         <one-to-many name="echelons" ref="GradeEchelon" mappedBy="grade"></one-to-many>
     </entity>
 
