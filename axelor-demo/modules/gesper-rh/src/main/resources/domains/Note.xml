@@ -1,0 +1,17 @@
+<domain-models xmlns="http://axelor.com/xml/ns/domain-models"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="http://axelor.com/xml/ns/domain-models
+  http://axelor.com/xml/ns/domain-models/domain-models_4.0.xsd">
+
+    <module name="rh" package="com.axelor.rh.db"/>
+
+    <entity name="Note"  cachable="true">
+        <decimal name="noteAvancement" title="Note avancement"/>
+        <decimal name="notePrime" title="Note prime"/>
+        <decimal name="noteFinal" title="Note définitive"/>
+        <many-to-one name="exercice" ref="com.axelor.config.db.Exercice" ></many-to-one>
+        <many-to-one name="employee" ref="com.axelor.rh.db.Employe" ></many-to-one>
+        <many-to-one name="entite" ref="com.axelor.config.db.Entite" ></many-to-one>
+    </entity>
+
+</domain-models>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://axelor.com/xml/ns/object-views
+  http://axelor.com/xml/ns/object-views/object-views_4.0.xsd">
+
+
+    <grid name="notes-rh-grid" title="Notes" orderBy="-exercice,employee.matricule"
+          model="com.axelor.rh.db.Note">
+        <field name="employee.matricule"/>
+        <field name="employee.firstname"/>
+        <field name="employee.lastname"/>
+        <field name="entite"/>
+        <field name="exercice.code" title="Exerice"/>
+        <field name="noteAvancement"/>
+        <field name="notePrime"/>
+        <field name="noteFinal"/>
+    </grid>
+
+    <form name="notes-rh-form" title="Note"
+          model="com.axelor.rh.db.Note" width="large">
+
+        <panel name="Note" colSpan="12">
+            <field name="employee"/>
+            <field name="entite"/>
+            <field name="exercice"/>
+            <field name="noteAvancement"/>
+            <field name="notePrime"/>
+            <field name="noteFinal"/>
+        </panel>
+
+    </form>
+</object-views>
