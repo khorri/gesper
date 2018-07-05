@@ -345,7 +345,7 @@ UPDATE gesper.config_residence_seq  set next_val = (SELECT id+1 as seq from gesp
 #----- Exercice
 # By Khalid
 
-INSERT INTO gesper.config_exercice (`id`,`code`, `debut`, `fin`,`status`,`version`)
+INSERT INTO gesper.config_exercice (`id`,`name`, `debut`, `fin`,`status`,`version`)
 	SELECT @rownum := @rownum + 1 AS position, exercice.*, '0' as v from gespaie.exercice exercice
 		JOIN (SELECT @rownum := (select next_val from gesper.config_exercice_seq)-1) as r
 	where exercice.EXER_CODE not in ( select ex.code from gesper.config_exercice ex);

@@ -5,11 +5,15 @@
   http://axelor.com/xml/ns/object-views/object-views_4.0.xsd">
 
     <grid name="exercice-grid" title="Exercices"
-          model="com.axelor.config.db.Exercice">
-        <field name="code" />
+          model="com.axelor.config.db.Exercice" orderBy="-name">
+        <field name="name" title="Code"/>
         <field name="debut"/>
         <field name="fin"/>
         <field name="status"/>
+    </grid>
+    <grid name="note-exercice-grid" title="Exercices"
+          model="com.axelor.config.db.Exercice" orderBy="-name">
+        <field name="name" title="Code"/>
     </grid>
     <selection name="exercice.status">
         <option value="Ouvert">Ouvert</option>
@@ -18,11 +22,10 @@
     <form name="exercice-form" title="Exercice"
           model="com.axelor.config.db.Exercice">
         <panel title="Overview">
-            <field name="code"/>
+            <field name="name" title="Code"/>
             <field name="status" selection="exercice.status" />
             <field name="debut"/>
             <field name="fin"/>
-
         </panel>
         <panel sidebar="true">
             <field name="createdOn"/>

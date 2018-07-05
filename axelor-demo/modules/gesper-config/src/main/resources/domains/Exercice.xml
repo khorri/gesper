@@ -5,8 +5,8 @@
 
     <module name="config" package="com.axelor.config.db"/>
 
-    <entity name="Exercice"  cachable="true">
-        <string name="code" required="true" unique="true" max="60"/>
+    <entity name="Exercice"  cachable="true" >
+        <string name="name" required="true" unique="true" max="60"/>
         <date name="debut"/>
         <date name="fin"/>
         <string name="status" max="60"/>

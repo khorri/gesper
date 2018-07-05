@@ -5,7 +5,7 @@
   http://axelor.com/xml/ns/object-views/object-views_4.0.xsd">
 
     <grid name="employe-rh-grid" title="Fiche agent"
-          model="com.axelor.rh.db.Employe">
+          model="com.axelor.rh.db.Employe" orderBy="matricule">
         <!-- <field name="empNumber"/> -->
         <field name="matricule"/>
         <field name="firstname"/>
