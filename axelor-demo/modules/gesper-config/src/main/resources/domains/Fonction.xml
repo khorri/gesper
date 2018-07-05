@@ -7,6 +7,8 @@
 
     <entity name="Fonction"  cachable="true">
         <string name="name" required="true" unique="true" max="255" title="Désignation"/>
+        <string name="nameAr" required="true" unique="true" title="الإسم"/>
+        <boolean name="active" title="Activé"/>
         <boolean name="responsable" column="is_responsable" />
     </entity>
 
