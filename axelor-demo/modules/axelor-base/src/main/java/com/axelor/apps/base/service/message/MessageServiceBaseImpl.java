@@ -105,7 +105,7 @@ public class MessageServiceBaseImpl extends MessageServiceImpl {
 		File file = Beans.get(TemplateMessageServiceBaseImpl.class).generateBirtTemplate(maker, fileName,
 				birtTemplate.getTemplateLink(), birtTemplate.getFormat(), birtTemplate.getBirtTemplateParameterList());
 
-		return "ws/files/report/" + file.getName() + "?name=" + fileName;
+		return "ws/files/reports/" + file.getName() + "?name=" + fileName;
 	}
 
 	

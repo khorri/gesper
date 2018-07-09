@@ -27,7 +27,7 @@ public interface IExceptionMessage {
 
 	static final public String NOT_IMPLEMENTED_METHOD = /*$$(*/ "Not implemented yet!" /*)*/;
 	
-	static final String BIRT_EXTERNAL_REPORT_NO_URL = /*$$(*/ "Impossible to generate report, url toward Birt viewer is not correctly configured (%s)" /*)*/;
+	static final String BIRT_EXTERNAL_REPORT_NO_URL = /*$$(*/ "Impossible to generate reports, url toward Birt viewer is not correctly configured (%s)" /*)*/;
 	
 	
 	/**
@@ -96,7 +96,7 @@ public interface IExceptionMessage {
 	 * Alarm engine batch service
 	 */
 	static final public String ALARM_ENGINE_BATCH_1 = /*$$(*/ "Alarm Engine %s" /*)*/;
-	static final public String ALARM_ENGINE_BATCH_2 = /*$$(*/ "Alarms report :\n" /*)*/;
+	static final public String ALARM_ENGINE_BATCH_2 = /*$$(*/ "Alarms reports :\n" /*)*/;
 	static final public String ALARM_ENGINE_BATCH_3 = /*$$(*/ "\t* %s object(s) into alarm\n" /*)*/;
 	static final public String ALARM_ENGINE_BATCH_4 = /*$$(*/ "\t* %s anomaly(ies)" /*)*/;
 	static final public String ALARM_ENGINE_BATCH_5 = /*$$(*/ "Alarm batch" /*)*/;
@@ -126,7 +126,7 @@ public interface IExceptionMessage {
 	 * Template message service base impl
 	 */
 	static final public String TEMPLATE_MESSAGE_BASE_1 = /*$$(*/ "%s : Path to Birt template is incorrect" /*)*/;
-	static final public String TEMPLATE_MESSAGE_BASE_2 = /*$$(*/ "Unable to generate Birt report file" /*)*/;
+	static final public String TEMPLATE_MESSAGE_BASE_2 = /*$$(*/ "Unable to generate Birt reports file" /*)*/;
 
 	
 	/**
@@ -183,7 +183,7 @@ public interface IExceptionMessage {
 	/**
 	 * Messsage controller 
 	 */
-	static final public String MESSAGE_1 = /*$$(*/ "Error in print. Please check report configuration and print setting." /*)*/;
+	static final public String MESSAGE_1 = /*$$(*/ "Error in print. Please check reports configuration and print setting." /*)*/;
 	static final public String MESSAGE_2 = /*$$(*/ "Please select the Message(s) to print." /*)*/;
 	
 	/**

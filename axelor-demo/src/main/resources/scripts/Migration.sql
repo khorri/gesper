@@ -1,31 +1,35 @@
------- --------------------------GRADE MIGRATION -----------------------------------
+#------ Filière & cadre ------------
+-- ---- --------------------------GRADE MIGRATION -----------------------------------
 INSERT INTO gesper.config_grade (id,name, echelle,tri,cadre,filiere) SELECT
-grh_2208.grades.GRA_COD,
-grh_2208.grades.GRA_LIB,
-grh_2208.grades.GRA_ECH,
-grh_2208.grades.GRA_TRI,
+grh.grades.GRA_COD,
+grh.grades.GRA_LIB,
+grh.grades.GRA_ECH,
+grh.grades.GRA_TRI,
 gesper.config_cadre.id as cadre,
 gesper.config_filiere.id as filiere
 FROM
-grh_2208.grades
-left Join gesper.config_filiere ON grh_2208.grades.FIL_COD = gesper.config_filiere.code
-left Join gesper.config_cadre ON grh_2208.grades.CAD_COD = gesper.config_cadre.code;
---------------------------------------------------------------------------------------------------------
--------------------- GRADE  ECHELON MIGRATION ------------------------------------
+grh.grades
+left Join gesper.config_filiere ON grh.grades.FIL_COD = gesper.config_filiere.code
+left Join gesper.config_cadre ON grh.grades.CAD_COD = gesper.config_cadre.code;
+UPDATE gesper.config_grade_seq  set next_val = (SELECT id+1 as seq from gesper.config_grade ORDER BY id desc LIMIT 1);
+-- ------------------------------------------------------------------------------------------------------
+-- ------------------ GRADE  ECHELON MIGRATION ------------------------------------
 set @id:=1;
 INSERT INTO gesper.config_grade_echelon (id,echelon,indice,rythme_lent,rythme_moyen,rythme_rapide,grade) SELECT
 (@id:=@id+1),
-grh_2208.grille_indiciaire.ECHE_COD,
-grh_2208.grille_indiciaire.GRII_IND,
-grh_2208.echelons_grade.EPG_LEN,
-grh_2208.echelons_grade.EPG_MOY,
-grh_2208.echelons_grade.EPG_RAP,
-grh_2208.echelons_grade.GRA_COD
+grh.grille_indiciaire.ECHE_COD,
+grh.grille_indiciaire.GRII_IND,
+grh.echelons_grade.EPG_LEN,
+grh.echelons_grade.EPG_MOY,
+grh.echelons_grade.EPG_RAP,
+grh.echelons_grade.GRA_COD
 FROM
-grh_2208.grille_indiciaire
-LEFT Join grh_2208.echelons_grade ON grh_2208.grille_indiciaire.GRA_COD = grh_2208.echelons_grade.GRA_COD AND grh_2208.grille_indiciaire.ECHE_COD = grh_2208.echelons_grade.ECHE_COD
+grh.grille_indiciaire
+LEFT Join grh.echelons_grade ON grh.grille_indiciaire.GRA_COD = grh.echelons_grade.GRA_COD AND grh.grille_indiciaire.ECHE_COD = grh.echelons_grade.ECHE_COD;
+UPDATE gesper.config_grade_echelon_seq  set next_val = (SELECT id+1 as seq from gesper.config_grade_echelon ORDER BY id desc LIMIT 1);
 
-#----- insert morocco if not exist
+
+#----- insert morocco if not exist ------- --
 INSERT INTO gesper.base_country ( `id`, `name`, `version`, `alpha2code`, `alpha3code`, `full_name`, `name_ar`) 
 SELECT @rownum := @rownum + 1 AS position, pseudo.*
 	from (SELECT 'MAROC' as n, '1' as v, 'MA' as al2, 'MAR' as al3, 'MAROC - المغرب' as fn, 'المغرب' as na) pseudo
@@ -337,3 +341,37 @@ WHERE res.RES_LIB not in (SELECT `name` from gesper.config_residence);
 
 UPDATE gesper.config_residence_seq  set next_val = (SELECT id+1 as seq from gesper.config_residence ORDER BY id desc LIMIT 1);
 
+
+#----- Exercice
+# By Khalid
+
+INSERT INTO gesper.config_exercice (`id`,`name`, `debut`, `fin`,`status`,`version`)
+	SELECT @rownum := @rownum + 1 AS position, exercice.*, '0' as v from gespaie.exercice exercice
+		JOIN (SELECT @rownum := (select next_val from gesper.config_exercice_seq)-1) as r
+	where exercice.EXER_CODE not in ( select ex.code from gesper.config_exercice ex);
+
+UPDATE gesper.config_exercice_seq  set next_val = (SELECT id+1 as seq from gesper.config_exercice ORDER BY id desc LIMIT 1);
+
+# ----------- Migration des NOTES
+# By Khalid
+# TODO Ajouter la personne et la date de saisie
+
+INSERT INTO gesper.`rh_note` (`id`,  `note_avancement`, `note_prime`, `note_final`,  `employee`, `entite`, `exercice`, `version`)
+	SELECT
+		@rownum := @rownum + 1 AS position,
+		grh.notes.NOT_AVA,
+		grh.notes.NOT_PRI,
+		grh.notes.NOT_PRIATT,
+		gesper.rh_employe.id as agent,
+		gesper.config_entite.id as entite,
+		gesper.config_exercice.id as exercice,
+		'0'
+	FROM
+		grh.notes
+		JOIN (SELECT @rownum := (select next_val from gesper.rh_note_seq)-1) as r
+		left Join gesper.config_exercice ON grh.notes.EXE_COD = gesper.config_exercice.code
+		left Join gesper.config_entite ON grh.notes.entite = gesper.config_entite.short_name
+		left Join gesper.rh_employe ON grh.notes.AGE_MAT = gesper.rh_employe.matricule;
+
+
+UPDATE gesper.rh_note_seq  set next_val = (SELECT id+1 as seq from gesper.rh_note ORDER BY id desc LIMIT 1);

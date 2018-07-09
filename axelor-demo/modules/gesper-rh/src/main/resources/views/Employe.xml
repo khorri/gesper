@@ -5,7 +5,7 @@
   http://axelor.com/xml/ns/object-views/object-views_4.0.xsd">
 
     <grid name="employe-rh-grid" title="Fiche agent"
-          model="com.axelor.rh.db.Employe">
+          model="com.axelor.rh.db.Employe" orderBy="matricule">
         <!-- <field name="empNumber"/> -->
         <field name="matricule"/>
         <field name="firstname"/>
@@ -20,7 +20,7 @@
           model="com.axelor.rh.db.Employe" width="large">
         <toolbar >
           	<button name="printFiche" icon="fa-print" title="Imprimer fiche"/>
-            <button name="attestationTravail" icon="fa-print" title="Attestation de travail"/>
+            <button name="attestationTravail" icon="fa-print" title="Attestation de travail" onClick="action-employee-print-attestation-travail-word"/>
             <button name="attestationSalaire" icon="fa-money" title="Attestation salaire"/>
             <button name="engagement" icon="fa-file-text-o" title="Etat d'engagement"/>
             <button name="sanct" icon="fa-bolt" title="Sanctions" onClick="sanction.all" css="bg-danger"/>
@@ -158,6 +158,10 @@
         <view type="form" name="employe-rh-form"/>
         <domain>self.activated=false</domain>
     </action-view>
+
+    <action-method name="action-employee-print-attestation-travail-word">
+        <call class="com.axelor.rh.web.EmployeController" method="printWorkCertificateWord"/>
+    </action-method>
 
 
 </object-views>

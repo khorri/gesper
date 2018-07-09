@@ -228,7 +228,7 @@ left join base_partner_address AS PartnerAddress on (PartnerAddress.partner = pa
 inner join base_address AS Address on (Address.id = PartnerAddress.address OR Address.id = Partner.contact_address)
 where Partner.id = ?]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
-<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
+<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/reports/model/adapter/odaModel">
   <Version>2.0</Version>
   <design:ResultSets derivedMetaData="true">
     <design:resultSetDefinitions>
@@ -262,7 +262,7 @@ where Partner.id = ?]]></xml-property>
         </oda-data-set>
     </data-sets>
     <styles>
-        <style name="report" id="4">
+        <style name="reports" id="4">
             <property name="fontFamily">sans-serif</property>
             <property name="fontSize">10pt</property>
         </style>

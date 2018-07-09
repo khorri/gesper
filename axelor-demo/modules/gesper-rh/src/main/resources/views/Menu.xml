@@ -8,6 +8,13 @@
     	title="Fiche Agent"
     	action="employee.list.dashboard.view"/>
 
+	<menuitem name="top-menu-create-employe" order="-90" parent="top-menu-utility" top="true" title="Créer Agent" action="top.new.employe.view" />
+
+	<action-view name="top.new.employe.view" title="Créer Agent" model="com.axelor.rh.db.Employe" >
+		<view type="form" name="employe-rh-form"/>
+		<view type="grid" name="employe-rh-grid"/>
+	</action-view>
+
 	<action-view name="employe.all" title="Agents" model="com.axelor.rh.db.Employe">
     	<view type="grid" name="employe-rh-grid"/>
 	    <view type="form" name="employe-rh-form"/>
@@ -17,5 +24,14 @@
 		<view type="dashboard" name="rh.employee.list.dashboard" />
 	</action-view>
 
+
+	<menuitem name="menu-notes-all" parent="menu-gesper-rh"
+			  title="Notes d'exercice"
+			  action="notes.all"/>
+
+	<action-view name="notes.all" title="Notes d'exercice" model="com.axelor.rh.db.Note">
+		<view type="grid" name="notes-rh-grid"/>
+		<view type="form" name="notes-rh-form"/>
+	</action-view>
 
 </object-views>

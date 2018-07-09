@@ -33,7 +33,7 @@
     <date name="repriseDate" title="Date de reprise"/>
     <string name="status" title="Status"></string>
     <date name="radiationDate" title="Date de radiation"/>
-      <string name="motifRadiation" title="Motif de radiation"></string>
+    <string name="motifRadiation" title="Motif de radiation"></string>
     <integer name="echelle" title="Echelle"></integer>
     <integer name="echelon" title="Echelon"></integer>
     <integer name="indice" title="Indice"></integer>
@@ -43,8 +43,8 @@
     <many-to-one name="cinImage" ref="com.axelor.meta.db.MetaFile"/>
     <one-to-many name="situationList" ref="com.axelor.rh.db.Situation" mappedBy="employee" title="Situations administratives" help="true"/>
     <one-to-many name="affectationList" ref="com.axelor.rh.db.Affectation" mappedBy="employee"/>
-    <many-to-one name="retraite" ref="com.axelor.rh.db.Retraite" mappedBy="employee"></many-to-one>
-    <many-to-one name="mutuelle" ref="com.axelor.rh.db.Mutuelle" mappedBy="employee"></many-to-one>
+    <many-to-one name="retraite" ref="com.axelor.rh.db.Retraite" ></many-to-one>
+    <many-to-one name="mutuelle" ref="com.axelor.rh.db.Mutuelle" ></many-to-one>
     <one-to-many name="aos" ref="com.axelor.rh.db.Aos" mappedBy="employee" title="A.O.S"/>
     <one-to-many name="enfant" ref="com.axelor.rh.db.Enfant" mappedBy="employee" title="Liste des enfants"/>
     <one-to-many name="conjointe" ref="com.axelor.rh.db.Conjointe" mappedBy="employee" title="Liste des conjointes"/>
@@ -53,6 +53,15 @@
     <one-to-many name="diplome" ref="com.axelor.rh.db.Diplome" mappedBy="employee" title="Formation"/>
     <one-to-many name="experience" ref="com.axelor.rh.db.Experience" mappedBy="employee" title="Experience antérieure"/>
     <one-to-one name="depart" ref="com.axelor.rh.db.Depart" title="Départ"/>
+    <string name="name"  search="matricule,firstname,lastname" namecolumn="true" >
+      <![CDATA[
+        String displayName = matricule;
+        if (firstname != null)
+          displayName+= "-" + firstname;
+        if (lastname != null)
+          displayName+= " " + lastname;
+        return displayName;
+    ]]></string>
   </entity>
   
 </domain-models>

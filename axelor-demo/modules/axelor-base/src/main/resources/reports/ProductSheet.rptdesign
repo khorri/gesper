@@ -407,7 +407,7 @@ left join base_currency as Currency on (Product.sale_currency = Currency.id)
 where Product.id = ?
 ]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
-<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
+<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/reports/model/adapter/odaModel">
   <Version>2.0</Version>
   <DataSetParameters>
     <parameter>
@@ -626,7 +626,7 @@ where Product.id = ?
 from meta_translation as LangTranslate 
 where LangTranslate.message_key = ? and LangTranslate.language = ?]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
-<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
+<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/reports/model/adapter/odaModel">
   <Version>2.0</Version>
   <DataSetParameters>
     <parameter>
@@ -664,7 +664,7 @@ where LangTranslate.message_key = ? and LangTranslate.language = ?]]></xml-prope
         </oda-data-set>
     </data-sets>
     <styles>
-        <style name="report" id="4">
+        <style name="reports" id="4">
             <property name="fontFamily">sans-serif</property>
             <property name="fontSize">10pt</property>
         </style>
@@ -1131,7 +1131,7 @@ Formatter.format((row._outer["warranty_nbr_of_months"]/12), "#0") + " Year(s) an
     <property name="pageVariables">
         <variable-element name="outputFileName">
             <expression name="value" type="javascript">'TestPdf.pdf'</expression>
-            <property name="type">report</property>
+            <property name="type">reports</property>
         </variable-element>
     </property>
 </report>
