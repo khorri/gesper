@@ -5,11 +5,11 @@
 
     <module name="rh" package="com.axelor.rh.db"/>
 
-    <entity name="Situation"  cachable="true">
+    <entity name="Situation" cachable="true">
         <string name="status" title="Status"/>
-        <date name="gradeDate" title="Date grade"  />
-        <date name="echelonDate" title="Date echelon"  />
-        <date name="situationDate" title="Date situation"  />
+        <date name="gradeDate" title="Date grade"/>
+        <date name="echelonDate" title="Date echelon"/>
+        <date name="situationDate" title="Date situation"/>
         <string name="nature" title="Nature"></string>
         <string name="type" title="Type"></string>
         <string name="corps" title="Corps"></string>

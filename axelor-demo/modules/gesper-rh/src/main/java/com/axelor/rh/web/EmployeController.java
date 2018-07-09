@@ -1,8 +1,11 @@
 package com.axelor.rh.web;
 
 import com.axelor.db.JPA;
+import com.axelor.exception.service.TraceBackService;
 import com.axelor.i18n.I18n;
+import com.axelor.rh.db.Affectation;
 import com.axelor.rh.db.Employe;
+import com.axelor.rh.db.repo.AffectationRepository;
 import com.axelor.rh.db.repo.EmployeRepository;
 import com.axelor.rpc.ActionRequest;
 import com.axelor.rpc.ActionResponse;
@@ -20,6 +23,8 @@ import java.util.List;
 public class EmployeController {
     @Inject
     private EmployeRepository employeRepository;
+    @Inject
+    private AffectationRepository affectationRepository;
 
     public String getLastMatricule(){
         String results = JPA.em().createNativeQuery(SQLQueries.GET_LAST_MATRICULE_MYSQL).getSingleResult().toString();
@@ -48,6 +53,24 @@ public class EmployeController {
                 response.setValue("matricule", getLastMatricule());
                 return;
             }
+
+    }
+    @Transactional
+    public void fonctionIsUsed(ActionRequest request, ActionResponse response) {
+        Context context = request.getContext();
+        Long foncId = (Long)context.get("id");
+
+        //validation matricule
+        try{
+            List<Employe> emp= employeRepository.all().filter("self.fonction.id = ?1", foncId).fetch();
+            List<Affectation> affs= affectationRepository.all().filter("self.fonction.id = ?1", foncId).fetch();
+            if (emp.size()>0 || affs.size()>0) {
+                response.setError("can't delete lol "+emp.size());
+                return;
+            }
+        } catch (Exception e) {
+            TraceBackService.trace(response, e);
+        }
 
     }
 }
