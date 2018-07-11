@@ -24,10 +24,7 @@ public class EmployeService implements Serializable{
     private EmployeRepository employeRepository;
 
     public String getFileName(Employe agent) {
-
-
-            return I18n.get("work certificate") + " " + agent.getMatricule() ;
-
+        return I18n.get("work certificate") + " " + agent.getMatricule() ;
     }
 
     public String getReportLink(Employe agent, String name, String language, String format) throws AxelorException {
