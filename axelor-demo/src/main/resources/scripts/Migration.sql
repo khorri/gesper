@@ -75,13 +75,13 @@ INSERT INTO gesper.rh_employe (
 	matricule,	cin,	title,	lastname,	firstname,	hire_date, 
 	sex,	birthday,	birthplace,	nationality,	address,
 	phone,	mobile,	activated,	radiation_date,	reprise_date,
-	sex_ar ,`version`,`created_on`
+	sex_ar ,`version`,`created_on`, `name`
 ) SELECT
 	@rownum := @rownum + 1 AS id,
 	ag.AGE_MAT, ag.AGE_CIN, ag.AGE_PREF, ag.AGE_PRE, ag.AGE_NOM, ag.AGE_DREC,
 	ag.AGE_SEX, ag.AGE_DNAI, ag.AGE_LNAI, ag.AGE_NAT, gadr.id AS adrId,
 	ag.AGE_TEL, ag.AGE_GSM, ag.AGE_ACT, ag.AGE_DRAD, ag.AGE_DREP,
-	ag.AGE_SEX,	'0' as version, now() as co
+	ag.AGE_SEX,	'0' as version, now(), CONCAT(ag.AGE_PRE,' ',ag.AGE_NOM) as co
 FROM
 	grh.agents ag
 LEFT JOIN gesper.base_address gadr ON ag.age_adr = gadr.addressl4
@@ -348,7 +348,7 @@ UPDATE gesper.config_residence_seq  set next_val = (SELECT id+1 as seq from gesp
 INSERT INTO gesper.config_exercice (`id`,`name`, `debut`, `fin`,`status`,`version`)
 	SELECT @rownum := @rownum + 1 AS position, exercice.*, '0' as v from gespaie.exercice exercice
 		JOIN (SELECT @rownum := (select next_val from gesper.config_exercice_seq)-1) as r
-	where exercice.EXER_CODE not in ( select ex.code from gesper.config_exercice ex);
+	where exercice.EXER_CODE not in ( select ex.name from gesper.config_exercice ex);
 
 UPDATE gesper.config_exercice_seq  set next_val = (SELECT id+1 as seq from gesper.config_exercice ORDER BY id desc LIMIT 1);
 
@@ -369,7 +369,7 @@ INSERT INTO gesper.`rh_note` (`id`,  `note_avancement`, `note_prime`, `note_fina
 	FROM
 		grh.notes
 		JOIN (SELECT @rownum := (select next_val from gesper.rh_note_seq)-1) as r
-		left Join gesper.config_exercice ON grh.notes.EXE_COD = gesper.config_exercice.code
+		left Join gesper.config_exercice ON grh.notes.EXE_COD = gesper.config_exercice.name
 		left Join gesper.config_entite ON grh.notes.entite = gesper.config_entite.short_name
 		left Join gesper.rh_employe ON grh.notes.AGE_MAT = gesper.rh_employe.matricule;
 
