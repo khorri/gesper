@@ -1,0 +1,24 @@
+<domain-models xmlns="http://axelor.com/xml/ns/domain-models"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="http://axelor.com/xml/ns/domain-models
+  http://axelor.com/xml/ns/domain-models/domain-models_4.0.xsd">
+
+    <module name="rh" package="com.axelor.rh.db"/>
+
+    <entity name="DroitAvancement"  cachable="true">
+        <decimal name="noteAvancement" title="Note avancement"/>
+        <date name="dateGrade" title="Date grade"/>
+        <date name="dateEchelon" title="Date echelon"/>
+        <decimal name="coeffAvancementRapide" title="Avancement rapide"/>
+        <date name="dateAvancement" title="Date avancement"/>
+        <string name="rythmeAvancement" title="RythmeAvancement"/>
+        <decimal name="exerciceAvancement" title="Exercie Avancement"/>
+        <integer name="newEchelon" title="Nouvel Echelon"/>
+        <integer name="newIndice" title="Nouvel indice"/>
+        <many-to-one name="exercice" ref="com.axelor.config.db.Exercice" ></many-to-one>
+        <many-to-one name="employee" ref="com.axelor.rh.db.Employe" ></many-to-one>
+        <many-to-one name="grade" ref="com.axelor.config.db.Grade" ></many-to-one>
+        <many-to-one name="echelon" ref="com.axelor.config.db.GradeEchelon" ></many-to-one>
+    </entity>
+
+</domain-models>
