@@ -52,6 +52,7 @@
     <one-to-many name="med" ref="com.axelor.rh.db.Med" mappedBy="employee" title="Mise en disponibilité"/>
     <one-to-many name="diplome" ref="com.axelor.rh.db.Diplome" mappedBy="employee" title="Formation"/>
     <one-to-many name="experience" ref="com.axelor.rh.db.Experience" mappedBy="employee" title="Experience antérieure"/>
+    <one-to-many name="note" ref="com.axelor.rh.db.Note" mappedBy="employee" title="Notes"/>
     <one-to-one name="depart" ref="com.axelor.rh.db.Depart" title="Départ"/>
     <string name="name"  search="matricule,firstname,lastname" namecolumn="true" >
       <![CDATA[

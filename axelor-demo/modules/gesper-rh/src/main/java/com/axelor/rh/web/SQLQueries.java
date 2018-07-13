@@ -6,5 +6,4 @@ package com.axelor.rh.web;
 public class SQLQueries  {
 
     public static final String GET_LAST_MATRICULE_MYSQL = "SELECT CAST(MAX(e.matricule+0) as UNSIGNED) AS matricule FROM rh_employe e";
-
 }
