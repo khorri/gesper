@@ -31,10 +31,7 @@ public class EmployeService implements Serializable{
 
     @Inject
     private ReportGenerator generator;
-
-    @Inject
-    private IReportEngine engine;
-
+    
     public String getFileName(Employe agent) {
         return I18n.get("work certificate") + " " + agent.getMatricule() ;
     }

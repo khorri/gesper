@@ -15,6 +15,7 @@
         <field name="decision.decisionDate"/>
         <field name="principal"/>
         <field name="decision.status"/>
+        <button name="add" title="Add" ></button>
     </grid>
 
     <form name="affectation-rh-form" title="Affectation"
