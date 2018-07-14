@@ -1,0 +1,17 @@
+<domain-models xmlns="http://axelor.com/xml/ns/domain-models"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="http://axelor.com/xml/ns/domain-models
+  http://axelor.com/xml/ns/domain-models/domain-models_4.0.xsd">
+
+    <module name="rh" package="com.axelor.rh.db"/>
+
+    <entity name="NatureConge" cachable="true">
+        <string name="code" title="Code" unique="true" required="true"/>
+        <string name="name" title="Libellé" />
+        <decimal name="droitJour" title="Nombre jours"/>
+        <many-to-one name="typeConge" ref="com.axelor.rh.db.TypeConge" ></many-to-one>
+        <!--
+        <one-to-many name="congesList" ref="com.axelor.rh.db.Conge" mappedBy="natureConge" help="true"/>
+        -->
+    </entity>
+</domain-models>

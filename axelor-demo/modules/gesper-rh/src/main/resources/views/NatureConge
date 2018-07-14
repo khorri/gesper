@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://axelor.com/xml/ns/object-views
+  http://axelor.com/xml/ns/object-views/object-views_4.0.xsd">
+
+
+    <form name="nature-conge-form" title="Nature conge" model="com.axelor.rh.db.NatureConge">
+        <panel title="Overview" colSpan="12">
+            <field name="code" title="Code" colSpan="6" />
+            <field name="name" title="Libellé" colSpan="6"/>
+            <field name="typeConge" title="Type congé" colSpan="6"/>
+            <field name="droitJour" title="Droit de jour" colSpan="6"/>
+        </panel>
+        <panel sidebar="true">
+            <field name="createdOn"/>
+            <field name="createdBy"/>
+            <field name="updatedOn"/>
+            <field name="updatedBy"/>
+        </panel>
+    </form>
+
+    <grid name="nature-conge-grid" title="Nature conges" model="com.axelor.rh.db.NatureConge" edit-icon="true">
+        <field name="code" title="Code"  />
+        <field name="name" title="Libellé"/>
+        <field name="typeConge" title="Type congé"/>
+        <field name="droitJour" title="Droit de paie"/>
+    </grid>
+</object-views>

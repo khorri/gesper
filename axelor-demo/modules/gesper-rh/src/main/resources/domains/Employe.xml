@@ -54,6 +54,9 @@
     <one-to-many name="experience" ref="com.axelor.rh.db.Experience" mappedBy="employee" title="Experience antérieure"/>
     <one-to-many name="note" ref="com.axelor.rh.db.Note" mappedBy="employee" title="Notes"/>
     <one-to-one name="depart" ref="com.axelor.rh.db.Depart" title="Départ"/>
+    <one-to-many name="conges" ref="com.axelor.rh.db.Conge" mappedBy="employee" help="true"/>
+    <one-to-many name="interimeConges" ref="com.axelor.rh.db.Conge" mappedBy="interime" help="true"/>
+    <one-to-many name="autorisationabsence" ref="com.axelor.rh.db.AutorisationAbsence" mappedBy="employee" help="true"/>
     <string name="name"  search="matricule,firstname,lastname" namecolumn="true" >
       <![CDATA[
         String displayName = matricule;

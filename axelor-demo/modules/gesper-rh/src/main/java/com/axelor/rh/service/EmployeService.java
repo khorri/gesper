@@ -8,11 +8,14 @@ import com.axelor.rh.db.Employe;
 import com.axelor.rh.db.repo.EmployeRepository;
 import com.axelor.rh.report.IReport;
 import com.google.inject.Inject;
+import org.eclipse.birt.report.engine.api.IReportEngine;
+import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.lang.invoke.MethodHandles;
+import java.net.URL;
 import java.util.Locale;
 import java.util.Map;
 
@@ -29,6 +32,9 @@ public class EmployeService implements Serializable{
     @Inject
     private ReportGenerator generator;
 
+    @Inject
+    private IReportEngine engine;
+
     public String getFileName(Employe agent) {
         return I18n.get("work certificate") + " " + agent.getMatricule() ;
     }
@@ -41,15 +47,5 @@ public class EmployeService implements Serializable{
                 .addFormat(format)
                 .generate()
                 .getFileLink();
-    }
-
-    public void print(String design, Map<String, Object> params) throws IOException {
-
-        OutputStream output = new FileOutputStream(new File(""));
-        try {
-            //generator.generate(output, design, params, Locale.getDefault());
-        } finally {
-            output.close();
-        }
     }
 }

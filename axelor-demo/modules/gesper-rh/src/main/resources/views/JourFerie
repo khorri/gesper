@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://axelor.com/xml/ns/object-views
+  http://axelor.com/xml/ns/object-views/object-views_4.0.xsd">
+
+
+    <form name="jour-ferie-form" title="Jour ferie" model="com.axelor.rh.db.JourFerie">
+        <panel title="Overview">
+            <field name="dateDebut"/>
+            <field name="dateFin"/>
+            <field name="motif"/>
+        </panel>
+        <panel sidebar="true">
+            <field name="createdOn"/>
+            <field name="createdBy"/>
+            <field name="updatedOn"/>
+            <field name="updatedBy"/>
+        </panel>
+    </form>
+
+    <grid name="jour-ferie-grid" title="Jour feries" model="com.axelor.rh.db.JourFerie" edit-icon="true">
+        <field name="dateDebut"/>
+        <field name="dateFin"/>
+        <field name="motif"/>
+    </grid>
+
+</object-views>

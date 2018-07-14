@@ -95,7 +95,7 @@ public class ReportSettings {
 		
 		if(output == null)  {  return null;  }
 		
-		String fileLink = String.format("ws/files/reports/%s?name=%s", output.getName(), fileName);
+		String fileLink = String.format("ws/files/report/%s?name=%s", output.getName(), fileName);
 		
 		logger.debug("URL : {}", fileLink);
 		

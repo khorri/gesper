@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://axelor.com/xml/ns/object-views
+  http://axelor.com/xml/ns/object-views/object-views_4.0.xsd">
+
+
+    <form name="type-conge-form" title="Type congé" model="com.axelor.rh.db.TypeConge">
+        <panel title="Overview">
+            <field name="code" title="Code"/>
+            <field name="name" title="Libellé"/>
+        </panel>
+        <panel sidebar="true">
+            <field name="createdOn"/>
+            <field name="createdBy"/>
+            <field name="updatedOn"/>
+            <field name="updatedBy"/>
+        </panel>
+    </form>
+
+    <grid name="type-conge-grid" title="Type congé" model="com.axelor.rh.db.TypeConge">
+        <field name="code" title="Code"/>
+        <field name="name" title="Libellé"/>
+    </grid>
+</object-views>

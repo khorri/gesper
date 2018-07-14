@@ -1,0 +1,15 @@
+<domain-models xmlns="http://axelor.com/xml/ns/domain-models"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="http://axelor.com/xml/ns/domain-models
+  http://axelor.com/xml/ns/domain-models/domain-models_4.0.xsd">
+
+    <module name="rh" package="com.axelor.rh.db"/>
+
+    <entity name="AutorisationAbsence" cachable="true">
+        <date name="dateAbsence" title="Date"/>
+        <string name="observation" title="Observation" />
+        <decimal name="duree" title="Durée" />
+        <boolean name="imputable" title="Imputable" />
+        <many-to-one name="employee" ref="com.axelor.rh.db.Employe" ></many-to-one>
+    </entity>
+</domain-models>
