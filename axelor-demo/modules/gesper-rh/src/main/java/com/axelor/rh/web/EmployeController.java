@@ -69,6 +69,12 @@ public class EmployeController {
 
     }
     @Transactional
+    public void getEmployee(ActionRequest request, ActionResponse response){
+        Context context = request.getContext();
+        Employe emp = employeRepository.all().filter("self.id = ?1", context.get("_id")).fetchOne();
+        response.setValue("employee", emp);
+    }
+    @Transactional
     public void fonctionIsUsed(ActionRequest request, ActionResponse response) {
         Context context = request.getContext();
         Long foncId = (Long) context.get("id");
@@ -78,7 +84,7 @@ public class EmployeController {
             List<Employe> emp = employeRepository.all().filter("self.fonction.id = ?1", foncId).fetch();
             List<Affectation> affs = affectationRepository.all().filter("self.fonction.id = ?1", foncId).fetch();
             if (emp.size() > 0 || affs.size() > 0) {
-                response.setError("can't delete lol " + emp.size());
+                response.setError("Modification inter " + emp.size());
                 return;
             }
         } catch (Exception e) {

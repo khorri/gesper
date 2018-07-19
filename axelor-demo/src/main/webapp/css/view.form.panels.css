@@ -690,3 +690,32 @@ span.matricule > input {
 
 
 }
+.absolute-button{
+	position: absolute;
+	width: 28px !important;
+	margin-top: 4px;
+	background: none;
+	color: #333333;
+	border: 0;
+	right: 80px;
+	left: 94%;
+	padding-left: 0 !important;
+	padding-right: 0 !important;
+}
+.absolute-button:hover {
+    background-color: white !important;
+    color: #333333 !important;
+}
+.absolute-button:active {
+    background-color: white !important;
+    color: #333333 !important;
+}
+.absolute-buttons-panel{
+	position: absolute;
+	max-width: 90% !important;
+	background-color: transparent !important;;
+	margin-top: 14px !important;;
+	width: 1172px !important;;
+}
+
+

@@ -49,7 +49,6 @@
 		<option value="2">En attente de validation</option>
 		<option value="3">Validé</option>
 		<option value="4">Refusé</option>
-		<option value="5">Annulé</option>
 	</selection>
 
 

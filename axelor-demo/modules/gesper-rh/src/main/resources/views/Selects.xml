@@ -34,6 +34,10 @@
         <option value="RET">Retraite</option>
     </selection>
 
-
+    <selection name="affectation.type.select">
+        <option value="1">Pricipale</option>
+        <option value="2">Secondaire</option>
+        <option value="3">Abrogé</option>
+    </selection>
 
 </object-views>

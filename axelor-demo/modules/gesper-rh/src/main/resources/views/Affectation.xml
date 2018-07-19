@@ -4,57 +4,127 @@
               xsi:schemaLocation="http://axelor.com/xml/ns/object-views
   http://axelor.com/xml/ns/object-views/object-views_4.0.xsd">
 
-    <grid name="affectation-rh-grid" title="Affectation"
-          model="com.axelor.rh.db.Affectation">
-
+    <grid name="affectation-rh-grid" title="Affectation" model="com.axelor.rh.db.Affectation" canDelete="false" edit-icon="true">
         <field name="affectationDate"/>
         <field name="service"/>
         <field name="entite"/>
         <field name="fonction"/>
         <field name="decision.decisionCode"/>
         <field name="decision.decisionDate"/>
-        <field name="principal"/>
-        <field name="decision.status"/>
+        <field name="typeAffectation"/>
+        <field name="status"/>
+        <button name="edit" onClick="affectation-form-edit" icon="fa-pencil"/>
     </grid>
 
-    <form name="affectation-rh-form" title="Affectation"
-          model="com.axelor.rh.db.Affectation"  onNew="default-decision-company">
-
+    <form name="affectation-rh-form" title="Affectation" model="com.axelor.rh.db.Affectation" onLoad="affectation-get-last-decision,affectation-get-audit" onNew="affectation-defaults,affectation-set-employee">
         <panel name="main">
-            <field name="decision.status" showTitle="false" widget="NavSelect" colSpan="12"/>
-            <field name="affectationDate" title="Date de l'affectation"/>
-            <field name="type" title="Type de l'affecation"/>
-            <field name="entite" colSpan="12" title="Entité"/>
-            <field name="service" colSpan="4" title="Service"/>
-            <field name="caida" colSpan="4" title="Caida"/>
-            <field name="caida.province" colSpan="4" title="Province"/>
-            <field name="residence" colSpan="4" title="Résidence"/>
-            <field name="residence.zone" colSpan="4" title="Zone"/>
-            <field name="residence.localite" colSpan="4" title="Localité"/>
-            <field name="fonction" colSpan="4" title="Fonction"/>
-            <field name="fonctionDate" colSpan="4" title="Date de fonction"/>
-            <field name="principal" colSpan="4" title="Principale?"/>
-            <field name="observation" title="Observation" colSpan="12"/>
+            <field name="status" showTitle="false" readonlyIf="id!=null &amp;&amp; status != 1" colSpan="12" widget="NavSelect"/>
+            <field name="affectationDate" title="Date de l'affectation" readonlyIf="id!=null &amp;&amp; status != 1"/>
+            <field name="entite" title="Entité" readonlyIf="id!=null &amp;&amp; status != 1" canNew="false" canView="false" canEdit="false" canRemove="false"/>
+            <field name="service" title="Service" readonlyIf="id!=null &amp;&amp; status != 1" colSpan="4" canNew="false" canView="false" canEdit="false" canRemove="false"/>
+            <field name="caida" title="Caida" readonlyIf="id!=null &amp;&amp; status != 1" colSpan="4" canNew="false" canView="false" canEdit="false" canRemove="false" domain="self.entite = :entite"/>
+            <field name="caida.province" title="Province" readonlyIf="true" colSpan="4" canNew="false" canView="false" canEdit="false" canRemove="false"/>
+            <field name="residence" title="Résidence" readonlyIf="id!=null &amp;&amp; status != 1" colSpan="4" canNew="false" canView="false" canEdit="false" canRemove="false"/>
+            <field name="residence.zone" title="Zone" readonlyIf="true" colSpan="4" canNew="false" canView="false" canEdit="false" canRemove="false"/>
+            <field name="residence.localite" title="Localité" readonlyIf="true" colSpan="4" canNew="false" canView="false" canEdit="false" canRemove="false"/>
+            <field name="fonction" title="Fonction" readonlyIf="id!=null &amp;&amp; status != 1" colSpan="4" canNew="false" canView="false" canEdit="false" canRemove="false"/>
+            <field name="fonctionDate" title="Date de fonction" readonlyIf="id!=null &amp;&amp; status != 1" colSpan="4"/>
+            <field name="typeAffectation" readonly="false" readonlyIf="id!=null &amp;&amp; status != 1" colSpan="4"/>
+            <field name="observation" title="Observation" readonlyIf="id!=null &amp;&amp; status != 1" colSpan="12" widget="html"/>
         </panel>
-        <panel name="actions" title="Actions" sidebar="true" stacked="true" colSpan="3">
-            <button name="createButton" title="Créer" css="btn-info" colSpan="4" icon="fa-plus" onClick="save,close"/>
-            <button name="validateButton" title="Validate"  colSpan="4" icon="fa-check"/>
-            <button name="refuseButton" title="Refuse" css="btn-danger" colSpan="4" icon="fa-close"/>
-            <button name="cancelButton" title="Cancel" css="btn-warning" colSpan="4" icon="fa-ban"/>
+        <panel name="actions" title="Actions" sidebar="true" stacked="true">
+            <button name="createButton" title="Créer" showIf="id==null" colSpan="4" css="btn-info" icon="fa-plus" onClick="save"/>
+            <button name="verifyButton" title="Vérifier" showIf="id!=null &amp;&amp; status == 1" colSpan="4" icon="fa-check" onClick="affectation-set-verified,save"/>
+            <button name="validateButton" title="Valider" showIf="id!=null &amp;&amp; status == 2" colSpan="4" icon="fa-check" onClick="affectation-set-valide"/>
+            <button name="refuseButton" title="Refuser" showIf="id!=null &amp;&amp; status == 2" colSpan="4" css="btn-danger" icon="fa-close" onClick="affectation-set-refused,save"/>
+            <button name="abrogeButton" title="Abrogé" showIf="id!=null &amp;&amp; typeAffectation==2 &amp;&amp; status==3" colSpan="4" css="btn-danger" icon="fa-times" onClick="affectation-set-abroge"/>
+            <button name="cancelButton" title="Annuler" colSpan="4" css="btn-warning" icon="fa-ban" onClick="close"/>
         </panel>
-        <panel title="Decision" >  
-            <field  name="decision" showTitle="false" canEdit="false" canNew="false" colSpan="12">
-  	            <editor >
-                	<field name="attachement" canNew="true" canAttach="true" widget="binary"/>
-                    <field name="decisionCode" colSpan="3"/>
-                    <field name="emitteur" colSpan="3"/>
-                    <field name="entreprise" colSpan="3"/>
-                	<field name="decisionDate" colSpan="3"/>
-                	<field name="motifRejet" colSpan="3"/>
-                </editor>
-            </field>
+        <panel name="audit" showTitle="false" sidebar="true" stacked="false">
+            <field name="verifiedBy" title="Verifié par" type="string"  colSpan="3" readonly="true"/>
+            <field name="verifiedOn" title="Verifié le" type="date"  readonly="true" colSpan="3"  />
+            <field name="validatedBy" title="Validé par" type="string"  colSpan="3" readonly="true"/>
+            <field name="validatedOn" title="Validé le" type="date"  readonly="true" colSpan="3"/>
+            <field name="rejectedBy" title="rejeté par" type="string"  colSpan="3" readonly="true"/>
+            <field name="rejectedOn" title="rejeté le" type="date"  readonly="true" colSpan="3"/>
+        </panel>
+        <panel title="Decision" showIf="status==2">
+            <field name="decisionCode"  type="string" colSpan="2" title="N° décision"/>
+            <field name="entreprise" readonly="true" type="string" colSpan="2" showTitle="false"/>
+            <field name="emitteur" title="Emitteur" type="many-to-one" canView="false" canEdit="false" x-target="com.axelor.config.db.Entite" x-target-name="shortName" colSpan="2"/>
+            <field name="decisionDate" title="Date" type="date" colSpan="3"/>
+            <field name="attachement" title="Attachement" type="many-to-one" canNew="true" widget="binary-link" x-target="com.axelor.meta.db.MetaFile" colSpan="3"/>
+            <field name="motifRejet" title="Motif de rejet" type="string" colSpan="12"/>
+
+        </panel>
+        <panel title="Decision" showIf="id!=null &amp;&amp; status!=1">
+            <field name="decision" title="Historique des decisions" showTitle="false" showIf="id!=null" colSpan="12" canNew="false" canEdit="false" canRemove="false" form-view="decision-add-form"/>
         </panel>
     </form>
 
+
+
+    <action-record name="affectation-employe" model="com.axelor.rh.db.Employe" search="('self.id = ?1', id)">
+        <field name="employee" expr="eval:employee?.firstName"/>
+    </action-record>
+
+    <action-record name="affectation-employe-call" model="com.axelor.rh.db.Employe">
+        <field name="employee" expr="action:sanction-employe"/>
+    </action-record>
+
+    <action-view name="affectation-form" model="com.axelor.rh.db.Affectation" title="Affectation">
+        <view name="affectation-rh-form" type="form"/>
+        <view-param name="popup" value="reload"/>
+        <view-param name="show-toolbar" value="false"/>
+        <view-param name="show-confirm" value="false" />
+        <view-param name="popup-save" value="false"/>
+        <domain>self.employee.id = :_id</domain>
+        <context name="_id" expr="eval: id"/>
+    </action-view>
+
+    <action-view name="affectation-form-edit" model="com.axelor.rh.db.Affectation" title="Affectation">
+        <view name="affectation-rh-form" type="form"/>
+        <view-param name="popup" value="reload"/>
+        <view-param name="show-toolbar" value="false"/>
+        <view-param name="show-confirm" value="false"/>
+        <view-param name="popup-save" value="false"/>
+        <view-param name="forceEdit" value="true"/>
+        <context name="_showRecord" expr="eval: id"/>
+    </action-view>
+
+
+    <action-record name="affectation-defaults" model="com.axelor.rh.db.Affectation">
+        <field name="typeAffectation" expr="1"/>
+        <field name="affectationDate" expr="eval: new LocalDate()"></field>
+        <field name="fonctionDate" expr="eval: new LocalDate()"></field>
+    </action-record>
+
+    <action-method name="affectation-get-last-decision" model="com.axelor.rh.db.Affectation">
+        <call class="com.axelor.rh.web.AffectationController" method="getLastDecision"/>
+    </action-method>
+
+    <action-method name="affectation-set-verified" model="com.axelor.rh.db.Affectation">
+        <call class="com.axelor.rh.web.AffectationController" method="verifie"/>
+    </action-method>
+
+    <action-method name="affectation-set-valide" model="com.axelor.rh.db.Affectation">
+        <call class="com.axelor.rh.web.AffectationController" method="valider"/>
+    </action-method>
+
+    <action-method name="affectation-set-refused" model="com.axelor.rh.db.Affectation">
+        <call class="com.axelor.rh.web.AffectationController" method="refuser"/>
+    </action-method>
+
+    <action-method name="affectation-set-employee" model="com.axelor.rh.db.Affectation">
+        <call class="com.axelor.rh.web.EmployeController" method="getEmployee"/>
+    </action-method>
+
+    <action-method name="affectation-set-abroge" model="com.axelor.rh.db.Affectation">
+        <call class="com.axelor.rh.web.AffectationController" method="abroge"/>
+    </action-method>
+
+    <action-method name="affectation-get-audit" model="com.axelor.rh.db.Affectation">
+        <call method="getAudit" class="com.axelor.rh.web.AffectationController"/>
+    </action-method>
 
 </object-views>

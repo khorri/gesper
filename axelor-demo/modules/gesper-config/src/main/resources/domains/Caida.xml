@@ -9,6 +9,7 @@
         <string name="name" title="Désignation"  unique="true" max="255"/>
         <string name="code"  max="255"/>
         <many-to-one name="province" ref="Province"></many-to-one>
+        <many-to-one name="entite" ref="com.axelor.config.db.Entite" mappedBy="caidas"></many-to-one>
     </entity>
 
 </domain-models>

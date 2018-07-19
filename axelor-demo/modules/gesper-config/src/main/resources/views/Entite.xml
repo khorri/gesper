@@ -21,9 +21,9 @@
             <field name="name"/>
             <field name="parent"/>
             <field name="type" canNew="true"/>
-            <field name="caida"/>
             <field name="organigrame"/>
             <field name="organigrameOfficiel"/>
+            <field name="caidas" colSpan="12"/>
         </panel>
     </form>
 
