@@ -4,7 +4,7 @@
               xsi:schemaLocation="http://axelor.com/xml/ns/object-views
   http://axelor.com/xml/ns/object-views/object-views_4.0.xsd">
 
-    <grid name="affectation-rh-grid" title="Affectation" model="com.axelor.rh.db.Affectation" canDelete="false" edit-icon="true">
+    <grid orderBy="-affectationDate" name="affectation-rh-grid" title="Affectation" model="com.axelor.rh.db.Affectation" canDelete="false" edit-icon="true">
         <field name="affectationDate"/>
         <field name="service"/>
         <field name="entite"/>
@@ -12,7 +12,12 @@
         <field name="decision.decisionCode"/>
         <field name="decision.decisionDate"/>
         <field name="typeAffectation"/>
-        <field name="status"/>
+        <field name="status">
+            <hilite if="status == 1" background="info" />
+            <hilite if="status == 2" background="danger" />
+            <hilite if="status == 3" background="success" />
+            <hilite if="status == 4" background="warning" />
+        </field>
         <button name="edit" onClick="affectation-form-edit" icon="fa-pencil"/>
     </grid>
 
