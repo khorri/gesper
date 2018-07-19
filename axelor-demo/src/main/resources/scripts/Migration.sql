@@ -75,13 +75,13 @@ INSERT INTO gesper.rh_employe (
 	matricule,	cin,	title,	lastname,	firstname,	hire_date, 
 	sex,	birthday,	birthplace,	nationality,	address,
 	phone,	mobile,	activated,	radiation_date,	reprise_date,
-	sex_ar ,`version`,`created_on`
+	sex_ar ,`version`,`created_on`, `name`
 ) SELECT
 	@rownum := @rownum + 1 AS id,
 	ag.AGE_MAT, ag.AGE_CIN, ag.AGE_PREF, ag.AGE_PRE, ag.AGE_NOM, ag.AGE_DREC,
 	ag.AGE_SEX, ag.AGE_DNAI, ag.AGE_LNAI, ag.AGE_NAT, gadr.id AS adrId,
 	ag.AGE_TEL, ag.AGE_GSM, ag.AGE_ACT, ag.AGE_DRAD, ag.AGE_DREP,
-	ag.AGE_SEX,	'0' as version, now() as co
+	ag.AGE_SEX,	'0' as version, now(), CONCAT(ag.AGE_PRE,' ',ag.AGE_NOM) as co
 FROM
 	grh.agents ag
 LEFT JOIN gesper.base_address gadr ON ag.age_adr = gadr.addressl4
@@ -330,10 +330,10 @@ UPDATE gesper.config_zone_seq  set next_val = (SELECT id+1 as seq from gesper.co
 
 INSERT INTO gesper.config_residence (`id`, `name`, `zone`, `localite`, `version`)
 SELECT @rownum := @rownum + 1 AS position, res.RES_LIB, gcz.id, gcl.id, '0' as v FROM grh.residences res
-left join grh.zones gz on gz.ZON_COD =  res.ZON_COD
-left join gesper.config_zone gcz on gcz.`name` = gz.ZON_LIB
-left join grh.p_localite gpl on gpl.CDE_LOC =  res.LOC_COD
-left join gesper.config_localite gcl on gcl.`name` = gpl.LOCALITE
+    left join grh.zones gz on gz.ZON_COD =  res.ZON_COD
+    left join gesper.config_zone gcz on gcz.`name` = gz.ZON_LIB
+    left join grh.p_localite gpl on gpl.CDE_LOC =  res.LOC_COD
+    left join gesper.config_localite gcl on gcl.`name` = gpl.LOCALITE
 
 
 JOIN (SELECT @rownum := (select next_val from gesper.config_residence_seq)-1) as r
@@ -348,11 +348,11 @@ UPDATE gesper.config_residence_seq  set next_val = (SELECT id+1 as seq from gesp
 INSERT INTO gesper.config_exercice (`id`,`name`, `debut`, `fin`,`status`,`version`)
 	SELECT @rownum := @rownum + 1 AS position, exercice.*, '0' as v from gespaie.exercice exercice
 		JOIN (SELECT @rownum := (select next_val from gesper.config_exercice_seq)-1) as r
-	where exercice.EXER_CODE not in ( select ex.code from gesper.config_exercice ex);
+	where exercice.EXER_CODE not in ( select ex.name from gesper.config_exercice ex);
 
 UPDATE gesper.config_exercice_seq  set next_val = (SELECT id+1 as seq from gesper.config_exercice ORDER BY id desc LIMIT 1);
 
-# ----------- Migration des NOTES
+# ----------- Migration des NOTES ----------------
 # By Khalid
 # TODO Ajouter la personne et la date de saisie
 
@@ -369,9 +369,64 @@ INSERT INTO gesper.`rh_note` (`id`,  `note_avancement`, `note_prime`, `note_fina
 	FROM
 		grh.notes
 		JOIN (SELECT @rownum := (select next_val from gesper.rh_note_seq)-1) as r
-		left Join gesper.config_exercice ON grh.notes.EXE_COD = gesper.config_exercice.code
+		left Join gesper.config_exercice ON grh.notes.EXE_COD = gesper.config_exercice.name
 		left Join gesper.config_entite ON grh.notes.entite = gesper.config_entite.short_name
 		left Join gesper.rh_employe ON grh.notes.AGE_MAT = gesper.rh_employe.matricule;
 
 
 UPDATE gesper.rh_note_seq  set next_val = (SELECT id+1 as seq from gesper.rh_note ORDER BY id desc LIMIT 1);
+
+#-------Migration des types de conge ---------------
+# By Ayoub
+
+INSERT INTO gesper.rh_type_conge (`id`,`code`, `name`,`version`)
+	SELECT
+	    @rownum := @rownum + 1 AS position,
+	    type_conge.*,
+	    '0' AS v
+	FROM grh.type_conges AS type_conge
+	JOIN (SELECT @rownum := (SELECT next_val FROM gesper.rh_type_conge_seq)-1) as r
+	WHERE type_conge.TYPC_COD NOT IN ( SELECT ex.code FROM gesper.rh_type_conge ex);
+
+UPDATE gesper.rh_type_conge_seq  set next_val = (SELECT MAX(id)+1 as seq from gesper.rh_type_conge);
+
+#-----------Migration des natures conges -------------
+#By Ayoub
+INSERT INTO gesper.rh_nature_conge (`id`,`code`, `name`,`droit_jour`,`version`,`type_conge`)
+	SELECT
+	    @rownum := @rownum + 1 AS position,
+	    nc.NAT_COD,nc.NAT_LIB,
+	    nc.NAT_DRO,
+	    '0' AS v,
+	    rtc.id
+  FROM grh.natures_conges AS nc
+  JOIN (SELECT @rownum := (SELECT next_val FROM gesper.rh_nature_conge_seq)-1) as r
+  JOIN gesper.rh_type_conge AS rtc ON rtc.code=nc.TYPC_COD
+  WHERE nc.NAT_COD NOT IN ( SELECT ex.code FROM gesper.rh_nature_conge ex);
+
+UPDATE gesper.rh_nature_conge_seq  set next_val = (SELECT MAX(id)+1 as seq from gesper.rh_nature_conge);
+
+#-----------Migration des joures ferie ------------------------
+#By Ayoub
+INSERT INTO gesper.rh_jour_ferie (`id`,`date_debut`, `date_fin`,`name`,`version`)
+	SELECT
+	    @rownum := @rownum + 1 AS position,
+	    jf.*, '0' AS v
+	    FROM gespaie.jours_feriers AS jf
+	JOIN (SELECT @rownum := (SELECT next_val FROM gesper.rh_jour_ferie_seq)-1) as r
+	WHERE CONCAT(DATE_FORMAT(jf.JRSF_D_DEBUT, '%Y-%m-%d'),' ',DATE_FORMAT(jf.JRSF_D_FIN, '%Y-%m-%d'))
+	NOT IN ( SELECT CONCAT(DATE_FORMAT(ex.date_debut, '%Y-%m-%d'),' ',DATE_FORMAT(ex.date_fin, '%Y-%m-%d')) FROM gesper.rh_jour_ferie ex);
+
+UPDATE gesper.rh_jour_ferie_seq  set next_val = (SELECT MAX(id)+1 as seq from gesper.rh_jour_ferie);
+
+#------------Migration des atorisation d'absence ----------------
+#By Ayoub
+
+INSERT INTO gesper.rh_autorisation_absence (`id`,`date_absence`,`duree`, `observation`,`imputable`,`employee`,`version`)
+SELECT @rownum := @rownum + 1 AS position, abs.AUT_DAT, abs.AUT_DUR, abs.AUT_OBS, abs.AUT_IMP, emp.id, '0' AS v FROM grh.autorisations_absence AS abs
+		JOIN (SELECT @rownum := (SELECT next_val FROM gesper.rh_autorisation_absence_seq)-1) as r
+		JOIN gesper.rh_employe as emp on emp.matricule=abs.AGE_MAT
+		WHERE CONCAT(DATE_FORMAT(abs.AUT_DAT, '%Y-%m-%d'),'#',emp.id,'#',abs.AUT_IMP)
+		NOT IN ( SELECT CONCAT(DATE_FORMAT(ex.date_absence, '%Y-%m-%d'),'#',ex.employee,'#',ex.imputable) FROM gesper.rh_autorisation_absence ex);
+
+UPDATE gesper.rh_autorisation_absence_seq  set next_val = (SELECT MAX(id)+1 as seq from gesper.rh_autorisation_absence);

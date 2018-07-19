@@ -10,6 +10,34 @@
 
 	<menuitem name="top-menu-create-employe" order="-90" parent="top-menu-utility" top="true" title="Créer Agent" action="top.new.employe.view" />
 
+	<menuitem name="menu-notes-all" parent="menu-gesper-rh"
+			  title="Notes d'exercice"
+			  action="notes.all"/>
+
+	<menuitem name="menu-gesper-rh-conge" parent="" order="-9"
+			  title="Congé" icon="fa-plane" icon-background="purple" />
+
+	<menuitem name="menu-gesper-rh-conge-config" parent="menu-gesper-rh-conge"
+			  title="Configuration"/>
+
+	<menuitem name="menu-gesper-rh-conge-config-type-conge" parent="menu-gesper-rh-conge-config"
+			  title="Type congé"
+			  action="type.conge.all" />
+
+	<menuitem name="menu-gesper-rh-conge-config-nature-conge" parent="mmenu-gesper-rh-conge"
+			  title="Nature congé"
+			  action="nature.conge.all"/>
+
+	<menuitem name="menu-gesper-rh-conge-config-jour-ferie" parent="mmenu-gesper-rh-conge"
+			  title="Jour férie"
+			  action="jour.ferie.all"/>
+
+	<menuitem name="menu-gesper-rh-conge--autorisation-absence-all" parent="menu-gesper-rh-conge"
+			  title="Autorisation d'absence"
+			  action="autorisation.absence.all"/>
+
+	<!-- ACTIONS -->
+
 	<action-view name="top.new.employe.view" title="Créer Agent" model="com.axelor.rh.db.Employe" >
 		<view type="form" name="employe-rh-form"/>
 		<view type="grid" name="employe-rh-grid"/>
@@ -24,14 +52,28 @@
 		<view type="dashboard" name="rh.employee.list.dashboard" />
 	</action-view>
 
-
-	<menuitem name="menu-notes-all" parent="menu-gesper-rh"
-			  title="Notes d'exercice"
-			  action="notes.all"/>
-
 	<action-view name="notes.all" title="Notes d'exercice" model="com.axelor.rh.db.Note">
 		<view type="grid" name="notes-rh-grid"/>
 		<view type="form" name="notes-rh-form"/>
 	</action-view>
 
+	<action-view name="type.conge.all" model="com.axelor.rh.db.TypeConge" title="Types congés">
+		<view name="type-conge-grid" type="grid"/>
+		<view name="type-conge-form" type="form"/>
+	</action-view>
+
+	<action-view name="autorisation.absence.all" model="com.axelor.rh.db.AutorisationAbsence" title="Autorisation d'absence">
+		<view name="autorisation-absence-grid" type="grid"/>
+		<view name="autorisation-absence-form" type="form"/>
+	</action-view>
+
+	<action-view name="nature.conge.all" model="com.axelor.rh.db.NatureConge" title="Natures congé">
+		<view name="nature-conge-grid" type="grid"/>
+		<view name="nature-conge-form" type="form"/>
+	</action-view>
+
+	<action-view name="jour.ferie.all" model="com.axelor.rh.db.JourFerie" title="Jours fériés">
+		<view name="jour-ferie-grid" type="grid"/>
+		<view name="jour-ferie-form" type="form"/>
+	</action-view>
 </object-views>
