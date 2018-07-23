@@ -28,7 +28,7 @@
             <property name="fontSize">x-large</property>
             <property name="fontWeight">bold</property>
             <property name="textAlign">center</property>
-            <text-property name="text">Decision</text-property>
+            <text-property name="text">Décision</text-property>
         </label>
         <text id="246">
             <property name="contentType">auto</property>

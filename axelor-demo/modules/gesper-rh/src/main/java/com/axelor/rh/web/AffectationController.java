@@ -75,6 +75,11 @@ public class AffectationController {
         User user = AuthUtils.getUser();
         Context context = request.getContext();
         Affectation affectation = affectationRepository.find((Long) context.get("id"));
+        affectation.setTypeAffectation((String) context.get("typeAffectation"));
+
+        boolean useExising = false;
+        if (context.containsKey("useExisting"))
+            useExising = (boolean) context.get("useExisting");
 
         String errorMessage = validerDecisionValidation(context);
         if (errorMessage != null) {
@@ -82,28 +87,60 @@ public class AffectationController {
             return;
         }
 
+
+        boolean used = decisionIsUsedInAffecation(context);
+        if (used && useExising != true) {
+            response.setValue("decisionExists", true);
+//            response.setView(ActionView.define("Confimation")
+//                    .model("com.axelor.rh.db.Affectation")
+//                    .add("form", "affectation-rh-form-confirm")
+//                    .param("show-toolbar", "false")
+//                    .param("show-confirm", "false")
+//                    .param("popup-save", "false")
+//                    .param("popup", "true")
+//                    .context("message", "just do it?")
+//                    .context("attachement", context.get("attachement"))
+//                    .context("emitteur", context.get("emitteur"))
+//                    .context("decisionCode", context.get("decisionCode"))
+//                    .context("decisionDate", context.get("decisionDate"))
+//                    .context("motifRejet", context.get("motifRejet"))
+//                    .context("entreprise", context.get("entreprise"))
+//                    .context("typeAffectation", context.get("typeAffectation"))
+//                    .context("id", context.get("id"))
+//                    .context("useExisting", false)
+//                    .map());
+            return;
+        }
+
         if (!affectation.getDecision().isEmpty()) {
             //update current decsion with new values
             Decision lastDecision = getLastPendingDecision(affectation);
-            // boolean used = decisionIsUsedInAffecation(context);
-            lastDecision.setValidatedBy(user);
-            lastDecision.setValidatedOn(new LocalDate());
-
-            Decision decision = updateDecision(context, lastDecision, DecisionRepository.STATUS_VALIDATED);
+            Decision decision;
+            if (useExising) {
+                decision = decisionRep.all().filter("self.decisionCode = ?1", context.get("decisionCode")).fetchOne();
+                affectation.removeDecision(lastDecision);
+                affectation.addDecision(decision);
+            } else {
+                lastDecision.setValidatedBy(user);
+                lastDecision.setValidatedOn(new LocalDate());
+                decision = updateDecision(context, lastDecision, DecisionRepository.STATUS_VALIDATED);
+            }
             if (AffectationRepository.TYPE_PRINCIPAL.equals(affectation.getTypeAffectation())) {
                 deactivatePrincipalAffectation(affectation, decision);
             }
 
             affectation.setStatus(DecisionRepository.STATUS_VALIDATED);
             affectationRepository.save(affectation);
-
+            if (useExising && lastDecision != null)
+                decisionRep.remove(lastDecision);
         }
         response.setReload(true);
     }
 
     private boolean decisionIsUsedInAffecation(Context context) {
-        Decision decision = new Decision();
-        decision.setDecisionCode((String) context.get("decisionCode"));
+        Decision decision = decisionRep.all().filter("self.decisionCode = ?1", context.get("decisionCode")).fetchOne();
+        if (decision == null)
+            return false;
         int count = affectationService.decsionUsedInOtherAffectation(decision);
         return count > 0;
     }
@@ -201,7 +238,7 @@ public class AffectationController {
         if (affectation != null) {
             if (DecisionRepository.STATUS_VERIFIED.equals(affectation.getStatus())) {
                 Decision decision = getLastPendingDecision(affectation);
-//                affectationService.decsionUsedInOtherAffectation(decision);
+                affectationService.decsionUsedInOtherAffectation(decision);
                 response.setValue("decisionCode", decision.getDecisionCode());
                 response.setValue("decisionDate", decision.getDecisionDate());
                 response.setValue("entreprise", decision.getEntreprise());
@@ -219,24 +256,35 @@ public class AffectationController {
 
             Iterator<Decision> iter = affectation.getDecision().iterator();
             Decision decision = null;
-            Decision lastDecision = iter.next();
+            Decision lastDecision = null;
+            if (iter.hasNext())
+                lastDecision = iter.next();
 
             while (iter.hasNext()) {
                 decision = iter.next();
-                if (decision.getUpdatedOn().isAfter(lastDecision.getUpdatedOn()))
+                if (lastDecision.getUpdatedOn() != null && decision.getUpdatedOn().isAfter(lastDecision.getUpdatedOn()))
                     lastDecision = decision;
             }
             if (lastDecision == null)
                 return;
-            response.setValue("verifiedBy", lastDecision.getVerifiedBy() != null ? lastDecision.getVerifiedBy().getFullName() : null);
-            response.setValue("validatedBy", lastDecision.getValidatedBy() != null ? lastDecision.getValidatedBy().getFullName() : null);
-            response.setValue("rejectedBy", lastDecision.getRejectedBy() != null ? lastDecision.getValidatedBy().getFullName() : null);
+            if (lastDecision.getVerifiedBy() != null)
+                response.setValue("verifiedBy", lastDecision.getVerifiedBy().getFullName());
+            if (lastDecision.getValidatedBy() != null)
+                response.setValue("validatedBy", lastDecision.getValidatedBy().getFullName());
+            if (lastDecision.getRejectedBy() != null)
+                response.setValue("rejectedBy", lastDecision.getRejectedBy().getFullName());
             response.setValue("verifiedOn", lastDecision.getVerifiedOn());
             response.setValue("validatedOn", lastDecision.getValidatedOn());
             response.setValue("rejectedOn", lastDecision.getRejectedOn());
+            response.setValue("emitteur", lastDecision.getEmitteur());
 
 
         }
+    }
+
+    public void getDummies(ActionRequest request, ActionResponse response) {
+        getAudit(request, response);
+        getLastDecision(request, response);
     }
 
     @Transactional
@@ -354,7 +402,8 @@ public class AffectationController {
         decision.setStatus(status);
         decision.setMotifRejet((String) context.get("motifRejet"));
         decision.setDecisionDate(new LocalDate(context.get("decisionDate")));
-        decision.setDecisionCode((String) context.get("decisionCode"));
+        if (!DecisionRepository.STATUS_REJECTED.equals(status))
+            decision.setDecisionCode((String) context.get("decisionCode"));
 
         decision.setEntreprise((String) context.get("entreprise"));
 
@@ -388,4 +437,5 @@ public class AffectationController {
                 .define(name)
                 .add("html", fileLink).map());
     }
+
 }
