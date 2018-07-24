@@ -2,10 +2,13 @@ package com.axelor.rh.web;
 
 import com.axelor.apps.report.engine.ReportSettings;
 import com.axelor.db.JPA;
-import com.axelor.exception.AxelorException;
+import com.axelor.exception.service.TraceBackService;
 import com.axelor.i18n.I18n;
+import com.axelor.rh.db.Affectation;
+import com.axelor.exception.AxelorException;
 import com.axelor.meta.schema.actions.ActionView;
 import com.axelor.rh.db.Employe;
+import com.axelor.rh.db.repo.AffectationRepository;
 import com.axelor.rh.db.repo.EmployeRepository;
 import com.axelor.rh.service.EmployeService;
 import com.axelor.rpc.ActionRequest;
@@ -30,6 +33,8 @@ public class EmployeController {
 
     @Inject
     private EmployeRepository employeRepository;
+    @Inject
+    private AffectationRepository affectationRepository;
 
     @Inject
     private EmployeService employeService;
@@ -63,7 +68,30 @@ public class EmployeController {
             }
 
     }
+    @Transactional
+    public void getEmployee(ActionRequest request, ActionResponse response){
+        Context context = request.getContext();
+        Employe emp = employeRepository.all().filter("self.id = ?1", context.get("_id")).fetchOne();
+        response.setValue("employee", emp);
+    }
+    @Transactional
+    public void fonctionIsUsed(ActionRequest request, ActionResponse response) {
+        Context context = request.getContext();
+        Long foncId = (Long) context.get("id");
 
+        //validation matricule
+        try {
+            List<Employe> emp = employeRepository.all().filter("self.fonction.id = ?1", foncId).fetch();
+            List<Affectation> affs = affectationRepository.all().filter("self.fonction.id = ?1", foncId).fetch();
+            if (emp.size() > 0 || affs.size() > 0) {
+                response.setError("Modification inter " + emp.size());
+                return;
+            }
+        } catch (Exception e) {
+            TraceBackService.trace(response, e);
+        }
+
+    }
 
 
     public void printWorkCertificateWord(ActionRequest request, ActionResponse response) throws AxelorException {

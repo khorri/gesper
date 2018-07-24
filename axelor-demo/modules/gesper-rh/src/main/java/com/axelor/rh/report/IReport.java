@@ -6,4 +6,6 @@ package com.axelor.rh.report;
 public interface IReport {
 
     public static final String WORK_CERTIFICATE = "AttestationTravail.rptdesign";
+    public static final String AFFECTATION_DECISION = "AffectationDecision.rptdesign";
+
 }

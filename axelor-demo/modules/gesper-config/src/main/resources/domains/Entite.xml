@@ -12,7 +12,8 @@
         <boolean name="organigrameOfficiel" ></boolean>
         <many-to-one name="type" ref="TypeEntite" title="Type"></many-to-one>
         <many-to-one name="parent" ref="Entite" title="Entité père"></many-to-one>
-        <many-to-one name="caida" ref="Caida" title="Caida"></many-to-one>
+        <many-to-one name="caida" ref="com.axelor.config.db.Caida" title="Caida"></many-to-one>
+        <one-to-many name="caidas" ref="com.axelor.config.db.Caida" title="Caidas" mappedBy="entite"></one-to-many>
     </entity>
 
 </domain-models>

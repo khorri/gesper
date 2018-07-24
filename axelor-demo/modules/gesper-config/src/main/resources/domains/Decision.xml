@@ -11,8 +11,25 @@
         <string name="status" title="Etat" selection="decision.config.status" default="1" readonly="true"></string>
         <string name="motifRejet" title="Motif de rejet"></string>
         <string name="entreprise" default="ORMVAH" readonly="true" />
+        <!-- Audit Fields -->
+        <many-to-one  name="verifiedBy" ref="com.axelor.auth.db.User"></many-to-one>
+        <many-to-one  name="validatedBy" ref="com.axelor.auth.db.User"></many-to-one>
+        <many-to-one  name="rejectedBy" ref="com.axelor.auth.db.User"></many-to-one>
+        <date name="verifiedOn" title="verified On"  />
+        <date name="validatedOn" title="validated On"  />
+        <date name="rejectedOn" title="rejected On"  />
+
         <many-to-one name="attachement" ref="com.axelor.meta.db.MetaFile" title="Photo" index="false"/>
         <many-to-one name="emitteur" ref="Entite" title="Emitteur"></many-to-one>
+        <extra-code><![CDATA[
+
+	   	// STATUS SELECT
+		public static final String STATUS_DRAFT = "1";
+		public static final String STATUS_VERIFIED = "2";
+		public static final String STATUS_VALIDATED = "3";
+		public static final String STATUS_REJECTED = "4";
+
+	]]></extra-code>
     </entity>
 
 </domain-models>

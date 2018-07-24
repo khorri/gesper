@@ -13,7 +13,7 @@
 
     </grid>
 
-    <form name="decision-situation-form" title="Entité" model="com.axelor.config.db.Decision">
+    <form name="decision-situation-form" title="Décision" model="com.axelor.config.db.Decision">
         <panel name="decisionSituation" title="Décision">
             <field name="decisionCode" colSpan="2"/>
             <field name="decisionDate" colSpan="2"/>
@@ -21,7 +21,20 @@
             <field name="motifRejet" colSpan="2"/>
         </panel>
     </form>
+    <form name="decision-add-form" title="Décision" model="com.axelor.config.db.Decision" onNew="decision-defaults">
+        <panel name="decisionSituation" title="Décision">
+            <field name="attachement" canNew="true" canAttach="true" widget="binary"/>
+            <field name="decisionCode" colSpan="3"/>
+            <field name="emitteur" colSpan="3"/>
+            <field name="entreprise" colSpan="3"/>
+            <field name="decisionDate" colSpan="3"/>
+            <field name="motifRejet" colSpan="3"/>
+        </panel>
+    </form>
     <action-record name="default-decision-company" model="com.axelor.config.db.Decision">
       <field name="decision" expr="eval: new Decision()"/>
+    </action-record>
+    <action-record name="decision-defaults" model="com.axelor.config.db.Decision">
+        <field name="status" expr="1"/>
     </action-record>
 </object-views>

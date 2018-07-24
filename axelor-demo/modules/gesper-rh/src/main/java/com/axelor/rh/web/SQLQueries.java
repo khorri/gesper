@@ -35,4 +35,10 @@ public class SQLQueries  {
 
     public static final String UPDATE_DROIT_AVANCEMENT_SEQUENCE= "UPDATE gesper.rh_droit_avancement_seq "+
             " SET next_val = (SELECT (IFNULL(MAX(id),0)+1) next_val FROM gesper.rh_droit_avancement);";
+
+    public static String GET_AFFECATATION_DECSION_BY_CODE(String code) {
+        return " SELECT COUNT(afd.rh_affectation) AS nbr FROM gesper.config_decision AS d " +
+                " JOIN gesper.rh_affectation_decision AS afd ON d.id=afd.decision " +
+                " WHERE d.decision_code='" + code + "'";
+    }
 }

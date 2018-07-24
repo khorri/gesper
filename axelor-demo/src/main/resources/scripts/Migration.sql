@@ -307,6 +307,10 @@ left join gesper.config_entite ce2 on ce2.short_name = eo.ENTENT_COD) as pce
   SET cce.parent = pce.parent
 WHERE cce.id = pce.child;
 
+#----- so entite can have multiple caidas
+Update gesper.config_caida ca, gesper.config_entite en
+set ca.entite = en.id
+where ca.id = en.caida;
 #----- enfants
 
 INSERT INTO gesper.rh_enfant (`id`, `name`, `date_naissance`, `employee`, `scolarise`, `infirme`, `date_deces`, `version`)

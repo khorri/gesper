@@ -10,17 +10,12 @@
         <field name="responsable"/>
     </grid>
 
-    <form name="fonction-form" title="Fonction"
-          model="com.axelor.config.db.Fonction">
+    <form name="fonction-form" title="Fonction" model="com.axelor.config.db.Fonction" onSave="com.axelor.rh.web.EmployeController:fonctionIsUsed">
         <panel title="Overview">
-            <field name="name" />
+            <field name="name"/>
+            <field name="nameAr"/>
             <field name="responsable"/>
-        </panel>
-        <panel sidebar="true">
-            <field name="createdOn"/>
-            <field name="createdBy"/>
-            <field name="updatedOn"/>
-            <field name="updatedBy"/>
+            <field name="active"/>
         </panel>
     </form>
 
