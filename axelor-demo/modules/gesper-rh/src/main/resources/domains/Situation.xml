@@ -23,6 +23,7 @@
         <many-to-one name="grade" ref="com.axelor.config.db.GradeEchelon" title="Grade"></many-to-one>
         <many-to-one name="decision" ref="com.axelor.config.db.Decision" title="decision"></many-to-one>
         <many-to-one name="employee" ref="com.axelor.rh.db.Employe" title="Agent"></many-to-one>
+        <many-to-one name="avancement" ref="com.axelor.rh.db.DroitAvancement" title="Avancement"></many-to-one>
         <extra-code>
             <![CDATA[
 	           	// TYPE SELECT
@@ -32,7 +33,6 @@
 		        public static final String STATUS_TITULAIRE = "T";
 	        ]]>
         </extra-code>
-        <many-to-one name="avancement" ref="com.axelor.rh.db.DroitAvancement" title="Avancement"></many-to-one>
     </entity>
 
 </domain-models>
