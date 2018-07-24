@@ -36,6 +36,10 @@
 			  title="Autorisation d'absence"
 			  action="autorisation.absence.all"/>
 
+	<menuitem name="menu-droit-avancement-all" parent="menu-gesper-rh"
+			  title="Droit avancement"
+			  action="droit.avancement.all"/>
+
 	<!-- ACTIONS -->
 
 	<action-view name="top.new.employe.view" title="Créer Agent" model="com.axelor.rh.db.Employe" >

@@ -6,19 +6,37 @@
     <module name="rh" package="com.axelor.rh.db"/>
 
     <entity name="DroitAvancement"  cachable="true">
+        <string name="numero" title="Numéro"/>
         <decimal name="noteAvancement" title="Note avancement"/>
         <date name="dateGrade" title="Date grade"/>
         <date name="dateEchelon" title="Date echelon"/>
-        <decimal name="coeffAvancementRapide" title="Avancement rapide"/>
+        <integer name="coeffAvancementRapide" title="Avancement rapide"/>
         <date name="dateAvancement" title="Date avancement"/>
         <string name="rythmeAvancement" title="RythmeAvancement"/>
-        <decimal name="exerciceAvancement" title="Exercie Avancement"/>
+        <integer name="exerciceAvancement" title="Exercie Avancement"/>
         <integer name="newEchelon" title="Nouvel Echelon"/>
         <integer name="newIndice" title="Nouvel indice"/>
+        <string name="typeAvancement" title="Type avancement"/>
+        <boolean name="statut" title="Statut"/>
+        <date name="arreteMinisterialNumero" title="Numero arrête ministeriel"/>
+        <string name="arreteMinisterialDate" title="Date arrête ministeriel"/>
         <many-to-one name="exercice" ref="com.axelor.config.db.Exercice" ></many-to-one>
         <many-to-one name="employee" ref="com.axelor.rh.db.Employe" ></many-to-one>
         <many-to-one name="grade" ref="com.axelor.config.db.Grade" ></many-to-one>
         <many-to-one name="echelon" ref="com.axelor.config.db.GradeEchelon" ></many-to-one>
+        <many-to-one name="decision" ref="com.axelor.config.db.Decision" ></many-to-one>
+
+        <extra-code>
+            <![CDATA[
+		public static final int NOTE_LENT = 10;
+		public static final int NOTE_MOYEN = 16;
+		public static final int NOTE_RAPIDE = 20;
+		public static final String STATUS_RAPIDE = "RAPIDE";
+		public static final String STATUS_MOYEN = "MOYEN";
+		public static final String STATUS_LENT = "LENT";
+	]]>
+        </extra-code>
+
     </entity>
 
 </domain-models>
