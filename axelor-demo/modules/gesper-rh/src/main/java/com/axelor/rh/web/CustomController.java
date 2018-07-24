@@ -2,6 +2,7 @@ package com.axelor.rh.web;
 
 import com.axelor.config.db.Exercice;
 import com.axelor.config.db.repo.ExerciceRepository;
+import com.axelor.db.JPA;
 import com.axelor.db.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

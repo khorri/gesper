@@ -16,11 +16,13 @@
         <field name="activated"/>
     </grid>
 
-    <form name="employe-rh-form" title="Fiche agent" onNew="action-employee-record-set-default" onSave="com.axelor.rh.web.EmployeController:validate"
+    <form name="employe-rh-form" title="Fiche agent" onNew="action-employee-record-set-default"
+          onSave="com.axelor.rh.web.EmployeController:validate"
           model="com.axelor.rh.db.Employe" width="large">
-        <toolbar >
-          	<button name="printFiche" icon="fa-print" title="Imprimer fiche"/>
-            <button name="attestationTravail" icon="fa-print" title="Attestation de travail" onClick="action-employee-print-attestation-travail-word"/>
+        <toolbar>
+            <button name="printFiche" icon="fa-print" title="Imprimer fiche"/>
+            <button name="attestationTravail" icon="fa-print" title="Attestation de travail"
+                    onClick="action-employee-print-attestation-travail-word"/>
             <button name="attestationSalaire" icon="fa-money" title="Attestation salaire"/>
             <button name="engagement" icon="fa-file-text-o" title="Etat d'engagement"/>
             <button name="sanct" icon="fa-bolt" title="Sanctions" onClick="sanction.all" css="bg-danger"/>
@@ -30,7 +32,8 @@
                 <field name="activated" hidden="true"/>
                 <field name="id" hidden="true"/>
                 <field name="picture" showTitle="false" colSpan="12" widget="Image"/>
-                <field name="matricule" showTitle="false"  pattern="[0-9]+" colSpan="6" css="matricule hilite-success strong text-center" placeholder="Matricule">
+                <field name="matricule" showTitle="false" pattern="[0-9]+" colSpan="6"
+                       css="matricule hilite-success strong text-center" placeholder="Matricule">
                     <hilite background="danger" strong="true" if="!activated &amp;&amp; id!=null"/>
                 </field>
             </panel>
@@ -45,11 +48,16 @@
             </panel>
         </panel>
         <panel name="coordonnee" title="Coordonnées">
-            <field name="address" colSpan="12" canDelete="true" canNew="true" form-view="address-form" grid-view="address-grid"/>
-            <field name="email" colSpan="3" placeholder="email@example.com" pattern="^[a-z0-9A-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ!#$%&amp;'*+/=?^_`{|}~-]+(?:\.[a-z0-9A-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ!#$%&amp;'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?:[a-z]{2,})$"/>
-            <field name="fax" colSpan="3" placeholder="+21200000000" pattern="^\+?(?:[0-9]{2,3}(?:\s|\.)?){3,6}[0-9]{2,3}$"/>
-            <field name="phone" colSpan="3" placeholder="+21200000000" pattern="^\+?(?:[0-9]{2,3}(?:\s|\.)?){3,6}[0-9]{2,3}$"/>
-            <field name="mobile" colSpan="3" placeholder="+21200000000" pattern="^\+?(?:[0-9]{2,3}(?:\s|\.)?){3,6}[0-9]{2,3}$"/>
+            <field name="address" colSpan="12" canDelete="true" canNew="true" form-view="address-form"
+                   grid-view="address-grid"/>
+            <field name="email" colSpan="3" placeholder="email@example.com"
+                   pattern="^[a-z0-9A-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ!#$%&amp;'*+/=?^_`{|}~-]+(?:\.[a-z0-9A-ZáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ!#$%&amp;'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?:[a-z]{2,})$"/>
+            <field name="fax" colSpan="3" placeholder="+21200000000"
+                   pattern="^\+?(?:[0-9]{2,3}(?:\s|\.)?){3,6}[0-9]{2,3}$"/>
+            <field name="phone" colSpan="3" placeholder="+21200000000"
+                   pattern="^\+?(?:[0-9]{2,3}(?:\s|\.)?){3,6}[0-9]{2,3}$"/>
+            <field name="mobile" colSpan="3" placeholder="+21200000000"
+                   pattern="^\+?(?:[0-9]{2,3}(?:\s|\.)?){3,6}[0-9]{2,3}$"/>
             <panel name="urgentContact" title="Contact d'urgence">
                 <field name="urgentContactName"/>
                 <field name="urgentContactPhone" placeholder="+21200000000"/>
@@ -58,7 +66,8 @@
         <panel-tabs>
             <panel name="informations" title="Informations">
                 <field name="cin" colSpan="2"/>
-                <field name="cinImage" showTitle="false" colSpan="2" widget="binary-link" canNew="true" form-view="meta-files-form" grid-view="meta-files-grid"/>
+                <field name="cinImage" showTitle="false" colSpan="2" widget="binary-link" canNew="true"
+                       form-view="meta-files-form" grid-view="meta-files-grid"/>
                 <field name="nationality" colSpan="2"/>
                 <field name="birthday" colSpan="2"/>
                 <field name="birthplace" colSpan="2"/>
@@ -66,70 +75,90 @@
 
                 <panel title="Info.professionnelles" colSpan="12">
                     <field name="hireDate" onChange="action-employee-validate-date" colSpan="3"/>
-                    <field name="mutationDate" onChange="action-employee-validate-date" validIf="hireDate ==null || mutationDate==null || hireDate &lt;= mutationDate" colSpan="3"/>
-                    <field name="radiationDate" onChange="action-employee-validate-date" validIf="hireDate ==null || radiationDate==null || hireDate &lt;= radiationDate" colSpan="3"/>
+                    <field name="mutationDate" onChange="action-employee-validate-date"
+                           validIf="hireDate ==null || mutationDate==null || hireDate &lt;= mutationDate" colSpan="3"/>
+                    <field name="radiationDate" onChange="action-employee-validate-date"
+                           validIf="hireDate ==null || radiationDate==null || hireDate &lt;= radiationDate"
+                           colSpan="3"/>
                     <field name="motifRadiation" colSpan="3"/>
-                                        <panel-related field="situationList" form-view="situation-rh-form" grid-view="situation-rh-grid" title="Situation Administrative"  colSpan="12"/>
+                    <button name="sit" title="Ajouter une situation" colSpan="6" css="" icon="fa-plus"
+                            onClick="situation-form-action"/>
+                    <panel-related title="Situation Administrative" colSpan="12" field="situationList"
+                                   form-view="situation-rh-form" canEdit="false" canNew="false" canRemove="false"
+                                   grid-view="situation-rh-grid"/>
                 </panel>
             </panel>
             <panel name="affectation" title="Affectation &amp; Mutation" hideIf="id==null">
                 <field name="dummy" showTitle="false" readonly="true" colSpan="6"/>
-                <button name="affc" title="Ajouter une affectation" colSpan="6" css="" icon="fa-plus" onClick="affectation-form"/>
-                <panel-related title="Historique des affactations" colSpan="12" field="affectationList" grid-view="affectation-rh-grid" onNew="affectation-form" canNew="false" canEdit="false" canRemove="false" canView="false"/>
+                <button name="affc" title="Ajouter une affectation" colSpan="6" css="" icon="fa-plus"
+                        onClick="affectation-form"/>
+                <panel-related title="Historique des affactations" colSpan="12" field="affectationList"
+                               grid-view="affectation-rh-grid" onNew="affectation-form" canNew="false" canEdit="false"
+                               canRemove="false" canView="false"/>
             </panel>
             <panel name="affectation" title="Retraite/Mutuelle/AOS/MED" hideIf="id==null">
                 <panel title="Retraite" colSpan="12">
-                    <field name="retraite" showTitle="false" colSpan="12" canNew="true" form-view="retraite-rh-form" grid-view="retraite-rh-grid">
-        	            <editor x-viewer="true">
-          	                <field name="organisme" domain="self.type='RETRAITE'" colSpan="4"/>
-        	                <field name="affiliationNum" colSpan="4"/>
-        	                <field name="affiliationDate" colSpan="4"/>
-        	            </editor>
-      	            </field>
+                    <field name="retraite" showTitle="false" colSpan="12" canNew="true" form-view="retraite-rh-form"
+                           grid-view="retraite-rh-grid">
+                        <editor x-viewer="true">
+                            <field name="organisme" domain="self.type='RETRAITE'" colSpan="4"/>
+                            <field name="affiliationNum" colSpan="4"/>
+                            <field name="affiliationDate" colSpan="4"/>
+                        </editor>
+                    </field>
                 </panel>
                 <panel title="Mutuelle" colSpan="12">
                     <!--panel-include view="mutuelle-rh-form" from="gesper-rh"></panel-include-->
                     <field name="mutuelle" showTitle="false" colSpan="12" canNew="true" form-view="mutuelle-rh-form">
-        	            <editor x-viewer="true">
-          	                <field name="organisme" domain="self.type='MUTUELLE'" colSpan="3"/>
+                        <editor x-viewer="true">
+                            <field name="organisme" domain="self.type='MUTUELLE'" colSpan="3"/>
                             <field name="mutuelleNum" colSpan="3"/>
                             <field name="affiliationNum" colSpan="3"/>
                             <field name="affiliationDate" colSpan="3"/>
-        	            </editor>
-      	            </field>
+                        </editor>
+                    </field>
                 </panel>
-                <panel-related colSpan="12" field="retraiteComplementaire" canNew="true" form-view="retraiteCom-rh-form" grid-view="retraiteCom-rh-grid" title="Retraite complémentaire"/>
-      	        <panel-related colSpan="12" field="aos" canNew="true" form-view="aos-rh-form" grid-view="aos-rh-grid" title="A.O.S"/>
-                <panel-related colSpan="12" field="med" canNew="true" form-view="med-rh-form"  grid-view="med-rh-grid" title="Mise en disponibilité"/>
+                <panel-related colSpan="12" field="retraiteComplementaire" canNew="true" form-view="retraiteCom-rh-form"
+                               grid-view="retraiteCom-rh-grid" title="Retraite complémentaire"/>
+                <panel-related colSpan="12" field="aos" canNew="true" form-view="aos-rh-form" grid-view="aos-rh-grid"
+                               title="A.O.S"/>
+                <panel-related colSpan="12" field="med" canNew="true" form-view="med-rh-form" grid-view="med-rh-grid"
+                               title="Mise en disponibilité"/>
             </panel>
             <panel name="situation" title="Situation familiale" hideIf="id==null">
-                <field name="status" colSpan="12" selection="employee.civilStatus.type.select" placeholder="Situation familale de l'agent (Célébataire, Marié, ...)"/>
-      	        <panel-related colSpan="12" field="conjointe" canNew="true" form-view="conjointe-rh-form" grid-view="conjointe-rh-grid" title="Liste des conjointes"/>
-      	        <panel-related colSpan="12" field="enfant" canNew="true" form-view="enfant-rh-form" grid-view="enfant-rh-grid" title="Liste des enfants"/>
+                <field name="status" colSpan="12" selection="employee.civilStatus.type.select"
+                       placeholder="Situation familale de l'agent (Célébataire, Marié, ...)"/>
+                <panel-related colSpan="12" field="conjointe" canNew="true" form-view="conjointe-rh-form"
+                               grid-view="conjointe-rh-grid" title="Liste des conjointes"/>
+                <panel-related colSpan="12" field="enfant" canNew="true" form-view="enfant-rh-form"
+                               grid-view="enfant-rh-grid" title="Liste des enfants"/>
             </panel>
-            <panel name="depart"  title="Départ" hideIf="id==null">
-                <field name="depart" showTitle="false" colSpan="12" canNew="true" form-view="depart-rh-form" from="gesper-config">
-				    <editor>
+            <panel name="depart" title="Départ" hideIf="id==null">
+                <field name="depart" showTitle="false" colSpan="12" canNew="true" form-view="depart-rh-form"
+                       from="gesper-config">
+                    <editor>
                         <panel title="Départ" colSpan="12" readonly="true">
-                         	<field name="dateDepart" colSpan="4"/>
-                         	<field name="type" selection="employee.depart.type.select" colSpan="4"/>
-                         	<field name="motif" colSpan="4" readonly="true"/>
-                         	<field name="observation" widget="text" colSpan="12" height="5" />
+                            <field name="dateDepart" colSpan="4"/>
+                            <field name="type" selection="employee.depart.type.select" colSpan="4"/>
+                            <field name="motif" colSpan="4" readonly="true"/>
+                            <field name="observation" widget="text" colSpan="12" height="5"/>
                         </panel>
-		            </editor>
-    	        </field>
+                    </editor>
+                </field>
             </panel>
             <panel title="Information de référence" hideIf="id==null">
-                <panel-related colSpan="12" field="diplome" canNew="true" form-view="diplome-rh-form" grid-view="diplome-rh-grid" title="Formation"/>
-      	        <panel-related colSpan="12" field="experience" canNew="true" form-view="experience-rh-form" grid-view="experience-rh-grid" title="Experiences antérieures"/>
+                <panel-related colSpan="12" field="diplome" canNew="true" form-view="diplome-rh-form"
+                               grid-view="diplome-rh-grid" title="Formation"/>
+                <panel-related colSpan="12" field="experience" canNew="true" form-view="experience-rh-form"
+                               grid-view="experience-rh-grid" title="Experiences antérieures"/>
             </panel>
         </panel-tabs>
 
     </form>
 
     <dashboard title="Agents Dashboard" name="rh.employee.list.dashboard" width="large">
-        <dashlet action="dashlet.active.employees" height="450"   canSearch="true" colSpan="12"/>
-        <dashlet action="dashlet.deactive.employees" height="450"   canSearch="true" colSpan="12"/>
+        <dashlet action="dashlet.active.employees" height="450" canSearch="true" colSpan="12"/>
+        <dashlet action="dashlet.deactive.employees" height="450" canSearch="true" colSpan="12"/>
     </dashboard>
 
 
@@ -146,8 +175,10 @@
     </action-record>
 
     <action-validate name="action-employee-validate-date" model="com.axelor.rh.db.Employe">
-        <alert message="La date d'embauche ne peut pas être plus grande que la date de mutation" if="hireDate !=null &amp;&amp; mutationDate!=null &amp;&amp; hireDate > mutationDate"/>
-        <alert message="La date d'embauche ne peut pas être plus grande que la date de radiation" if="hireDate !=null &amp;&amp; radiationDate!=null &amp;&amp; hireDate > radiationDate"/>
+        <alert message="La date d'embauche ne peut pas être plus grande que la date de mutation"
+               if="hireDate !=null &amp;&amp; mutationDate!=null &amp;&amp; hireDate > mutationDate"/>
+        <alert message="La date d'embauche ne peut pas être plus grande que la date de radiation"
+               if="hireDate !=null &amp;&amp; radiationDate!=null &amp;&amp; hireDate > radiationDate"/>
     </action-validate>
     <action-view name="dashlet.active.employees" title="Agents Actifs" model="com.axelor.rh.db.Employe">
         <view type="grid" name="employe-rh-grid"/>
