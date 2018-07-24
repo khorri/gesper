@@ -17,7 +17,6 @@ import com.axelor.rh.service.AffectationService;
 import com.axelor.rpc.ActionRequest;
 import com.axelor.rpc.ActionResponse;
 import com.axelor.rpc.Context;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
 import com.google.inject.persist.Transactional;
 import org.joda.time.LocalDate;
@@ -83,7 +82,7 @@ public class AffectationController {
 
         String errorMessage = validerDecisionValidation(context);
         if (errorMessage != null) {
-            response.setFlash(errorMessage);
+            response.setError(errorMessage);
             return;
         }
 
@@ -91,24 +90,6 @@ public class AffectationController {
         boolean used = decisionIsUsedInAffecation(context);
         if (used && useExising != true) {
             response.setValue("decisionExists", true);
-//            response.setView(ActionView.define("Confimation")
-//                    .model("com.axelor.rh.db.Affectation")
-//                    .add("form", "affectation-rh-form-confirm")
-//                    .param("show-toolbar", "false")
-//                    .param("show-confirm", "false")
-//                    .param("popup-save", "false")
-//                    .param("popup", "true")
-//                    .context("message", "just do it?")
-//                    .context("attachement", context.get("attachement"))
-//                    .context("emitteur", context.get("emitteur"))
-//                    .context("decisionCode", context.get("decisionCode"))
-//                    .context("decisionDate", context.get("decisionDate"))
-//                    .context("motifRejet", context.get("motifRejet"))
-//                    .context("entreprise", context.get("entreprise"))
-//                    .context("typeAffectation", context.get("typeAffectation"))
-//                    .context("id", context.get("id"))
-//                    .context("useExisting", false)
-//                    .map());
             return;
         }
 
@@ -178,7 +159,7 @@ public class AffectationController {
 
         String errorMessage = refuserDecisionValidation(context);
         if (errorMessage != null) {
-            response.setFlash(errorMessage);
+            response.setError(errorMessage);
             return;
         }
 
@@ -188,7 +169,7 @@ public class AffectationController {
             lastDecision.setRejectedBy(user);
             lastDecision.setRejectedOn(new LocalDate());
 
-            Decision decision = updateDecision(context, lastDecision, DecisionRepository.STATUS_REJECTED);
+            updateDecision(context, lastDecision, DecisionRepository.STATUS_REJECTED);
             affectation.setStatus(DecisionRepository.STATUS_REJECTED);
             affectationRepository.save(affectation);
 
@@ -196,41 +177,6 @@ public class AffectationController {
         response.setReload(true);
     }
 
-    //    @Transactional
-//    public void refuser(ActionRequest request, ActionResponse response){
-//        ObjectMapper mapper = new ObjectMapper();
-//        Context context = request.getContext();
-//        Affectation affectation = request.getContext().asType(Affectation.class);
-//        List<Decision> ds = new ArrayList<>();
-//        ds.addAll(affectation.getDecision());
-//        String errorMessage="Les champ suivant sont requis pour le refus: ";
-//        boolean hasError=false;
-//        if(ds.size()>0) {
-//            Decision decision = ds.get(ds.size() - 1);
-//            if(context.get("motifRejet")==null){
-//                if(hasError)
-//                    errorMessage+=",";
-//                hasError=true;
-//                errorMessage+="Motif de rejet";
-//            }
-//            if(hasError) {
-//                errorMessage += ".";
-//                response.setError(errorMessage);
-//            }
-//            if(!hasError) {
-//                decision.setStatus("4");
-//                decision.setMotifRejet((String) context.get("motifRejet"));
-//                decision.setDecisionDate(new LocalDate(context.get("decisionDate")));
-//                decision.setDecisionCode((String) context.get("decisionCode"));
-//                decision.setEmitteur(mapper.convertValue(context.get("emitteur"),Entite.class));
-//                decision.setAttachement(mapper.convertValue(context.get("attachement"),MetaFile.class));
-//                decision.setEntreprise((String) context.get("entreprise"));
-//                affectation.setDecision(new HashSet<>(ds));
-//                response.setValue("status", 4);
-//            }
-//        }
-//
-//    }
     @Transactional
     public void getLastDecision(ActionRequest request, ActionResponse response) {
         Context context = request.getContext();
@@ -306,31 +252,9 @@ public class AffectationController {
             response.setValue("emitteur", decision.getEmitteur());
         }
     }
-    // TODO to be removed
-    /* code pour afficher une vue form sans boutton (non utinlisé)
-    @Transactional
-    public void edit(ActionRequest request, ActionResponse response){
-        Context context = request.getContext();
-        Affectation affectation = affectationRepository.all().filter("self.id = ?1",context.get("id") ).fetchOne();
-        List<Decision> ds = new ArrayList<>();
-        ds.addAll(affectation.getDecision());
-        Decision decision;
-        if(ds.size()>0)
-            decision = ds.get(ds.size()-1);
-        response.setView(ActionView
-                .define("Affectation")
-                .model(Affectation.class.getName())
-                .add("form", "affectation-rh-form")
-                .param("popup", "true")
-                .param("show-toolbar", "false")
-                .param("show-confirm", "false")
-                .param("popup-save", "false")
-                .param("forceEdit", "true")
-                .context("_showRecord", context.get("id"))
-                .map());
-    }*/
 
-    private String validerDecisionValidation(Context context) {
+
+    public String validerDecisionValidation(Context context) {
         String errorMessage = "Les champs suivants sont requis pour la validation: ";
         boolean hasError = false;
         if (context.get("decisionCode") == null) {
@@ -359,7 +283,7 @@ public class AffectationController {
 
     }
 
-    private String refuserDecisionValidation(Context context) {
+    public String refuserDecisionValidation(Context context) {
         String errorMessage = "Les champ suivant sont requis pour le refus: ";
         boolean hasError = false;
         if (context.get("motifRejet") == null) {
@@ -383,12 +307,9 @@ public class AffectationController {
     }
 
     @Transactional
-    private Decision updateDecision(Context context, Decision d, String status) {
-        ObjectMapper mapper = new ObjectMapper();
+    public Decision updateDecision(Context context, Decision d, String status) {
         Decision decision = decisionRep.find(d.getId());
 
-//       Entite entite= new Entite();
-//       entite.setId( mapper.convertValue(context.get("emitteur"),Entite.class).getId());
         Map<String, Object> dataFile = (HashMap) context.get("attachement");
         if (dataFile != null) {
             MetaFile file = fileRep.find(Long.valueOf((Integer) dataFile.get("id")));
