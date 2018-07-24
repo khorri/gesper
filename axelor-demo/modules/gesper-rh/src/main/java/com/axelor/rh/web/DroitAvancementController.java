@@ -1,6 +1,7 @@
 package com.axelor.rh.web;
 
 import com.axelor.config.db.Exercice;
+import com.axelor.config.db.GradeEchelon;
 import com.axelor.config.db.repo.ExerciceRepository;
 import com.axelor.config.db.repo.GradeEchelonRepository;
 import com.axelor.config.db.repo.GradeRepository;
@@ -63,6 +64,12 @@ public class DroitAvancementController {
         response.setValue("droitAvancement",new HashSet<>(avancements));
     }
 
+    /**
+     *
+     * @param request
+     * @param response
+     */
+
     @Transactional
     public void generateDroitAvancementList(ActionRequest request, ActionResponse response){
         ObjectMapper objectMapper=new ObjectMapper();
@@ -78,6 +85,13 @@ public class DroitAvancementController {
         JPA.em().createNativeQuery(SQLQueries.UPDATE_DROIT_AVANCEMENT_SEQUENCE).executeUpdate();
     }
 
+    /**
+     * Methode de calcule des avancement selon l'exercice et les notes et les droits d'avancement
+     * @param request
+     * @param response
+     * @author AYOUB
+     * @Date 24/07/2018
+     */
     @Transactional
     public void calculerDroitAvancement(ActionRequest request, ActionResponse response){
         ObjectMapper objectMapper=new ObjectMapper();
@@ -98,8 +112,8 @@ public class DroitAvancementController {
             String rythme = getRythme(moyenne);
             avancement.setRythmeAvancement(rythme);
             avancement.setDateAvancement(getDateAvancement(rythme,dateEchelon,avancement));
-            avancement.setNewEchelon(getNewEchelon(avancement));
-            avancement.setNewIndice(getNewIndice(avancement));
+            avancement.setNewEchelon(getNewEchelon(avancement).getEchelon());
+            avancement.setNewIndice(getNewEchelon(avancement).getIndice());
             avancement.setExerciceAvancement(getExerciceAvancement(avancement,avancement.getDateAvancement()));
             droitAvancementRepository.save(avancement);
         }
@@ -113,36 +127,31 @@ public class DroitAvancementController {
         }
     }
 
-    private Integer getNewIndice(DroitAvancement avancement) {
-        return 0;
-    }
-
-    private Integer getNewEchelon(DroitAvancement avancement) {
-        return 0;
+    private GradeEchelon getNewEchelon(DroitAvancement avancement) {
+        GradeEchelon echelon= (GradeEchelon) JPA.em()
+                .createQuery("SELECT ge FROM GradeEchelon AS ge WHERE ge.grade=:grade AND ge.echelon=:echelon")
+                .setParameter("grade",avancement.getGrade()).setParameter("echelon",avancement.getEchelon().getEchelon()+1).getSingleResult();
+        return echelon==null?avancement.getEchelon():echelon;
     }
 
     private LocalDate getDateAvancement(String rythme, LocalDate dateEchelon,DroitAvancement avancement) {
-        if(rythme.equals("LENT")){
+        if(rythme.equalsIgnoreCase(DroitAvancementRepository.STATUS_LENT)){
             return dateEchelon.plusMonths(avancement.getEchelon().getRythmeLent());
         }
-        else if(rythme.equals("MOYEN")){
+        if(rythme.equalsIgnoreCase(DroitAvancementRepository.STATUS_MOYEN)){
             return dateEchelon.plusMonths(avancement.getEchelon().getRythmeMoyen());
         }
-        else{
-            return dateEchelon.plusMonths(avancement.getEchelon().getRythmeRapide());
-        }
+        return dateEchelon.plusMonths(avancement.getEchelon().getRythmeRapide());
     }
 
     private String getRythme(Double moyenne) {
-        if(moyenne<10){
-            return "LENT";
+        if(moyenne<DroitAvancementRepository.NOTE_LENT){
+            return DroitAvancementRepository.STATUS_LENT;
         }
-        else if(moyenne<16){
-            return "MOYEN";
+        if(moyenne<DroitAvancementRepository.NOTE_MOYEN){
+            return DroitAvancementRepository.STATUS_MOYEN;
         }
-        else{
-            return "RAPIDE";
-        }
+        return DroitAvancementRepository.STATUS_RAPIDE;
     }
 
     private LocalDate getDateAncienEchelon(DroitAvancement avancement) {
