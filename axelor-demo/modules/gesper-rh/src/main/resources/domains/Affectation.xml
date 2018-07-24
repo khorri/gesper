@@ -5,12 +5,13 @@
 
     <module name="rh" package="com.axelor.rh.db"/>
 
-    <entity name="Affectation"  cachable="true">
+    <entity name="Affectation" cachable="true">
         <string name="type" title="Type"/>
         <date name="affectationDate" title="date d'affectation" required="true"/>
         <date name="fonctionDate" title="Date de fonction" required="true"/>
         <boolean name="principal" title="Principale?"></boolean>
-        <string name="typeAffectation" selection="affectation.type.select" title="Type d'affectation" required="true"></string>
+        <string name="typeAffectation" selection="affectation.type.select" title="Type d'affectation"
+                required="true"></string>
         <string name="observation" title="Observation" large="true" multiline="true"></string>
         <boolean name="active" title="Activé"></boolean>
         <many-to-one name="entite" ref="com.axelor.config.db.Entite" title="Filière" required="true"/>
@@ -20,17 +21,16 @@
         <many-to-one name="fonction" ref="com.axelor.config.db.Fonction" title="Grade" required="true"></many-to-one>
         <many-to-many name="decision" ref="com.axelor.config.db.Decision" title="decision"></many-to-many>
         <many-to-one name="employee" ref="com.axelor.rh.db.Employe" title="Agent"></many-to-one>
-        <string name="status"  title="Etat" selection="decision.config.status" default="1" readonly="true"/>
+        <string name="status" title="Etat" selection="decision.config.status" default="1" readonly="true"/>
 
-        <extra-code><![CDATA[
-
-	   	// TYPE SELECT
-		public static final String TYPE_PRINCIPAL = "1";
-		public static final String TYPE_SECONDARY = "2";
-		public static final String TYPE_CANCELED = "3";
-
-
-	]]></extra-code>
+        <extra-code>
+            <![CDATA[
+	           	// TYPE SELECT
+	        	public static final String TYPE_PRINCIPAL = "1";
+	        	public static final String TYPE_SECONDARY = "2";
+		        public static final String TYPE_CANCELED = "3";
+	        ]]>
+        </extra-code>
     </entity>
 
 </domain-models>

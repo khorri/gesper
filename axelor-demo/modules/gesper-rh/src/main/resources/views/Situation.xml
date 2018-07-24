@@ -4,8 +4,9 @@
               xsi:schemaLocation="http://axelor.com/xml/ns/object-views
   http://axelor.com/xml/ns/object-views/object-views_4.0.xsd">
 
-    <grid name="situation-rh-grid" title="Situation Administrative"
-          model="com.axelor.rh.db.Situation">
+    <grid name="situation-rh-grid" title="Situation Administrative" model="com.axelor.rh.db.Situation" edit-icon="true"
+          canEdit="false">
+        <button name="edit" onClick="situation-form-edit" icon="fa-pencil"/>
         <field name="decision.status"/>
         <field name="gradeDate"/>
         <field name="echelonDate"/>
@@ -15,16 +16,15 @@
         <field name="active"/>
     </grid>
 
-    <form name="situation-rh-form" title="Situation Administrative"
-          model="com.axelor.rh.db.Situation" onNew="default-decision-company">
-
-        <panel name="main">
-            <field name="decision.status" showTitle="false" widget="NavSelect" colSpan="12"/>
+    <form name="situation-rh-form" title="Situation Administrative" model="com.axelor.rh.db.Situation"
+          onNew="affectation-set-employee">
+        <panel name="main" readonlyIf="id!=null &amp;&amp; decisionStatus != 1">
+            <field name="decisionStatus" showTitle="false" colSpan="12" widget="NavSelect"/>
             <field name="status" selection="employee.status.type.select"/>
             <field name="situationDate"/>
             <field name="filiere"/>
             <field name="corps"/>
-            <field name="grade.grade" />
+            <field name="grade.grade"/>
             <field name="grade.grade.echelle" colSpan="3"/>
             <field name="gradeDate" colSpan="3"/>
             <field name="grade.echelon"/>
@@ -34,25 +34,62 @@
             <field name="type"/>
             <field name="active"/>
         </panel>
-        <panel name="actions" title="Actions" sidebar="true" stacked="true" colSpan="3">
-            <button name="createButton" title="Créer" css="btn-info" colSpan="4" icon="fa-plus" onClick="save,close"/>
-            <button name="validateButton" title="Validate"  colSpan="4" icon="fa-check"/>
-            <button name="refuseButton" title="Refuse" css="btn-danger" colSpan="4" icon="fa-close"/>
-            <button name="cancelButton" title="Cancel" css="btn-warning" colSpan="4" icon="fa-ban"/>
+        <panel name="actions" title="Actions" colSpan="3" sidebar="true" stacked="true">
+            <button name="createButton" title="Créer" showIf="id==null" colSpan="4" css="btn-info" icon="fa-plus"
+                    onClick="save,close"/>
+            <button name="verifyButton" title="Vérifier" showIf="id!=null &amp;&amp; decisionStatus == 1" colSpan="4"
+                    icon="fa-check" onClick="situation-set-verified,save,close"/>
+            <button name="validateButton" title="Valider" showIf="id!=null &amp;&amp; decisionStatus == 2" colSpan="4"
+                    icon="fa-check" onClick="situation-set-valide-group"/>
+            <button name="refuseButton" title="Refuser" showIf="id!=null &amp;&amp; decisionStatus == 2" colSpan="4"
+                    css="btn-danger" icon="fa-close" onClick="situation-set-refused,close"/>
+            <button name="cancelButton" title="Annuler" colSpan="4" css="btn-warning" icon="fa-ban" onClick="confirm"/>
         </panel>
-        <panel title="Decision" >  
-            <field  name="decision" showTitle="false" canEdit="false" canNew="false" colSpan="12">
-  	            <editor >
-                	<field name="attachement" canNew="true" canAttach="true" widget="binary"/>
-                    <field name="decisionCode" colSpan="3"/>
-                    <field name="emitteur" colSpan="3"/>
-                    <field name="entreprise" colSpan="3"/>
-                	<field name="decisionDate" colSpan="3"/>
-                	<field name="motifRejet" colSpan="3"/>
+        <panel title="Decision" showIf="id=!null">
+            <field name="decision" showTitle="false" colSpan="12" canNew="false" canEdit="false">
+                <editor>
+                    <field name="decisionCode" colSpan="2" title="N° décision"/>
+                    <field name="entreprise" readonly="true" colSpan="2" showTitle="false"/>
+                    <field name="emitteur" title="Emitteur" canView="false" canEdit="false" colSpan="2"/>
+                    <field name="decisionDate" title="Date" type="date" colSpan="3"/>
+                    <field name="attachement" title="Attachement" canNew="true" widget="binary-link" colSpan="3"/>
+                    <field name="motifRejet" title="Motif de rejet" colSpan="12"/>
                 </editor>
             </field>
         </panel>
     </form>
-
+    <action-view name="situation-form-action" model="com.axelor.rh.db.Situation" title="Situation">
+        <view name="situation-rh-form" type="form"/>
+        <view-param name="popup" value="reload"/>
+        <view-param name="show-toolbar" value="false"/>
+        <view-param name="show-confirm" value="false"/>
+        <view-param name="popup-save" value="false"/>
+        <view-param name="width" value="1000"/>
+        <domain>self.employee.id = :_id</domain>
+        <context name="_id" expr="eval: id"/>
+    </action-view>
+    <action-group name="situation-set-valide-group" model="com.axelor.rh.db.Situation">
+        <action name="validate"/>
+        <action name="situation-set-valide"/>
+        <action name="close"/>
+    </action-group>
+    <action-method name="situation-set-valide" model="com.axelor.rh.db.Situation">
+        <call method="valider" class="com.axelor.rh.web.SituationController"/>
+    </action-method>
+    <action-method name="situation-set-verified" model="com.axelor.rh.db.Situation">
+        <call method="verifie" class="com.axelor.rh.web.SituationController"/>
+    </action-method>
+    <action-method name="situation-set-refused" model="com.axelor.rh.db.Situation">
+        <call method="refuser" class="com.axelor.rh.web.SituationController"/>
+    </action-method>
+    <action-view name="situation-form-edit" model="com.axelor.rh.db.Situation" title="Situation">
+        <view name="situation-rh-form" type="form"/>
+        <view-param name="popup" value="reload"/>
+        <view-param name="show-toolbar" value="false"/>
+        <view-param name="show-confirm" value="false"/>
+        <view-param name="popup-save" value="false"/>
+        <view-param name="forceEdit" value="true"/>
+        <context name="_showRecord" expr="eval: id"/>
+    </action-view>
 
 </object-views>

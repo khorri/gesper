@@ -3,13 +3,12 @@ package com.axelor.rh.web;
 import com.axelor.auth.AuthUtils;
 import com.axelor.auth.db.User;
 import com.axelor.config.db.Decision;
-import com.axelor.config.db.Entite;
 import com.axelor.config.db.repo.DecisionRepository;
 import com.axelor.config.db.repo.EntiteRepository;
-import com.axelor.meta.db.MetaFile;
 import com.axelor.meta.db.repo.MetaFileRepository;
 import com.axelor.rh.db.Situation;
 import com.axelor.rh.db.repo.SituationRepository;
+import com.axelor.rh.service.SituationService;
 import com.axelor.rpc.ActionRequest;
 import com.axelor.rpc.ActionResponse;
 import com.axelor.rpc.Context;
@@ -20,13 +19,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.invoke.MethodHandles;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by HB on 10/07/2018.
  */
-public class SitutationController {
+public class SituationController {
     @Inject
     private EntiteRepository entiteRep;
     @Inject
@@ -35,13 +32,16 @@ public class SitutationController {
     private MetaFileRepository fileRep;
     @Inject
     private SituationRepository situationRepo;
+    @Inject
+    private SituationService situationService;
+
     private final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     @Transactional
     public void verifie(ActionRequest request, ActionResponse response) {
         User user = AuthUtils.getUser();
         Situation situation = request.getContext().asType(Situation.class);
-        response.setValue("dStatus", 2);
+        response.setValue("decisionStatus", 2);
         Decision decision = new Decision();
         decision.setStatus(DecisionRepository.STATUS_VERIFIED);
         decision.setEmitteur(entiteRep.all().filter("self.shortName = ?1", "SAF").fetchOne());
@@ -67,7 +67,7 @@ public class SitutationController {
         if (context.containsKey("useExisting"))
             useExising = (boolean) context.get("useExisting");
 
-        String errorMessage = new AffectationController().validerDecisionValidation(context);
+        String errorMessage = validerDecisionValidation((Decision) context.get("decision"));
         if (errorMessage != null) {
             response.setError(errorMessage);
             return;
@@ -88,27 +88,29 @@ public class SitutationController {
             } else {
                 decision.setValidatedBy(user);
                 decision.setValidatedOn(new LocalDate());
-                decision = updateDecision(context, decision, DecisionRepository.STATUS_VALIDATED);
+                decision.setStatus(DecisionRepository.STATUS_VALIDATED);
+                decisionRep.save(decision);
             }
 //            if (AffectationRepository.TYPE_PRINCIPAL.equals(affectation.getTypeAffectation())) {
 //                deactivatePrincipalAffectation(affectation, decision);
 //            }
 
-            situation.setdStatus(DecisionRepository.STATUS_VALIDATED);
+            situation.setDecisionStatus(DecisionRepository.STATUS_VALIDATED);
             situationRepo.save(situation);
         }
         response.setReload(true);
     }
 
     //
-//    private boolean decisionIsUsedInAffecation(Context context) {
-//        Decision decision = decisionRep.all().filter("self.decisionCode = ?1", context.get("decisionCode")).fetchOne();
-//        if (decision == null)
-//            return false;
-//        int count = affectationService.decsionUsedInOtherAffectation(decision);
-//        return count > 0;
-//    }
-//
+    private boolean decisionIsUsedInAffecation(Context context) {
+        Decision decision = decisionRep.all().filter("self.decisionCode = ?1", context.get("decisionCode")).fetchOne();
+        if (decision == null)
+            return false;
+        int count = situationService.decsionUsedInOtherSituation(decision);
+        return count > 0;
+    }
+
+    //
 //
 //    private Decision getLastPendingDecision(Affectation affectation) {
 //        Decision lastDecision = null;
@@ -134,32 +136,33 @@ public class SitutationController {
 //        }
 //    }
 //
-//    @Transactional
-//    public void refuser(ActionRequest request, ActionResponse response) {
-//        User user = AuthUtils.getUser();
-//        Context context = request.getContext();
-//        Affectation affectation = affectationRepository.find((Long) context.get("id"));
-//
-//        String errorMessage = refuserDecisionValidation(context);
-//        if (errorMessage != null) {
-//            response.setFlash(errorMessage);
-//            return;
-//        }
-//
-//        if (!affectation.getDecision().isEmpty()) {
-//            //update current decsion with new values
-//            Decision lastDecision = getLastPendingDecision(affectation);
-//            lastDecision.setRejectedBy(user);
-//            lastDecision.setRejectedOn(new LocalDate());
-//
-//            Decision decision = updateDecision(context, lastDecision, DecisionRepository.STATUS_REJECTED);
-//            affectation.setStatus(DecisionRepository.STATUS_REJECTED);
-//            affectationRepository.save(affectation);
-//
-//        }
-//        response.setReload(true);
-//    }
-//
+    @Transactional
+    public void refuser(ActionRequest request, ActionResponse response) {
+        User user = AuthUtils.getUser();
+        Context context = request.getContext();
+        Situation situation = situationRepo.find((Long) context.get("id"));
+        String errorMessage = refuserDecisionValidation((Decision) context.get("decision"));
+        if (errorMessage != null) {
+            response.setError(errorMessage);
+            return;
+        }
+
+        if (situation.getDecision() != null) {
+            //update current decsion with new values
+            Decision decision = situation.getDecision();
+            decision.setRejectedBy(user);
+            decision.setRejectedOn(new LocalDate());
+            decision.setStatus(DecisionRepository.STATUS_REJECTED);
+            decisionRep.save(decision);
+//            new AffectationController().updateDecision((Map) context, decision, DecisionRepository.STATUS_REJECTED);
+            situation.setDecisionStatus(DecisionRepository.STATUS_REJECTED);
+            situationRepo.save(situation);
+
+        }
+        response.setReload(true);
+    }
+
+    //
 //    //    @Transactional
 ////    public void refuser(ActionRequest request, ActionResponse response){
 ////        ObjectMapper mapper = new ObjectMapper();
@@ -294,84 +297,85 @@ public class SitutationController {
 //                .map());
 //    }*/
 //
-//    private String validerDecisionValidation(Context context) {
-//        String errorMessage = "Les champs suivants sont requis pour la validation: ";
-//        boolean hasError = false;
-//        if (context.get("decisionCode") == null) {
-//            if (hasError)
-//                errorMessage += ", ";
-//            hasError = true;
-//            errorMessage += "Code decision";
-//        }
-//        if (context.get("emitteur") == null) {
-//            if (hasError)
-//                errorMessage += ", ";
-//            hasError = true;
-//            errorMessage += "Emitteur";
-//        }
-//        if (context.get("decisionDate") == null) {
-//            if (hasError)
-//                errorMessage += ", ";
-//            hasError = true;
-//            errorMessage += "Date decision";
-//        }
-//        if (hasError) {
-//            errorMessage += ".";
-//            return errorMessage;
-//        } else
-//            return null;
-//
-//    }
-//
-//    private String refuserDecisionValidation(Context context) {
-//        String errorMessage = "Les champ suivant sont requis pour le refus: ";
-//        boolean hasError = false;
-//        if (context.get("motifRejet") == null) {
-//            if (hasError)
-//                errorMessage += ", ";
-//            hasError = true;
-//            errorMessage += "Motif de rejet";
-//        }
-//        if (context.get("emitteur") == null) {
-//            if (hasError)
-//                errorMessage += ", ";
-//            hasError = true;
-//            errorMessage += "Emitteur";
-//        }
-//        if (hasError) {
-//            errorMessage += ".";
-//            return errorMessage;
-//        } else
-//            return null;
-//
-//    }
-//
-    @Transactional
-    private Decision updateDecision(Context context, Decision d, String status) {
-        Decision decision = decisionRep.find(d.getId());
-
-        Map<String, Object> dataFile = (HashMap) context.get("attachement");
-        if (dataFile != null) {
-            MetaFile file = fileRep.find(Long.valueOf((Integer) dataFile.get("id")));
-            decision.setAttachement(file);
+    private String validerDecisionValidation(Decision decision) {
+        String errorMessage = "Les champs suivants sont requis pour la validation: ";
+        boolean hasError = false;
+        if (decision.getDecisionCode() == null) {
+            if (hasError)
+                errorMessage += ", ";
+            hasError = true;
+            errorMessage += "Code decision";
         }
-        Map<String, Object> entiteData = (HashMap) context.get("emitteur");
-        if (entiteData != null) {
-            Entite entite = entiteRep.find(Long.valueOf((Integer) entiteData.get("id")));
-            decision.setEmitteur(entite);
+        if (decision.getEmitteur() == null) {
+            if (hasError)
+                errorMessage += ", ";
+            hasError = true;
+            errorMessage += "Emitteur";
         }
-        decision.setStatus(status);
-        decision.setMotifRejet((String) context.get("motifRejet"));
-        decision.setDecisionDate(new LocalDate(context.get("decisionDate")));
-        if (!DecisionRepository.STATUS_REJECTED.equals(status))
-            decision.setDecisionCode((String) context.get("decisionCode"));
+        if (decision.getDecisionDate() == null) {
+            if (hasError)
+                errorMessage += ", ";
+            hasError = true;
+            errorMessage += "Date decision";
+        }
+        if (hasError) {
+            errorMessage += ".";
+            return errorMessage;
+        } else
+            return null;
 
-        decision.setEntreprise((String) context.get("entreprise"));
-
-        //Who's execute the action (Verification, Validation, Rejection)
-
-        return decisionRep.save(decision);
     }
+
+    //
+    private String refuserDecisionValidation(Decision decision) {
+        String errorMessage = "Les champ suivant sont requis pour le refus: ";
+        boolean hasError = false;
+        if (decision.getMotifRejet() == null) {
+            if (hasError)
+                errorMessage += ", ";
+            hasError = true;
+            errorMessage += "Motif de rejet";
+        }
+        if (decision.getEmitteur() == null) {
+            if (hasError)
+                errorMessage += ", ";
+            hasError = true;
+            errorMessage += "Emitteur";
+        }
+        if (hasError) {
+            errorMessage += ".";
+            return errorMessage;
+        } else
+            return null;
+
+    }
+//
+//    @Transactional
+//    private Decision updateDecision(Context context, Decision d, String status) {
+//        Decision decision = decisionRep.find(d.getId());
+//
+//        Map<String, Object> dataFile = (HashMap) context.get("attachement");
+//        if (dataFile != null) {
+//            MetaFile file = fileRep.find(Long.valueOf((Integer) dataFile.get("id")));
+//            decision.setAttachement(file);
+//        }
+//        Map<String, Object> entiteData = (HashMap) context.get("emitteur");
+//        if (entiteData != null) {
+//            Entite entite = entiteRep.find(Long.valueOf((Integer) entiteData.get("id")));
+//            decision.setEmitteur(entite);
+//        }
+//        decision.setStatus(status);
+//        decision.setMotifRejet((String) context.get("motifRejet"));
+//        decision.setDecisionDate(new LocalDate(context.get("decisionDate")));
+//        if (!DecisionRepository.STATUS_REJECTED.equals(status))
+//            decision.setDecisionCode((String) context.get("decisionCode"));
+//
+//        decision.setEntreprise((String) context.get("entreprise"));
+//
+//        //Who's execute the action (Verification, Validation, Rejection)
+//
+//        return decisionRep.save(decision);
+//    }
 //
 //    private MetaFile saveFile(MetaFile attachment) {
 //        MetaFile file = new MetaFile();

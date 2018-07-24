@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * Created by NOREDINE on 19/07/2018.
  */
-public class AffectationService implements Serializable {
+public class SituationService implements Serializable {
 
     private final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
@@ -39,12 +39,12 @@ public class AffectationService implements Serializable {
                 .generate()
                 .getFileLink();
     }
-    
-    public int decsionUsedInOtherAffectation(Decision decision) {
+
+    public int decsionUsedInOtherSituation(Decision decision) {
 
         List<Object> affectation = JPA.em().createQuery(
-                "SELECT af from Affectation as af "
-                        + " join af.decision d"
+                "SELECT si from Situation as si "
+                        + " join si.decision d"
                         + " where d.id = :decisionId ").setParameter("decisionId", decision.getId()
         ).getResultList();
         return affectation.size();
