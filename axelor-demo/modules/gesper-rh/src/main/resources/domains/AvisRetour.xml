@@ -5,11 +5,9 @@
 
     <module name="rh" package="com.axelor.rh.db"/>
 
-    <entity name="TypeConge" cachable="true">
-        <string name="code" title="Code" unique="true" required="true"/>
-        <string name="name" title="Libellé"/>
-        <decimal name="limite" title="Plafonné à"></decimal>
-        <one-to-many name="natureCongeList" ref="com.axelor.rh.db.NatureConge" mappedBy="typeConge" help="true"/>
-
+    <entity name="AvisRetour" cachable="true">
+        <date name="dateRetour" title="Date début"/>
+        <many-to-one name="employee" ref="com.axelor.rh.db.Employe" ></many-to-one>
+        <many-to-one name="conge" ref="com.axelor.rh.db.Conge" ></many-to-one>
     </entity>
 </domain-models>

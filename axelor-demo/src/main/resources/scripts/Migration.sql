@@ -1,5 +1,23 @@
-#------ Filière & cadre ------------
--- ---- --------------------------GRADE MIGRATION -----------------------------------
+#-------------------------- Filière & cadre ---------------------
+#-------------------------- By Ayoub ----------------------------
+#-- Cadres
+INSERT INTO gesper.config_cadre (`id`,`code`,`name`,`version`)
+SELECT @rownum := @rownum + 1 AS position, c.CAD_COD, c.CAD_LIB, '0' AS v FROM grh.cadres AS c
+		JOIN (SELECT @rownum := (SELECT next_val FROM gesper.config_cadre_seq)-1) as r
+		WHERE c.CAD_COD NOT IN ( SELECT ex.code FROM gesper.config_cadre ex);
+
+UPDATE gesper.config_cadre_seq  set next_val = (SELECT MAX(id)+1 as seq from gesper.config_cadre);
+
+#-- Filieres
+INSERT INTO gesper.config_filiere (`id`,`code`,`name`,`version`)
+SELECT @rownum := @rownum + 1 AS position, f.FIL_COD, f.FIL_LIB, '0' AS v FROM grh.filieres AS f
+		JOIN (SELECT @rownum := (SELECT next_val FROM gesper.config_filiere_seq)-1) as r
+		WHERE f.FIL_COD NOT IN ( SELECT ex.code FROM gesper.config_filiere ex);
+
+UPDATE gesper.config_filiere_seq  set next_val = (SELECT MAX(id)+1 as seq from gesper.config_filiere);
+#-----------------------------------------------------------------------------------------------------
+#-- ---- --------------------------GRADE MIGRATION ---------------------------------------------------
+#-----------------------------------------------------------------------------------------------------
 INSERT INTO gesper.config_grade (id,name, echelle,tri,cadre,filiere) SELECT
 grh.grades.GRA_COD,
 grh.grades.GRA_LIB,
@@ -423,7 +441,7 @@ INSERT INTO gesper.rh_jour_ferie (`id`,`date_debut`, `date_fin`,`name`,`version`
 
 UPDATE gesper.rh_jour_ferie_seq  set next_val = (SELECT MAX(id)+1 as seq from gesper.rh_jour_ferie);
 
-#------------Migration des atorisation d'absence ----------------
+#------------Migration des autorisation d'absence ----------------
 #By Ayoub
 
 INSERT INTO gesper.rh_autorisation_absence (`id`,`date_absence`,`duree`, `observation`,`imputable`,`employee`,`version`)
@@ -434,3 +452,165 @@ SELECT @rownum := @rownum + 1 AS position, abs.AUT_DAT, abs.AUT_DUR, abs.AUT_OBS
 		NOT IN ( SELECT CONCAT(DATE_FORMAT(ex.date_absence, '%Y-%m-%d'),'#',ex.employee,'#',ex.imputable) FROM gesper.rh_autorisation_absence ex);
 
 UPDATE gesper.rh_autorisation_absence_seq  set next_val = (SELECT MAX(id)+1 as seq from gesper.rh_autorisation_absence);
+
+#------------Migration des droits d'avancement------------------
+#By Ayoub
+
+INSERT INTO gesper.rh_droit_avancement (
+	`id`,
+	`numero`,
+	`note_avancement`,
+	`coeff_avancement_rapide`,
+	`date_avancement`,
+	`rythme_avancement`,
+	`exercice_avancement`,
+	`exercice`,
+	`employee`,
+	`grade`,
+	`echelon`,
+	`new_echelon`,
+	`new_indice`,
+	`statut`,
+	`type_avancement`,
+	`date_grade`,
+	`date_echelon`,
+	`version`
+)
+	SELECT
+		@rownum := @rownum + 1 AS position,
+		CONCAT(da.AVA_NUM,'/',da.EXE_COD),
+		da.AVA_NOT,
+		ech.rythme_rapide,
+		da.AVA_DAT,
+		da.AVA_RYT,
+		da.AVA_EXE,
+		ex.id exercice,
+		emp.id employe,
+		g.id grade,
+		ech.id echelon,
+		da.N_ECHE,
+		da.N_IND,
+		'0' statut,
+		'INT' type_avancement,
+		da.SIT_DGRA date_grade,
+		da.SIT_DANC date_echelon,
+		'0' version
+	FROM grh.droit_avancement da
+		JOIN (SELECT @rownum := (select next_val from gesper.rh_droit_avancement_seq)-1) as r
+		LEFT JOIN gesper.rh_employe emp on da.AGE_MAT = emp.matricule
+		LEFT JOIN gesper.config_exercice ex on ex.name = da.EXE_COD
+		LEFT JOIN gesper.config_grade g on g.id=da.GRA_COD
+		LEFT JOIN gesper.config_grade_echelon ech on ech.echelon=da.ECHE_COD AND ech.grade=g.id
+	WHERE CONCAT(da.AVA_NUM,'/',da.EXE_COD) NOT IN (SELECT d.numero FROM gesper.rh_droit_avancement as d) ;
+
+UPDATE gesper.rh_droit_avancement_seq
+set next_val = IF((SELECT id+1 as seq from gesper.rh_droit_avancement ORDER BY id desc LIMIT 1) is null,1,(SELECT id+1 as seq from gesper.rh_droit_avancement ORDER BY id desc LIMIT 1));
+
+INSERT INTO gesper.rh_droit_avancement (
+	`id`,
+	`numero`,
+	`coeff_avancement_rapide`,
+	`date_avancement`,
+	`rythme_avancement`,
+	`employee`,
+	`grade`,
+	`echelon`,
+	`decision`,
+	`arrete_ministerial_numero`,
+	`arrete_ministerial_date`,
+	`type_avancement`,
+	`exercice`,
+	`statut`,
+	`date_grade`,
+	`date_echelon`,
+	`version`
+)
+	SELECT
+		@rownum := @rownum + 1 AS position,
+		da.AVA_NUM,
+		ech.rythme_rapide,
+		da.AVA_DAT,
+		da.AVA_RYT,
+		emp.id employe,
+		g.id grade,
+		ech.id echelon,
+		dc.id decision,
+		da.ARR_NUM,
+		da.ARR_DAT,
+		da.AVA_TYP,
+		exe.id,
+		'1' statut,
+		da.AVA_DGRA date_grade,
+		da.AVA_DECH date_echelon,
+		'0' version
+	FROM grh.avancements da
+		JOIN (SELECT @rownum := (select next_val from gesper.rh_droit_avancement_seq)-1) as r
+		LEFT JOIN gesper.rh_employe emp on da.AGE_MAT = emp.matricule
+		LEFT JOIN gesper.config_grade g on g.id=da.GRA_COD
+		LEFT JOIN gesper.config_grade_echelon ech on ech.echelon=da.ECHE_COD AND ech.grade=g.id
+		LEFT JOIN gesper.config_decision dc on dc.decision_code=da.DEC_NUM
+		LEFT JOIN gesper.config_exercice exe on exe.name=RIGHT(da.AVA_NUM,4)
+	WHERE da.AVA_NUM NOT IN (SELECT d.numero FROM gesper.rh_droit_avancement as d);
+UPDATE gesper.rh_droit_avancement_seq
+set next_val = IF((SELECT id+1 as seq from gesper.rh_droit_avancement ORDER BY id desc LIMIT 1) is null,1,(SELECT id+1 as seq from gesper.rh_droit_avancement ORDER BY id desc LIMIT 1));
+
+UPDATE gesper.rh_droit_avancement av, (SELECT a.AVA_NUM numero, d.id decision FROM grh.avancements as a
+	JOIN gesper.config_decision as d on d.decision_code=a.DEC_NUM
+WHERE a.AVA_NUM IN (SELECT AVA_NUM FROM grh.droit_avancement)) as avn set av.decision=avn.decision, av.statut=1 where av.numero=avn.numero;
+
+#------------------------------------------------------------------------------------
+#------------------------------- Migration des decisions ----------------------------
+#------------------------------------------------------------------------------------
+#--By ayoub
+INSERT INTO gesper.config_decision (`id`,`decision_code`,`decision_date`, `emitteur`,`version`)
+SELECT @rownum := @rownum + 1 AS position, d.DEC_NUM, d.DEC_DAT, ent.id entite, '0' AS v FROM grh.decisions AS d
+		JOIN (SELECT @rownum := (SELECT next_val FROM gesper.config_decision_seq)-1) as r
+		LEFT JOIN gesper.config_entite ent ON ent.short_name=d.DEC_EME
+		WHERE d.DEC_NUM
+		NOT IN ( SELECT ex.decision_code FROM gesper.config_decision ex);
+UPDATE gesper.config_decision_seq  set next_val = (SELECT MAX(id)+1 as seq from gesper.config_decision);
+#------------------------------------------------------------------------------------
+#------------------------------- Migration des situation ----------------------------
+#------------------------------------------------------------------------------------
+#--By ayoub
+
+INSERT INTO gesper.rh_situation (
+	`id`,
+	`situation_date`,
+	`nature`,
+	`avancement`,
+	`type`,
+	`active`,
+	`employee`,
+	`grade`,
+	`decision`,
+	`status`,
+	`grade_date`,
+	`echelon_date`,
+	`version`
+)
+	SELECT
+		@rownum := @rownum + 1 AS position,
+		st.SIT_DAT date,
+		st.SIT_NAT nature,
+		av.id avancement,
+		st.SIT_TYP type,
+		st.SIT_ACT active,
+		emp.id employee,
+		ge.id grade,
+		dc.id decision,
+		sts.STA_COD status,
+		st.SIT_DGRA date_grade,
+		st.SIT_DANC date_echelon,
+		'0' version
+	FROM grh.situation_agent st
+		JOIN (SELECT @rownum := (select next_val from gesper.rh_situation_seq)-1) as r
+		LEFT JOIN gesper.rh_employe emp on st.AGE_MAT = emp.matricule
+		LEFT JOIN gesper.config_grade_echelon ge on ge.echelon=st.ECHE_COD AND ge.grade=st.GRA_COD
+		LEFT JOIN gesper.config_decision as dc on dc.decision_code=st.DEC_NUM
+		LEFT JOIN gesper.rh_droit_avancement as av on av.numero=st.AVA_NUM
+		LEFT JOIN grh.status_agent as sts on sts.AGE_MAT=st.AGE_MAT
+	WHERE CONCAT(IF(emp.id is null,'',emp.id),IF(ge.id is null,'',ge.id),IF(DATE_FORMAT(st.SIT_DAT,'%Y-%m-%d') is null,'',DATE_FORMAT(st.SIT_DAT,'%Y-%m-%d')),IF(dc.id is null,'',dc.id))
+				NOT IN (SELECT CONCAT(IF(d.employee is null,'',d.employee),IF(d.grade is null,'',d.grade),IF(DATE_FORMAT(d.situation_date,'%Y-%m-%d') is null,'',DATE_FORMAT(d.situation_date,'%Y-%m-%d')),IF(d.decision is null,'',d.decision)) as ID FROM gesper.rh_situation as d);
+UPDATE gesper.rh_situation_seq
+set next_val = IF((SELECT id+1 as seq from gesper.rh_situation ORDER BY id desc LIMIT 1) is null,1,(SELECT id+1 as seq from gesper.rh_situation ORDER BY id desc LIMIT 1));

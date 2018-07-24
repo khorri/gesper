@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_4.1.xsd">
+
+
+    <form name="droit-avancement-form" title="Droit avancement" canEdit="false" canSave="false" canNew="false" onNew="action-droit-avancement-current-exercice" width="large" model="com.axelor.rh.db.DroitAvancement">
+        <toolbar>
+            <button name="generateDroitAvancementList" onClick="action-generate-droit-avancement" title="Droit avancement" icon="fa-caret-square-o-up"/>
+            <button name="calculeAvancement" onClick="action-calcule-droit-avancement" title="Calculer l’avancement" icon="fa-level-up"/>
+            <button name="generateDecisions" title="Générer les décisions" icon="fa-print"/>
+        </toolbar>
+        <panel colSpan="12">
+            <field name="exercice" onChange="action-droit-avancement-exercice-change-refresh" title="Exercice" x-order="-name" canEdit="false"/>
+            <field name="cadre" x-target="com.axelor.config.db.Cadre" type="one-to-one" x-target-name="name" title="Cadre" canEdit="false" />
+        </panel>
+        <panel colSpan="12">
+            <panel-dashlet name="droitAvancement" action="action-view-show-droit-avancement" height="400" colSpan="12" title="Les droits d'avancement" canEdit="false"/>
+        </panel>
+    </form>
+
+    <grid name="droit-avancement-grid" title="Droit avancements" model="com.axelor.rh.db.DroitAvancement" canEdit="false" edit-icon="false">
+        <field name="employee.matricule" title="Matricule"/>
+        <field name="employee.firstame" title="Nom"/>
+        <field name="employee.lastname" title="Prénom"/>
+        <field name="grade" title="Grade"/>
+        <field name="noteAvancement" title="Note"/>
+        <field name="rythmeAvancement" title="Rythme"/>
+        <field name="newEchelon" title="Nouvel echelon"/>
+        <field name="newIndice" title="Nouvel indice"/>
+        <field name="dateAvancement" title="Date avancement"/>
+        <field name="statut" title="Statut"/>
+    </grid>
+
+    <action-view name="droit.avancement.all" model="com.axelor.rh.db.DroitAvancement" title="Droit avancement">
+        <view name="droit-avancement-form" type="form"/>
+    </action-view>
+
+    <action-record name="action-droit-avancement-current-exercice" model="com.axelor.rh.db.DroitAvancement">
+        <field name="exercice" expr="call:com.axelor.rh.web.CustomController:getCurrentExercice()"/>
+    </action-record>
+
+    <action-attrs name="action-droit-avancement-exercice-change-refresh">
+        <attribute name="refresh" for="droitAvancement" expr="eval:true"/>
+    </action-attrs>
+
+    <action-view name="action-view-show-droit-avancement" title="Les droits d'avancement" model="com.axelor.rh.db.DroitAvancement">
+        <view type="grid" name="droit-avancement-grid"/>
+        <domain>self.exercice.id = :exe</domain>
+        <context name="exe" expr="eval: exercice.id"/>
+        <context name="cdr" expr="eval: cadre.id"/>
+    </action-view>
+
+    <action-method name="action-generate-droit-avancement" model="com.axelor.rh.db.DroitAvancement" >
+        <call class="com.axelor.rh.web.DroitAvancementController" method="generateDroitAvancementList"/>
+    </action-method>
+
+    <action-method name="action-calcule-droit-avancement" model="com.axelor.rh.db.DroitAvancement" >
+        <call class="com.axelor.rh.web.DroitAvancementController" method="calculerDroitAvancement"/>
+    </action-method>
+</object-views>
