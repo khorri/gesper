@@ -20,15 +20,19 @@
 	<menuitem name="menu-gesper-rh-conge-config" parent="menu-gesper-rh-conge"
 			  title="Configuration"/>
 
+	<menuitem name="menu-gesper-rh-conge-demande-conge" parent="menu-gesper-rh-conge"
+			  title="Demandes congé"
+	action="conge.all"/>
+
 	<menuitem name="menu-gesper-rh-conge-config-type-conge" parent="menu-gesper-rh-conge-config"
 			  title="Type congé"
 			  action="type.conge.all" />
 
-	<menuitem name="menu-gesper-rh-conge-config-nature-conge" parent="mmenu-gesper-rh-conge"
+	<menuitem name="menu-gesper-rh-conge-config-nature-conge" parent="menu-gesper-rh-conge-config"
 			  title="Nature congé"
 			  action="nature.conge.all"/>
 
-	<menuitem name="menu-gesper-rh-conge-config-jour-ferie" parent="mmenu-gesper-rh-conge"
+	<menuitem name="menu-gesper-rh-conge-config-jour-ferie" parent="menu-gesper-rh-conge-config"
 			  title="Jour férie"
 			  action="jour.ferie.all"/>
 
@@ -75,5 +79,10 @@
 	<action-view name="jour.ferie.all" model="com.axelor.rh.db.JourFerie" title="Jours fériés">
 		<view name="jour-ferie-grid" type="grid"/>
 		<view name="jour-ferie-form" type="form"/>
+	</action-view>
+
+	<action-view name="conge.all" model="com.axelor.rh.db.Conge" title="Demanade de Congé">
+		<view name="conge-grid" type="grid"/>
+		<view name="conge-form" type="form"/>
 	</action-view>
 </object-views>

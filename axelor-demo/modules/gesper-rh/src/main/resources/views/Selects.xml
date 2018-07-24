@@ -40,4 +40,9 @@
         <option value="3">Abrogé</option>
     </selection>
 
+    <selection name="conge.start.select">
+        <option value="1">Matin</option>
+        <option value="2">Après-midi</option>
+    </selection>
+
 </object-views>
