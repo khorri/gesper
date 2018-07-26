@@ -17,7 +17,7 @@
         <integer name="newEchelon" title="Nouvel Echelon"/>
         <integer name="newIndice" title="Nouvel indice"/>
         <string name="typeAvancement" title="Type avancement"/>
-        <boolean name="statut" title="Statut"/>
+        <integer name="status" title="Status"/>
         <date name="arreteMinisterialNumero" title="Numero arrête ministeriel"/>
         <string name="arreteMinisterialDate" title="Date arrête ministeriel"/>
         <many-to-one name="exercice" ref="com.axelor.config.db.Exercice" ></many-to-one>
@@ -27,14 +27,14 @@
         <many-to-one name="decision" ref="com.axelor.config.db.Decision" ></many-to-one>
 
         <extra-code>
-            <![CDATA[
+        <![CDATA[
 		public static final int NOTE_LENT = 10;
 		public static final int NOTE_MOYEN = 16;
 		public static final int NOTE_RAPIDE = 20;
 		public static final String STATUS_RAPIDE = "RAPIDE";
 		public static final String STATUS_MOYEN = "MOYEN";
 		public static final String STATUS_LENT = "LENT";
-	]]>
+        ]]>
         </extra-code>
 
     </entity>

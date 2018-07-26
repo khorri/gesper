@@ -8,4 +8,6 @@ public interface IReport {
     public static final String WORK_CERTIFICATE = "AttestationTravail.rptdesign";
     public static final String AFFECTATION_DECISION = "AffectationDecision.rptdesign";
 
+    public static final String AVANCEMENT_DECISION="AvancementDecision.rptdesign";
+
 }
