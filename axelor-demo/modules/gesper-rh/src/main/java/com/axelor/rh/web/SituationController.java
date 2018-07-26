@@ -3,8 +3,10 @@ package com.axelor.rh.web;
 import com.axelor.auth.AuthUtils;
 import com.axelor.auth.db.User;
 import com.axelor.config.db.Decision;
+import com.axelor.config.db.Grade;
 import com.axelor.config.db.repo.DecisionRepository;
 import com.axelor.config.db.repo.EntiteRepository;
+import com.axelor.config.db.repo.GradeRepository;
 import com.axelor.meta.db.repo.MetaFileRepository;
 import com.axelor.rh.db.Situation;
 import com.axelor.rh.db.repo.SituationRepository;
@@ -19,6 +21,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.invoke.MethodHandles;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by HB on 10/07/2018.
@@ -34,7 +38,8 @@ public class SituationController {
     private SituationRepository situationRepo;
     @Inject
     private SituationService situationService;
-
+    @Inject
+    private GradeRepository gradeRepository;
     private final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     @Transactional
@@ -349,7 +354,8 @@ public class SituationController {
             return null;
 
     }
-//
+
+    //
 //    @Transactional
 //    private Decision updateDecision(Context context, Decision d, String status) {
 //        Decision decision = decisionRep.find(d.getId());
@@ -402,5 +408,14 @@ public class SituationController {
 //                .define(name)
 //                .add("html", fileLink).map());
 //    }
-
+    public void changedGrade(ActionRequest request, ActionResponse response) {
+        Context context = request.getContext();
+        Map miniGrade = (HashMap) context.get("grades");
+        Grade grade = gradeRepository.find(Long.valueOf((Integer) miniGrade.get("id")));
+        if (grade.getCadre() != null)
+            response.setValue("cadre", grade.getCadre().getName());
+        if (grade.getFiliere() != null)
+            response.setValue("filiere", grade.getFiliere().getName());
+        response.setValue("echelle", grade.getEchelle());
+    }
 }
