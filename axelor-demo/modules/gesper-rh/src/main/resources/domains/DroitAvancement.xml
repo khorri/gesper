@@ -34,6 +34,11 @@
 		public static final String STATUS_RAPIDE = "RAPIDE";
 		public static final String STATUS_MOYEN = "MOYEN";
 		public static final String STATUS_LENT = "LENT";
+
+		public static final int STATUS_DRAFT = 0;
+		public static final int STATUS_VERIFIED = 1;
+		public static final int STATUS_ATTENT_VALIDATION = 2;
+		public static final int STATUS_VALIDATED = 3;
         ]]>
         </extra-code>
 

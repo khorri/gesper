@@ -9,12 +9,12 @@ public class SQLQueries  {
 
     public static final String GET_LAST_MATRICULE_MYSQL = "SELECT CAST(MAX(e.matricule+0) as UNSIGNED) AS matricule FROM rh_employe e";
 
-    public static String GENERATE_DROIT_AVANCEMENT_LIST_BY_EXERCICE(Long exerciceID){
+    public static String GENERATE_DROIT_AVANCEMENT_LIST_BY_EXERCICE(Long exerciceID, long userID, String date){
         String query="";
         if(TYPE.equals("MYSQL")){
             query="INSERT INTO gesper.rh_droit_avancement ("+
-                    " `id`, `employee`, `exercice`, `grade`, `echelon`, `coeff_avancement_rapide`, `numero`, `type_avancement`, `statut`, `version` )"+
-                    " SELECT @rown\\:= @rown + 1 AS id, emp.id AS employe, ex.id AS exrcice, MAX(g.id) AS grade, MAX(ge.id) AS echellon, MAX(ge.rythme_rapide) AS rythme_rapide, CONCAT(@rownum\\:= @rownum+1,'/',ex.name) AS numero, 'INT' AS type, false AS statut, '0' AS version"+
+                    " `id`, `employee`, `exercice`, `grade`, `echelon`, `coeff_avancement_rapide`, `numero`, `type_avancement`, `statut`,`created_on`,`created_by`, `version` )"+
+                    " SELECT @rown\\:= @rown + 1 AS id, emp.id AS employe, ex.id AS exrcice, MAX(g.id) AS grade, MAX(ge.id) AS echellon, MAX(ge.rythme_rapide) AS rythme_rapide, CONCAT(@rownum\\:= @rownum+1,'/',ex.name) AS numero, 'INT' AS type, false AS statut,'"+date+"','"+userID+"', '0' AS version"+
                     " FROM gesper.rh_employe AS emp"+
                     " JOIN (SELECT @rown\\:= (select next_val from gesper.rh_droit_avancement_seq)-1) as r"+
                     " JOIN (SELECT @rownum\\:=0) AS t"+
