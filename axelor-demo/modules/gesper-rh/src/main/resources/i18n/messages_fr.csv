@@ -1,3 +1,4 @@
 "key","message","comment","context"
 "ERR_FA_002","Il existe déjà un employé avec cette matricule.",,
 "work certificate","Attestation de travail",,
+"Return date cannot be before leave date","La date de retour  doit être après la date de départ",,

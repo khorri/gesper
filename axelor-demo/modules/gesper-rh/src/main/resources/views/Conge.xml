@@ -27,17 +27,16 @@
     <form name="conge-form" title="Demande de congé" model="com.axelor.rh.db.Conge" width="large" onNew="conge-defaults">
 
         <panel name="main">
-            <field name="status" showTitle="false"  colSpan="12"
-                   widget="NavSelect"/>
-            <field name="employee" canEdit="false" canView="false" colSpan="6" />
-            <field name="typeConge" colSpan="10"/>
-            <field name="droitConge" colSpan="2" title="Droit congé" readonly="true" />
-            <field name="dateDebut" colSpan="6"/>
-            <field name="commenceA" colSpan="3" selection="conge.start.select"/>
-            <field name="duree" colSpan="3"/>
-            <field name="dateFin" colSpan="6"/>
-            <field name="termineA" colSpan="3"/>
-            <field name="interime" canEdit="false" canView="false" colSpan="12" />
+            <field name="status" showTitle="false" colSpan="12" widget="NavSelect"/>
+            <field name="employee" colSpan="5" canView="false" canEdit="false" domain="self.activated=true" onChange="calculate-droit-conge-group"/>
+            <field name="typeConge" colSpan="5" canView="false" canEdit="false" onChange="action-conge-methode-compute-duration-group"/>
+            <field name="droitConge" title="Droit au congé" readonly="true" colSpan="2"/>
+            <field name="dateDebut" colSpan="5" onChange="action-conge-valider-date"/>
+            <field name="commenceA" colSpan="5" selection="conge.start.select"/>
+            <field name="duree" colSpan="2" readonly="true"/>
+            <field name="dateFin" colSpan="5" title="Date retour(inclu)" onChange="action-conge-methode-compute-duration-group"/>
+            <field name="termineA" colSpan="5" selection="conge.start.select"/>
+            <field name="interime" colSpan="12" canView="false" canEdit="false" domain="self.activated=true"/>
         </panel>
         <panel name="actions" title="Actions" sidebar="true" stacked="true">
             <button name="createButton" title="Créer" showIf="id==null" colSpan="4" css="btn-info" icon="fa-plus"
@@ -132,5 +131,22 @@
         <field name="termineA" expr="2"></field>
     </action-record>
 
+    <action-method name="calculate-droit-conge" >
+        <call class="com.axelor.rh.web.CongeController" method="getDroitConge" />
+    </action-method>
+
+    <action-group name="calculate-droit-conge-group">
+        <action name="calculate-droit-conge" if="employee!=null &amp;&amp; typeConge!=null"/>
+    </action-group>
+
+
+
+    <action-method name="action-conge-methode-compute-duration">
+        <call class="com.axelor.rh.web.CongeController" method="computeDuration"/>
+    </action-method>
+
+    <action-group name="action-conge-methode-compute-duration-group">
+        <action name="action-conge-methode-compute-duration" if="dateFin &amp;&amp; dateDebut"/>
+    </action-group>
 
 </object-views>

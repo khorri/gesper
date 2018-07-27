@@ -5,13 +5,10 @@
 
     <module name="rh" package="com.axelor.rh.db"/>
 
-    <entity name="NatureConge" cachable="true">
-        <string name="code" title="Code" unique="true" required="true"/>
-        <string name="name" title="Libellé" />
-        <integer name="limite" title="Plafonné à"></integer>
+    <entity name="DroitConge" cachable="true">
+        <integer name="exercice" title="Durée"/>
+        <integer name="solde" title="Droit congé"/>
+        <many-to-one name="employee" ref="com.axelor.rh.db.Employe" ></many-to-one>
         <many-to-one name="typeConge" ref="com.axelor.rh.db.TypeConge" ></many-to-one>
-        <!--
-        <one-to-many name="congesList" ref="com.axelor.rh.db.Conge" mappedBy="natureConge" help="true"/>
-        -->
     </entity>
 </domain-models>

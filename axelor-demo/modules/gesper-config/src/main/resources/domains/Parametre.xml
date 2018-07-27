@@ -1,0 +1,14 @@
+<domain-models xmlns="http://axelor.com/xml/ns/domain-models"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="http://axelor.com/xml/ns/domain-models
+  http://axelor.com/xml/ns/domain-models/domain-models_4.0.xsd">
+
+    <module name="config" package="com.axelor.config.db"/>
+
+    <entity name="Parametre"  cachable="true">
+        <string name="name" max="255" unique="true"/>
+        <string name="libelle" title="Désignation" />
+        <string name="valeur"  max="255"/>
+    </entity>
+
+</domain-models>

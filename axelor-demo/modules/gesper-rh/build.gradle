@@ -16,3 +16,8 @@ This is a demo module to provide quick demonstration of some new features.
 	module "modules:axelor-base"
 	 module "modules:gesper-config"
 }
+
+dependencies {
+	compile "org.reflections:reflections:0.9.11"
+}
+
