@@ -562,12 +562,12 @@ WHERE a.AVA_NUM IN (SELECT AVA_NUM FROM grh.droit_avancement)) as avn set av.dec
 #------------------------------- Migration des decisions ----------------------------
 #------------------------------------------------------------------------------------
 #--By ayoub
-INSERT INTO gesper.config_decision (`id`,`decision_code`,`decision_date`, `emitteur`,`version`)
-SELECT @rownum := @rownum + 1 AS position, d.DEC_NUM, d.DEC_DAT, ent.id entite, '0' AS v FROM grh.decisions AS d
+INSERT INTO gesper.config_decision (`id`,`decision_code`,`decision_date`, `emitteur`,`version`, status)
+SELECT @rownum := @rownum + 1 AS position, d.DEC_NUM, d.DEC_DAT, ent.id entite, '0' AS v, '3' as status FROM grh.decisions AS d
 		JOIN (SELECT @rownum := (SELECT next_val FROM gesper.config_decision_seq)-1) as r
 		LEFT JOIN gesper.config_entite ent ON ent.short_name=d.DEC_EME
 		WHERE d.DEC_NUM
-		NOT IN ( SELECT ex.decision_code FROM gesper.config_decision ex);
+		NOT IN ( SELECT IFNULL(ex.decision_code,"no code, lol") FROM gesper.config_decision ex);
 UPDATE gesper.config_decision_seq  set next_val = (SELECT MAX(id)+1 as seq from gesper.config_decision);
 #------------------------------------------------------------------------------------
 #------------------------------- Migration des situation ----------------------------
@@ -614,3 +614,57 @@ INSERT INTO gesper.rh_situation (
 				NOT IN (SELECT CONCAT(IF(d.employee is null,'',d.employee),IF(d.grade is null,'',d.grade),IF(DATE_FORMAT(d.situation_date,'%Y-%m-%d') is null,'',DATE_FORMAT(d.situation_date,'%Y-%m-%d')),IF(d.decision is null,'',d.decision)) as ID FROM gesper.rh_situation as d);
 UPDATE gesper.rh_situation_seq
 set next_val = IF((SELECT id+1 as seq from gesper.rh_situation ORDER BY id desc LIMIT 1) is null,1,(SELECT id+1 as seq from gesper.rh_situation ORDER BY id desc LIMIT 1));
+
+#---- Affectation a nightmare . i pity the person reading this query
+
+
+INSERT INTO gesper.rh_affectation (id, employee, entite, service, residence, fonction, caida, affectation_date, observation, status,version, type_affectation)
+SELECT
+@rownum := @rownum + 1 AS position,
+emp.id as employee,
+en.id as entite,
+serv.id as service,
+res.id as residence,
+fo.id as fonction,
+gcai.id as caida,
+af.AFF_DAT,
+af.FON_OBS,
+'3' as stat,
+'0' as v,
+(case when af.AFF_ACT = 1 then '1'
+      when af.AFF_ACT = 0 AND af.FLAG_ABROGEE like 'Non' then '2'
+      else '3' 
+end) as type_affectation
+FROM grh.`affectations` af
+JOIN (SELECT @rownum := (SELECT next_val FROM gesper.rh_affectation_seq)-1) as r
+left join gesper.config_entite en on en.short_name = af.ENT_COD
+left join grh.residences resid on resid.RES_COD = af.RES_COD
+left join gesper.config_residence res on res.name = resid.RES_LIB
+left join gesper.config_service serv on af.SER_COD = serv.short_name
+left join gesper.rh_employe emp on emp.matricule = af.AGE_MAT
+left join grh.fonctions gfon on gfon.FON_COD = af.FON_COD
+left join gesper.config_fonction fo on fo.`name` = gfon.FON_LIB
+left join grh.entites_ormvah ent on ent.ENT_COD = af.ENT_COD
+left join grh.caida cai on cai.CAI_COD = ent.CAI_COD
+left join gesper.config_caida gcai on gcai.`name` = cai.CAI_LIB
+#--- *sigh* ↓ this is because duplicate decisions 
+where CONCAT_ws("",emp.id, DATE_FORMAT(af.AFF_DAT,'%Y-%m-%d'), fo.id,en.id,serv.id) not in (select CONCAT_WS("",employee, DATE_FORMAT(affectation_date,'%Y-%m-%d'), fonction,entite,service) from gesper.rh_affectation) ;
+
+UPDATE gesper.rh_affectation_seq  set next_val = (SELECT IF(MAX(id) is null,1,MAX(id)+1) as seq from gesper.rh_affectation);
+
+INSERT INTO gesper.rh_affectation_decision ( decision,rh_affectation)
+SELECT pseudo.decision, gaf.id FROM 
+(SELECT CONCAT_ws("",emp.id, DATE_FORMAT(af.AFF_DAT,'%Y-%m-%d'), fo.id,en.id,serv.id,(case when af.AFF_ACT = 1 then '1'
+      when af.AFF_ACT = 0 AND af.FLAG_ABROGEE like 'Non' then '2'
+      else '3' 
+end)) as unique_field,d.id as decision
+from grh.affectations af
+left join (select  decision_code,id from gesper.config_decision group by decision_code) d on d.decision_code = af.DEC_NUM
+left join gesper.config_entite en on en.short_name = af.ENT_COD
+left join gesper.config_service serv on af.SER_COD = serv.short_name
+left join gesper.rh_employe emp on emp.matricule = af.AGE_MAT
+left join grh.fonctions gfon on gfon.FON_COD = af.FON_COD
+left join gesper.config_fonction fo on fo.`name` = gfon.FON_LIB
+) pseudo
+left join (select id,CONCAT_WS("",employee, DATE_FORMAT(affectation_date,'%Y-%m-%d'), fonction,entite,service,type_affectation) as unique_field from gesper.rh_affectation) gaf on pseudo.unique_field like gaf.unique_field
+having decision is not null and CONCAT_WS('',gaf.id,pseudo.decision) not in (select CONCAT_WS('',rh_affectation,decision) from gesper.rh_affectation_decision);

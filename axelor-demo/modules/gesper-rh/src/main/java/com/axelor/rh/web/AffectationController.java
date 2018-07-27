@@ -4,7 +4,6 @@ import com.axelor.apps.report.engine.ReportSettings;
 import com.axelor.auth.AuthUtils;
 import com.axelor.auth.db.User;
 import com.axelor.config.db.Decision;
-import com.axelor.config.db.Entite;
 import com.axelor.config.db.repo.DecisionRepository;
 import com.axelor.config.db.repo.EntiteRepository;
 import com.axelor.exception.AxelorException;
@@ -14,6 +13,7 @@ import com.axelor.meta.schema.actions.ActionView;
 import com.axelor.rh.db.Affectation;
 import com.axelor.rh.db.repo.AffectationRepository;
 import com.axelor.rh.service.AffectationService;
+import com.axelor.rh.service.DecisionService;
 import com.axelor.rpc.ActionRequest;
 import com.axelor.rpc.ActionResponse;
 import com.axelor.rpc.Context;
@@ -24,9 +24,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.invoke.MethodHandles;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 
 /**
  * Created by HB on 10/07/2018.
@@ -42,6 +40,9 @@ public class AffectationController {
     private MetaFileRepository fileRep;
     @Inject
     private AffectationService affectationService;
+    @Inject
+    private DecisionService decisionService;
+
     private final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     @Transactional
@@ -60,7 +61,6 @@ public class AffectationController {
         response.setValue("decisionDate", decision.getDecisionDate());
         response.setValue("entreprise", decision.getEntreprise());
         response.setValue("emitteur", decision.getEmitteur());
-        response.setReadonly("", false);
     }
 
     /**
@@ -104,7 +104,7 @@ public class AffectationController {
             } else {
                 lastDecision.setValidatedBy(user);
                 lastDecision.setValidatedOn(new LocalDate());
-                decision = updateDecision(context, lastDecision, DecisionRepository.STATUS_VALIDATED);
+                decision = decisionService.updateDecision(context, lastDecision, DecisionRepository.STATUS_VALIDATED);
             }
             if (AffectationRepository.TYPE_PRINCIPAL.equals(affectation.getTypeAffectation())) {
                 deactivatePrincipalAffectation(affectation, decision);
@@ -169,7 +169,7 @@ public class AffectationController {
             lastDecision.setRejectedBy(user);
             lastDecision.setRejectedOn(new LocalDate());
 
-            updateDecision(context, lastDecision, DecisionRepository.STATUS_REJECTED);
+            decisionService.updateDecision(context, lastDecision, DecisionRepository.STATUS_REJECTED);
             affectation.setStatus(DecisionRepository.STATUS_REJECTED);
             affectationRepository.save(affectation);
 
@@ -184,7 +184,6 @@ public class AffectationController {
         if (affectation != null) {
             if (DecisionRepository.STATUS_VERIFIED.equals(affectation.getStatus())) {
                 Decision decision = getLastPendingDecision(affectation);
-                affectationService.decsionUsedInOtherAffectation(decision);
                 response.setValue("decisionCode", decision.getDecisionCode());
                 response.setValue("decisionDate", decision.getDecisionDate());
                 response.setValue("entreprise", decision.getEntreprise());
@@ -306,32 +305,32 @@ public class AffectationController {
 
     }
 
-    @Transactional
-    public Decision updateDecision(Context context, Decision d, String status) {
-        Decision decision = decisionRep.find(d.getId());
-
-        Map<String, Object> dataFile = (HashMap) context.get("attachement");
-        if (dataFile != null) {
-            MetaFile file = fileRep.find(Long.valueOf((Integer) dataFile.get("id")));
-            decision.setAttachement(file);
-        }
-        Map<String, Object> entiteData = (HashMap) context.get("emitteur");
-        if (entiteData != null) {
-            Entite entite = entiteRep.find(Long.valueOf((Integer) entiteData.get("id")));
-            decision.setEmitteur(entite);
-        }
-        decision.setStatus(status);
-        decision.setMotifRejet((String) context.get("motifRejet"));
-        decision.setDecisionDate(new LocalDate(context.get("decisionDate")));
-        if (!DecisionRepository.STATUS_REJECTED.equals(status))
-            decision.setDecisionCode((String) context.get("decisionCode"));
-
-        decision.setEntreprise((String) context.get("entreprise"));
-
-        //Who's execute the action (Verification, Validation, Rejection)
-
-        return decisionRep.save(decision);
-    }
+//    @Transactional
+//    public Decision updateDecision(Context context, Decision d, String status) {
+//        Decision decision = decisionRep.find(d.getId());
+//
+//        Map<String, Object> dataFile = (HashMap) context.get("attachement");
+//        if (dataFile != null) {
+//            MetaFile file = fileRep.find(Long.valueOf((Integer) dataFile.get("id")));
+//            decision.setAttachement(file);
+//        }
+//        Map<String, Object> entiteData = (HashMap) context.get("emitteur");
+//        if (entiteData != null) {
+//            Entite entite = entiteRep.find(Long.valueOf((Integer) entiteData.get("id")));
+//            decision.setEmitteur(entite);
+//        }
+//        decision.setStatus(status);
+//        decision.setMotifRejet((String) context.get("motifRejet"));
+//        decision.setDecisionDate(new LocalDate(context.get("decisionDate")));
+//        if (!DecisionRepository.STATUS_REJECTED.equals(status))
+//            decision.setDecisionCode((String) context.get("decisionCode"));
+//
+//        decision.setEntreprise((String) context.get("entreprise"));
+//
+//        //Who's execute the action (Verification, Validation, Rejection)
+//
+//        return decisionRep.save(decision);
+//    }
 
     private MetaFile saveFile(MetaFile attachment) {
         MetaFile file = new MetaFile();

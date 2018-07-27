@@ -5,8 +5,8 @@
 
     <module name="config" package="com.axelor.config.db"/>
 
-    <entity name="GradeEchelon"  cachable="true">
-        <integer name="echelon"/>
+    <entity name="GradeEchelon" cachable="true">
+        <integer name="echelon" namecolumn="true"/>
         <integer name="rythmeLent"/>
         <integer name="rythmeMoyen"/>
         <integer name="rythmeRapide"/>
