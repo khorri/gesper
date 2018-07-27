@@ -6,7 +6,7 @@
     <module name="rh" package="com.axelor.rh.db"/>
 
     <entity name="Situation" cachable="true">
-        <string name="status" title="Status"/>
+        <string name="status" title="Status" selection="employee.status.type.select"/>
         <date name="gradeDate" title="Date grade"/>
         <date name="echelonDate" title="Date echelon"/>
         <date name="situationDate" title="Date situation"/>

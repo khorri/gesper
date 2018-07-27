@@ -10,6 +10,7 @@ import com.axelor.config.db.repo.GradeRepository;
 import com.axelor.meta.db.repo.MetaFileRepository;
 import com.axelor.rh.db.Situation;
 import com.axelor.rh.db.repo.SituationRepository;
+import com.axelor.rh.service.DecisionService;
 import com.axelor.rh.service.SituationService;
 import com.axelor.rpc.ActionRequest;
 import com.axelor.rpc.ActionResponse;
@@ -22,6 +23,7 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.invoke.MethodHandles;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -40,6 +42,8 @@ public class SituationController {
     private SituationService situationService;
     @Inject
     private GradeRepository gradeRepository;
+    @Inject
+    private DecisionService decisionService;
     private final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     @Transactional
@@ -53,6 +57,10 @@ public class SituationController {
         decision.setVerifiedBy(user);
         decision.setVerifiedOn(new LocalDate());
         response.setValue("decision", decision);
+        response.setValue("decisionCode", decision.getDecisionCode());
+        response.setValue("decisionDate", decision.getDecisionDate());
+        response.setValue("entreprise", decision.getEntreprise());
+        response.setValue("emitteur", decision.getEmitteur());
     }
 
     //
@@ -67,12 +75,11 @@ public class SituationController {
         User user = AuthUtils.getUser();
         Context context = request.getContext();
         Situation situation = situationRepo.find((Long) context.get("id"));
-
         boolean useExising = false;
         if (context.containsKey("useExisting"))
             useExising = (boolean) context.get("useExisting");
 
-        String errorMessage = validerDecisionValidation((Decision) context.get("decision"));
+        String errorMessage = decisionService.validerDecisionValidation(context);
         if (errorMessage != null) {
             response.setError(errorMessage);
             return;
@@ -87,9 +94,9 @@ public class SituationController {
 
         if (situation.getDecision() != null) {
             //update current decsion with new values
-            Decision decision = situation.getDecision();
+            Decision decision = decisionService.updateDecision(context, situation.getDecision(), DecisionRepository.STATUS_VALIDATED);
             if (useExising) {
-                decision = decisionRep.all().filter("self.decisionCode = ?1", context.get("decisionCode")).fetchOne();
+//                decision = decisionRep.all().filter("self.decisionCode = ?1", context.get("decisionCode")).fetchOne();
             } else {
                 decision.setValidatedBy(user);
                 decision.setValidatedOn(new LocalDate());
@@ -99,11 +106,20 @@ public class SituationController {
 //            if (AffectationRepository.TYPE_PRINCIPAL.equals(affectation.getTypeAffectation())) {
 //                deactivatePrincipalAffectation(affectation, decision);
 //            }
-
+            setPreviousStutationNotActive(situation.getId(), situation.getEmployee().getId());
+            situation.setActive(true);
             situation.setDecisionStatus(DecisionRepository.STATUS_VALIDATED);
             situationRepo.save(situation);
         }
         response.setReload(true);
+    }
+
+    private void setPreviousStutationNotActive(Long situationId, Long employeeId) {
+        List<Situation> situations = situationRepo.all().filter("self.employee.id = ?1 AND self.id != ?2 AND self.active = true", employeeId, situationId).fetch();
+        for (Situation situation : situations) {
+            situation.setActive(false);
+            situationRepo.save(situation);
+        }
     }
 
     //
@@ -146,7 +162,7 @@ public class SituationController {
         User user = AuthUtils.getUser();
         Context context = request.getContext();
         Situation situation = situationRepo.find((Long) context.get("id"));
-        String errorMessage = refuserDecisionValidation((Decision) context.get("decision"));
+        String errorMessage = decisionService.refuserDecisionValidation(context);
         if (errorMessage != null) {
             response.setError(errorMessage);
             return;
@@ -154,12 +170,10 @@ public class SituationController {
 
         if (situation.getDecision() != null) {
             //update current decsion with new values
-            Decision decision = situation.getDecision();
+            Decision decision = decisionService.updateDecision(context, situation.getDecision(), DecisionRepository.STATUS_REJECTED);
             decision.setRejectedBy(user);
             decision.setRejectedOn(new LocalDate());
             decision.setStatus(DecisionRepository.STATUS_REJECTED);
-            decisionRep.save(decision);
-//            new AffectationController().updateDecision((Map) context, decision, DecisionRepository.STATUS_REJECTED);
             situation.setDecisionStatus(DecisionRepository.STATUS_REJECTED);
             situationRepo.save(situation);
 
@@ -203,63 +217,42 @@ public class SituationController {
 ////        }
 ////
 ////    }
-//    @Transactional
-//    public void getLastDecision(ActionRequest request, ActionResponse response) {
-//        Context context = request.getContext();
-//        Affectation affectation = affectationRepository.find((Long) context.get("id"));
-//        if (affectation != null) {
-//            if (DecisionRepository.STATUS_VERIFIED.equals(affectation.getStatus())) {
-//                Decision decision = getLastPendingDecision(affectation);
-//                affectationService.decsionUsedInOtherAffectation(decision);
-//                response.setValue("decisionCode", decision.getDecisionCode());
-//                response.setValue("decisionDate", decision.getDecisionDate());
-//                response.setValue("entreprise", decision.getEntreprise());
-//                response.setValue("emitteur", decision.getEmitteur());
-//            }
-//
-//        }
-//    }
-//
-//    @Transactional
-//    public void getAudit(ActionRequest request, ActionResponse response) {
-//        Context context = request.getContext();
-//        Affectation affectation = affectationRepository.find((Long) context.get("id"));
-//        if (affectation != null) {
-//
-//            Iterator<Decision> iter = affectation.getDecision().iterator();
-//            Decision decision = null;
-//            Decision lastDecision = null;
-//            if (iter.hasNext())
-//                lastDecision = iter.next();
-//
-//            while (iter.hasNext()) {
-//                decision = iter.next();
-//                if (lastDecision.getUpdatedOn() != null && decision.getUpdatedOn().isAfter(lastDecision.getUpdatedOn()))
-//                    lastDecision = decision;
-//            }
-//            if (lastDecision == null)
-//                return;
-//            if (lastDecision.getVerifiedBy() != null)
-//                response.setValue("verifiedBy", lastDecision.getVerifiedBy().getFullName());
-//            if (lastDecision.getValidatedBy() != null)
-//                response.setValue("validatedBy", lastDecision.getValidatedBy().getFullName());
-//            if (lastDecision.getRejectedBy() != null)
-//                response.setValue("rejectedBy", lastDecision.getRejectedBy().getFullName());
-//            response.setValue("verifiedOn", lastDecision.getVerifiedOn());
-//            response.setValue("validatedOn", lastDecision.getValidatedOn());
-//            response.setValue("rejectedOn", lastDecision.getRejectedOn());
-//            response.setValue("emitteur", lastDecision.getEmitteur());
-//
-//
-//        }
-//    }
-//
-//    public void getDummies(ActionRequest request, ActionResponse response) {
-//        getAudit(request, response);
-//        getLastDecision(request, response);
-//    }
-//
-//    @Transactional
+    @Transactional
+    public void getLastDecision(ActionRequest request, ActionResponse response) {
+        Context context = request.getContext();
+        Decision decision = (Decision) context.get("decision");
+        if (decision != null) {
+            response.setValue("decisionCode", decision.getDecisionCode());
+            response.setValue("decisionDate", decision.getDecisionDate());
+            response.setValue("entreprise", decision.getEntreprise());
+            response.setValue("emitteur", decision.getEmitteur());
+        }
+    }
+
+    @Transactional
+    public void getAudit(ActionRequest request, ActionResponse response) {
+        Context context = request.getContext();
+        Decision decision = (Decision) context.get("decision");
+        if (decision == null)
+            return;
+        if (decision.getVerifiedBy() != null)
+            response.setValue("verifiedBy", decision.getVerifiedBy().getFullName());
+        if (decision.getValidatedBy() != null)
+            response.setValue("validatedBy", decision.getValidatedBy().getFullName());
+        if (decision.getRejectedBy() != null)
+            response.setValue("rejectedBy", decision.getRejectedBy().getFullName());
+        response.setValue("verifiedOn", decision.getVerifiedOn());
+        response.setValue("validatedOn", decision.getValidatedOn());
+        response.setValue("rejectedOn", decision.getRejectedOn());
+        response.setValue("emitteur", decision.getEmitteur());
+    }
+
+    public void getDummies(ActionRequest request, ActionResponse response) {
+        getAudit(request, response);
+        getLastDecision(request, response);
+    }
+
+    //    @Transactional
 //    public void abroge(ActionRequest request, ActionResponse response) {
 //        Affectation affectation = request.getContext().asType(Affectation.class);
 //        if (AffectationRepository.TYPE_PRINCIPAL.equals(affectation.getTypeAffectation())) {
@@ -411,11 +404,23 @@ public class SituationController {
     public void changedGrade(ActionRequest request, ActionResponse response) {
         Context context = request.getContext();
         Map miniGrade = (HashMap) context.get("grades");
-        Grade grade = gradeRepository.find(Long.valueOf((Integer) miniGrade.get("id")));
-        if (grade.getCadre() != null)
-            response.setValue("cadre", grade.getCadre().getName());
-        if (grade.getFiliere() != null)
-            response.setValue("filiere", grade.getFiliere().getName());
-        response.setValue("echelle", grade.getEchelle());
+        if (miniGrade != null && miniGrade.get("id") != null) {
+            Grade grade = gradeRepository.find(Long.valueOf((Integer) miniGrade.get("id")));
+            if (grade.getCadre() != null)
+                response.setValue("cadre", grade.getCadre().getName());
+            if (grade.getFiliere() != null)
+                response.setValue("filiere", grade.getFiliere().getName());
+            response.setValue("echelle", grade.getEchelle());
+            response.setValue("gradeId", grade.getId());
+        }
+    }
+
+    public void defaultValues(ActionRequest request, ActionResponse response) {
+        Context context = request.getContext();
+        Situation situation = situationRepo.all().filter("self.employee.id = ?1 AND self.active =true", context.get("_id")).fetchOne();
+        response.setValue("situationDate", new LocalDate());
+        response.setValue("echelonDate", situation.getEchelonDate());
+        response.setValue("gradeDate", situation.getGradeDate());
+        response.setValue("status", situation.getStatus());
     }
 }

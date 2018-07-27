@@ -7,7 +7,6 @@
 
     <entity name="Residence" cachable="true">
         <string name="name" title="Désignation" unique="true" max="255"/>
-
         <many-to-one name="localite" ref="Localite"></many-to-one>
         <many-to-one name="zone" ref="Zone"></many-to-one>
     </entity>
