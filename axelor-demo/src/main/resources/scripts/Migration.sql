@@ -238,16 +238,16 @@ set next_val = IF((SELECT id+1 as seq from gesper.rh_retraite_complementaire ORD
 
 
 #----- fonctions 
-INSERT INTO gesper.config_fonction (`id`, `name`, `is_responsable`,`version`)
-SELECT @rownum := @rownum + 1 AS position, foncts.*, '0' as v
-FROM (
-	SELECT f.FON_LIB as l, f.FON_RES as r from grh.fonctions f where f.FON_LIB not in (SELECT `name` from gesper.config_fonction)
-	union 
-	select ff.FONC_LIBELLE as l, ff.FLAG_RESP as r from gespaie.fonctions ff 
-		where FONC_CODE not in (SELECT FON_COD from grh.fonctions) AND ff.FONC_LIBELLE not in (SELECT `name` from gesper.config_fonction)
-) foncts 
-JOIN (SELECT @rownum := (select next_val from gesper.config_fonction_seq)-1) as r
-group by foncts.l;
+INSERT INTO gesper.config_fonction (`id`, `name`,`name_ar`, `is_responsable`,`version`)
+	SELECT @rownum := @rownum + 1 AS position, foncts.l, foncts.l,foncts.r, '0' as v
+	FROM (
+				 SELECT f.FON_LIB as l, f.FON_RES as r from grh.fonctions f where f.FON_LIB not in (SELECT `name` from gesper.config_fonction)
+				 union
+				 select ff.FONC_LIBELLE as l, ff.FLAG_RESP as r from gespaie.fonctions ff
+				 where FONC_CODE not in (SELECT FON_COD from grh.fonctions) AND ff.FONC_LIBELLE not in (SELECT `name` from gesper.config_fonction)
+			 ) foncts
+		JOIN (SELECT @rownum := (select IFNULL(next_val,1) from gesper.config_fonction_seq)-1) as r
+	group by foncts.l;
 
 UPDATE gesper.config_fonction_seq  set next_val = (SELECT id+1 as seq from gesper.config_fonction ORDER BY id desc LIMIT 1);
 
@@ -470,7 +470,7 @@ INSERT INTO gesper.rh_droit_avancement (
 	`echelon`,
 	`new_echelon`,
 	`new_indice`,
-	`statut`,
+	`status`,
 	`type_avancement`,
 	`date_grade`,
 	`date_echelon`,
@@ -490,7 +490,7 @@ INSERT INTO gesper.rh_droit_avancement (
 		ech.id echelon,
 		da.N_ECHE,
 		da.N_IND,
-		'0' statut,
+		'0' status,
 		'INT' type_avancement,
 		da.SIT_DGRA date_grade,
 		da.SIT_DANC date_echelon,
@@ -520,7 +520,7 @@ INSERT INTO gesper.rh_droit_avancement (
 	`arrete_ministerial_date`,
 	`type_avancement`,
 	`exercice`,
-	`statut`,
+	`status`,
 	`date_grade`,
 	`date_echelon`,
 	`version`
@@ -539,7 +539,7 @@ INSERT INTO gesper.rh_droit_avancement (
 		da.ARR_DAT,
 		da.AVA_TYP,
 		exe.id,
-		'1' statut,
+		'3' statut,
 		da.AVA_DGRA date_grade,
 		da.AVA_DECH date_echelon,
 		'0' version

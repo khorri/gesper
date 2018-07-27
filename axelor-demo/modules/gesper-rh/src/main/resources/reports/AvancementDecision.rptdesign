@@ -1,0 +1,684 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 4.6.0.v201606072122</property>
+    <list-property name="propertyBindings">
+        <structure>
+            <property name="name">queryText</property>
+            <property name="id">330</property>
+        </structure>
+        <structure>
+            <property name="name">queryTimeOut</property>
+            <property name="id">330</property>
+        </structure>
+        <structure>
+            <property name="name">rowFetchSize</property>
+            <property name="id">330</property>
+        </structure>
+    </list-property>
+    <property name="units">in</property>
+    <property name="iconFile">/templates/first_report.gif</property>
+    <property name="cheatSheet">org.eclipse.birt.reports.designer.ui.cheatsheet.firstreport</property>
+    <property name="bidiLayoutOrientation">ltr</property>
+    <property name="imageDPI">96</property>
+    <parameters>
+        <scalar-parameter name="avancementsIds" id="332">
+            <property name="valueType">static</property>
+            <property name="isRequired">true</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <list-property name="selectionList">
+                <structure>
+                    <property name="value">1</property>
+                </structure>
+                <structure>
+                    <property name="value">2</property>
+                </structure>
+                <structure>
+                    <property name="value">3</property>
+                </structure>
+                <structure>
+                    <property name="value">4</property>
+                </structure>
+                <structure>
+                    <property name="value">5</property>
+                </structure>
+                <structure>
+                    <property name="value">6</property>
+                </structure>
+                <structure>
+                    <property name="value">7</property>
+                </structure>
+                <structure>
+                    <property name="value">8</property>
+                </structure>
+                <structure>
+                    <property name="value">9</property>
+                </structure>
+                <structure>
+                    <property name="value">10</property>
+                </structure>
+            </list-property>
+            <property name="paramType">simple</property>
+            <property name="controlType">list-box</property>
+            <property name="mustMatch">true</property>
+            <property name="fixedOrder">true</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+    </parameters>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="Data Source" id="250">
+            <list-property name="privateDriverProperties">
+                <ex-property>
+                    <name>metadataBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+                <ex-property>
+                    <name>disabledMetadataBidiFormatStr</name>
+                </ex-property>
+                <ex-property>
+                    <name>contentBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+                <ex-property>
+                    <name>disabledContentBidiFormatStr</name>
+                </ex-property>
+            </list-property>
+            <property name="odaDriverClass">com.mysql.jdbc.Driver</property>
+            <property name="odaURL">jdbc:mysql://localhost:3306/gesper</property>
+            <property name="odaUser">root</property>
+            <encrypted-property name="odaPassword" encryptionID="base64">cm9vdA==</encrypted-property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Decision" id="330">
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">id</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">decision_id</text-property>
+                    <text-property name="heading">decision_id</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">decision_code</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">decision_code</text-property>
+                    <text-property name="heading">decision_code</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">decision_date</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">decision_date</text-property>
+                    <text-property name="heading">decision_date</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">decision_status</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">decision_status</text-property>
+                    <text-property name="heading">decision_status</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">motif_rejet</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">motif_rejet</text-property>
+                    <text-property name="heading">motif_rejet</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">avancement_id</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">avancement_id</text-property>
+                    <text-property name="heading">avancement_id</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">employe_last_name</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">employe_last_name</text-property>
+                    <text-property name="heading">employe_last_name</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">employe_first_name</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">employe_first_name</text-property>
+                    <text-property name="heading">employe_first_name</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">employe_matricule</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">employe_matricule</text-property>
+                    <text-property name="heading">employe_matricule</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">employe_fonction</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">employe_fonction</text-property>
+                    <text-property name="heading">employe_fonction</text-property>
+                </structure>
+            </list-property>
+            <list-property name="parameters"/>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">id</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">decision_code</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">decision_date</property>
+                        <property name="dataType">date</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">decision_status</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">motif_rejet</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">avancement_id</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">employe_last_name</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">employe_first_name</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">9</property>
+                        <property name="name">employe_matricule</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">10</property>
+                        <property name="name">employe_fonction</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">Data Source</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">id</property>
+                    <property name="nativeName">id</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">-5</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">decision_code</property>
+                    <property name="nativeName">decision_code</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">decision_date</property>
+                    <property name="nativeName">decision_date</property>
+                    <property name="dataType">date</property>
+                    <property name="nativeDataType">91</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">decision_status</property>
+                    <property name="nativeName">status</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">motif_rejet</property>
+                    <property name="nativeName">motif_rejet</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">avancement_id</property>
+                    <property name="nativeName">id</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">-5</property>
+                </structure>
+                <structure>
+                    <property name="position">7</property>
+                    <property name="name">employe_last_name</property>
+                    <property name="nativeName">lastname</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">8</property>
+                    <property name="name">employe_first_name</property>
+                    <property name="nativeName">firstname</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">9</property>
+                    <property name="name">employe_matricule</property>
+                    <property name="nativeName">matricule</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">10</property>
+                    <property name="name">employe_fonction</property>
+                    <property name="nativeName">name</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[select
+	dc.id, 
+	dc.decision_code, 
+	dc.decision_date, 
+	dc.status as 'decision_status', 
+	dc.motif_rejet, 
+	avn.id as 'avancement_id', 
+	emp.lastname as 'employe_last_name', 
+	emp.firstname as 'employe_first_name',
+	emp.matricule as 'employe_matricule',
+	fonc.name as 'employe_fonction' 
+	from rh_droit_avancement as avn 
+join config_decision as dc on dc.id=avn.decision
+join rh_employe as emp on emp.id=avn.employee
+left join rh_affectation as aff on aff.employee=emp.id and aff.status=3 and aff.type_affectation=1
+left join config_fonction as fonc on fonc.id=aff.fonction
+where dc.id between 1 and 100]]></xml-property>
+            <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
+  <Version>2.0</Version>
+  <design:ResultSets derivedMetaData="true">
+    <design:resultSetDefinitions>
+      <design:resultSetColumns>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>id</design:name>
+              <design:position>1</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>-5</design:nativeDataTypeCode>
+            <design:precision>20</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>NotNullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>decision_id</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>decision_id</design:label>
+            <design:formattingHints>
+              <design:displaySize>20</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>decision_code</design:name>
+              <design:position>2</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>255</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>decision_code</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>decision_code</design:label>
+            <design:formattingHints>
+              <design:displaySize>255</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>decision_date</design:name>
+              <design:position>3</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>91</design:nativeDataTypeCode>
+            <design:precision>10</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>decision_date</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>decision_date</design:label>
+            <design:formattingHints>
+              <design:displaySize>10</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>status</design:name>
+              <design:position>4</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>255</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>decision_status</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>decision_status</design:label>
+            <design:formattingHints>
+              <design:displaySize>255</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>motif_rejet</design:name>
+              <design:position>5</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>255</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>motif_rejet</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>motif_rejet</design:label>
+            <design:formattingHints>
+              <design:displaySize>255</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>id</design:name>
+              <design:position>6</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>-5</design:nativeDataTypeCode>
+            <design:precision>20</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>NotNullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>avancement_id</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>avancement_id</design:label>
+            <design:formattingHints>
+              <design:displaySize>20</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>lastname</design:name>
+              <design:position>7</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>255</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>NotNullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>employe_last_name</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>employe_last_name</design:label>
+            <design:formattingHints>
+              <design:displaySize>255</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>firstname</design:name>
+              <design:position>8</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>255</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>NotNullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>employe_first_name</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>employe_first_name</design:label>
+            <design:formattingHints>
+              <design:displaySize>255</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>matricule</design:name>
+              <design:position>9</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>255</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>NotNullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>employe_matricule</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>employe_matricule</design:label>
+            <design:formattingHints>
+              <design:displaySize>255</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>name</design:name>
+              <design:position>10</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>255</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>employe_fonction</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>employe_fonction</design:label>
+            <design:formattingHints>
+              <design:displaySize>255</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+      </design:resultSetColumns>
+      <design:criteria/>
+    </design:resultSetDefinitions>
+  </design:ResultSets>
+</model:DesignValues>]]></xml-property>
+        </oda-data-set>
+    </data-sets>
+    <styles>
+        <style name="reports" id="110">
+            <property name="fontFamily">sans-serif</property>
+            <property name="fontSize">10pt</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <page-footer>
+                <text id="3">
+                    <property name="contentType">html</property>
+                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                </text>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <list id="289">
+            <property name="dataSet">Decision</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">motif_rejet</property>
+                    <text-property name="displayName">motif_rejet</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["motif_rejet"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">id</property>
+                    <text-property name="displayName">decision_code</text-property>
+                    <expression name="expression" type="javascript">"N° "+dataSetRow["decision_code"]+"/ORMVAH/SAF/BPOS"</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">decision_date</property>
+                    <text-property name="displayName">decision_date</text-property>
+                    <expression name="expression" type="javascript">"Marrakech, le "+dataSetRow["decision_date"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
+            </list-property>
+            <group id="317">
+                <property name="groupName">NewListGroup1</property>
+                <expression name="keyExpr" type="javascript">dataSetRow["id"]</expression>
+                <property name="hideDetail">false</property>
+                <property name="pageBreakAfter">always</property>
+                <property name="pageBreakBefore">always</property>
+            </group>
+            <detail>
+                <grid id="290">
+                    <column id="291"/>
+                    <column id="292"/>
+                    <column id="293"/>
+                    <row id="294">
+                        <cell id="295">
+                            <label id="276">
+                                <property name="fontSize">12pt</property>
+                                <property name="textAlign">center</property>
+                                <text-property name="text">ROYAUME DU MAROC</text-property>
+                            </label>
+                            <label id="277">
+                                <property name="textAlign">center</property>
+                                <text-property name="text">MINISTERE DE L’AGRICULTURE, DE LA PECHE MARITIME,&#13;
+DU DEVELOPPEMENT RURAL ET DES EAUX ET FORETS&#13;
+&#13;
+OFFICE REGIONAL DE MISE EN VALEUR AGRICOLE DU HAOUZ&#13;
+</text-property>
+                            </label>
+                        </cell>
+                        <cell id="296">
+                            <image id="278">
+                                <property name="height">138px</property>
+                                <property name="width">225px</property>
+                                <property name="source">url</property>
+                                <expression name="uri" type="constant">C:\Users\NAWAR\Downloads\Images\NAWARIT.png</expression>
+                            </image>
+                        </cell>
+                        <cell id="297">
+                            <label id="274">
+                                <property name="color">black</property>
+                                <property name="textAlign">center</property>
+                                <property name="display">block</property>
+                                <text-property name="text">المملكة المغربية&#13;
+وزارة الفلاحة والصيد البحري والتنمية القروية والمياه والغابات&#13;
+المكتب الجهوي للإستثمار الفلاحي الحوز&#13;
+</text-property>
+                            </label>
+                        </cell>
+                    </row>
+                    <row id="298">
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">medium</property>
+                        <cell id="299">
+                            <text id="331">
+                                <property name="contentType">html</property>
+                                <text-property name="content"><![CDATA[N&amp;#8451;&amp;nbsp<value-of>row["decision_code"]</value-of>/ORMVAH/SAF/BPOS]]></text-property>
+                            </text>
+                        </cell>
+                        <cell id="300">
+                            <property name="fontWeight">bold</property>
+                            <property name="textUnderline">underline</property>
+                            <label id="327">
+                                <property name="fontSize">24px</property>
+                                <property name="fontWeight">bold</property>
+                                <property name="textUnderline">underline</property>
+                                <property name="paddingTop">10pt</property>
+                                <property name="textAlign">center</property>
+                                <text-property name="text">DECISION</text-property>
+                            </label>
+                        </cell>
+                        <cell id="301">
+                            <text id="328">
+                                <property name="fontWeight">bold</property>
+                                <property name="textAlign">right</property>
+                                <property name="contentType">html</property>
+                                <text-property name="content"><![CDATA[Marrakech, le&amp;nbsp<value-of>row["decision_date"]</value-of>]]></text-property>
+                            </text>
+                        </cell>
+                    </row>
+                </grid>
+                <text id="323">
+                    <property name="contentType">html</property>
+                    <text-property name="content"><![CDATA[<H3>LE DIRECTEUR DE L’OFFICE REGIONAL DE MISE EN VALEUR AGRICOLE DU HAOUZ A MARRAKECH
+</H3>
+<li style='padding:10px; font-size: 12pt; line-height: 26px;'>
+	Vu le Décret Royal N° 831-66 du 22 Octobre 1966 portant création de l’Office Régional de Mise en Valeur Agricole 	du Haouz ;
+</li>
+<li style='padding:10px; font-size: 12pt; line-height: 26px;'>
+	Vu le Décret n° 2.15.51 du 22 Janvier 2015, portant  nomination de Monsieur Abdelaziz BOUSRAREF, au poste de 	Directeur de l’Office Régional de Mise en Valeur Agricole du Haouz;
+</li>
+<li style='padding:10px; font-size: 12pt; line-height: 26px;'>
+	Vu le règlement Provisoire régissant le personnel des Offices Régionaux de Mise en Valeur Agricole tel qu’il a 		été modifié et complété, notamment son titre six (VI), articles 27 et 28 ;
+</li>
+<li style='padding:10px; font-size: 12pt; line-height: 26px;'>
+	Considérant la décision N°2007/ORMVAH/SAF/BPOS du <VALUE-OF>row["decision_date"]</VALUE-OF> portant délégation de signature donnée à monsieur Ahmed ZAMAME, Chef du Service Administratif et Financier ;
+</li>
+<li style='padding:10px font-size: 12pt; line-height: 26px;'>
+	Considérant la demande du congé exceptionnel présentée par ;
+</li>
+<li style='padding:10px; font-size: 12pt; line-height: 26px;'>
+	Considérant l‘avis favorable des supérieurs hiérarchiques de l’intéressé(e) ; 
+</li>]]></text-property>
+                </text>
+                <label id="320">
+                    <property name="fontSize">24px</property>
+                    <property name="fontWeight">bold</property>
+                    <property name="textUnderline">underline</property>
+                    <property name="paddingTop">10pt</property>
+                    <property name="textAlign">center</property>
+                    <text-property name="text">DECIDE</text-property>
+                </label>
+                <text id="326">
+                    <property name="contentType">html</property>
+                    <text-property name="content"><![CDATA[<li><b>ARTICLE UNIQUE</b> : A compter du  , un congé exceptionnel de  jours, pour décès est accordé à , matricule ,   au ,</li>]]></text-property>
+                </text>
+            </detail>
+        </list>
+    </body>
+</report>

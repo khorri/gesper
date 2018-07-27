@@ -1,33 +1,44 @@
 package com.axelor.rh.web;
 
+import com.axelor.apps.report.engine.ReportSettings;
+import com.axelor.config.db.Decision;
+import com.axelor.config.db.Entite;
 import com.axelor.config.db.Exercice;
+import com.axelor.config.db.GradeEchelon;
+import com.axelor.config.db.repo.DecisionRepository;
 import com.axelor.config.db.repo.ExerciceRepository;
 import com.axelor.config.db.repo.GradeEchelonRepository;
 import com.axelor.config.db.repo.GradeRepository;
 import com.axelor.db.JPA;
+import com.axelor.exception.AxelorException;
+import com.axelor.meta.schema.actions.ActionView;
+import com.axelor.rh.annotation.Avancement;
 import com.axelor.rh.db.DroitAvancement;
 import com.axelor.rh.db.Situation;
 import com.axelor.rh.db.repo.DroitAvancementRepository;
 import com.axelor.rh.db.repo.EmployeRepository;
 import com.axelor.rh.db.repo.NoteRepository;
 import com.axelor.rh.db.repo.SituationRepository;
+import com.axelor.rh.report.IReport;
+import com.axelor.rh.service.AvancementReportService;
+import com.axelor.rh.service.ReportServiceGenerator;
 import com.axelor.rpc.ActionRequest;
 import com.axelor.rpc.ActionResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.persist.Transactional;
 import org.joda.time.DateTimeFieldType;
 import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
+import javax.persistence.Entity;
 import javax.persistence.Query;
 import java.lang.invoke.MethodHandles;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 public class DroitAvancementController {
 
@@ -53,6 +64,13 @@ public class DroitAvancementController {
     @Inject
     private NoteRepository noteRepository;
 
+    @Inject
+    DecisionRepository decisionRepository;
+
+    @Inject
+    @Avancement
+    private ReportServiceGenerator reportService;
+
     private final Logger logger = LoggerFactory.getLogger( MethodHandles.lookup().lookupClass() );
 
     public void getDroitAvancementByExercice(ActionRequest request, ActionResponse response){
@@ -62,6 +80,12 @@ public class DroitAvancementController {
         List<DroitAvancement> avancements=droitAvancementRepository.all().filter("self.exercice.id= ?1",id).fetch();
         response.setValue("droitAvancement",new HashSet<>(avancements));
     }
+
+    /**
+     *
+     * @param request
+     * @param response
+     */
 
     @Transactional
     public void generateDroitAvancementList(ActionRequest request, ActionResponse response){
@@ -78,6 +102,13 @@ public class DroitAvancementController {
         JPA.em().createNativeQuery(SQLQueries.UPDATE_DROIT_AVANCEMENT_SEQUENCE).executeUpdate();
     }
 
+    /**
+     * Methode de calcule des avancement selon l'exercice et les notes et les droits d'avancement
+     * @param request
+     * @param response
+     * @author AYOUB
+     * @Date 24/07/2018
+     */
     @Transactional
     public void calculerDroitAvancement(ActionRequest request, ActionResponse response){
         ObjectMapper objectMapper=new ObjectMapper();
@@ -98,9 +129,10 @@ public class DroitAvancementController {
             String rythme = getRythme(moyenne);
             avancement.setRythmeAvancement(rythme);
             avancement.setDateAvancement(getDateAvancement(rythme,dateEchelon,avancement));
-            avancement.setNewEchelon(getNewEchelon(avancement));
-            avancement.setNewIndice(getNewIndice(avancement));
+            avancement.setNewEchelon(getNewEchelon(avancement).getEchelon());
+            avancement.setNewIndice(getNewEchelon(avancement).getIndice());
             avancement.setExerciceAvancement(getExerciceAvancement(avancement,avancement.getDateAvancement()));
+            avancement.setStatus(1);
             droitAvancementRepository.save(avancement);
         }
     }
@@ -113,36 +145,31 @@ public class DroitAvancementController {
         }
     }
 
-    private Integer getNewIndice(DroitAvancement avancement) {
-        return 0;
-    }
-
-    private Integer getNewEchelon(DroitAvancement avancement) {
-        return 0;
+    private GradeEchelon getNewEchelon(DroitAvancement avancement) {
+        GradeEchelon echelon= (GradeEchelon) JPA.em()
+                .createQuery("SELECT ge FROM GradeEchelon AS ge WHERE ge.grade=:grade AND ge.echelon=:echelon")
+                .setParameter("grade",avancement.getGrade()).setParameter("echelon",avancement.getEchelon().getEchelon()+1).getSingleResult();
+        return echelon==null?avancement.getEchelon():echelon;
     }
 
     private LocalDate getDateAvancement(String rythme, LocalDate dateEchelon,DroitAvancement avancement) {
-        if(rythme.equals("LENT")){
+        if(rythme.equalsIgnoreCase(DroitAvancementRepository.STATUS_LENT)){
             return dateEchelon.plusMonths(avancement.getEchelon().getRythmeLent());
         }
-        else if(rythme.equals("MOYEN")){
+        if(rythme.equalsIgnoreCase(DroitAvancementRepository.STATUS_MOYEN)){
             return dateEchelon.plusMonths(avancement.getEchelon().getRythmeMoyen());
         }
-        else{
-            return dateEchelon.plusMonths(avancement.getEchelon().getRythmeRapide());
-        }
+        return dateEchelon.plusMonths(avancement.getEchelon().getRythmeRapide());
     }
 
     private String getRythme(Double moyenne) {
-        if(moyenne<10){
-            return "LENT";
+        if(moyenne<DroitAvancementRepository.NOTE_LENT){
+            return DroitAvancementRepository.STATUS_LENT;
         }
-        else if(moyenne<16){
-            return "MOYEN";
+        if(moyenne<DroitAvancementRepository.NOTE_MOYEN){
+            return DroitAvancementRepository.STATUS_MOYEN;
         }
-        else{
-            return "RAPIDE";
-        }
+        return DroitAvancementRepository.STATUS_RAPIDE;
     }
 
     private LocalDate getDateAncienEchelon(DroitAvancement avancement) {
@@ -170,5 +197,86 @@ public class DroitAvancementController {
             return null;
         }
         return avancements;
+    }
+
+    /**
+     * Methode pour generer les decision des avancement
+     * @param request
+     * @param response
+     * @autor AYOUB
+     * @Date 24/07/2018
+     */
+    @Transactional
+    public void generateDecisions(ActionRequest request, ActionResponse response) throws AxelorException {
+        ObjectMapper objectMapper=new ObjectMapper();
+        Exercice exercice=objectMapper.convertValue(request.getContext().get("exercice"),Exercice.class);
+        int startNumero=objectMapper.convertValue(request.getContext().get("decisionNum"),Integer.class);
+        LocalDate dateDecision=convertString2Date(objectMapper.convertValue(request.getContext().get("date"),String.class),"yyyy-MM-dd");
+
+        List<DroitAvancement> avancements=JPA.em().createQuery("SELECT da FROM DroitAvancement AS da WHERE da.exercice.id=:exercice AND da.status=1")
+                .setParameter("exercice",exercice.getId()).getResultList();
+
+        avancements=createDecisions(avancements,startNumero,dateDecision);
+
+        String name="Decisions";
+        String fileLink = reportService.generateMany(IReport.AVANCEMENT_DECISION,name, ReportSettings.FORMAT_DOC,generateDecisionParameters(avancements));
+
+        response.setView(ActionView
+                .define(name)
+                .add("html", fileLink).map());
+    }
+
+    private LocalDate convertString2Date(String date, String format) {
+        DateTimeFormatter formatter= DateTimeFormat.forPattern(format);
+        return formatter.parseLocalDate(date);
+    }
+
+    private List<DroitAvancement> createDecisions(List<DroitAvancement> avancements, int startNumber, LocalDate dateDecision){
+        List<DroitAvancement> avancementsToValidate=new ArrayList<>();
+        Entite entite= (Entite) JPA.em().createQuery("select en from Entite as en where en.shortName='SAF'").getSingleResult();
+        int startCode=startNumber;
+        for (DroitAvancement avancement:avancements) {
+            DroitAvancement temp=avancement.getDecision()==null?createAvancementDecision(dateDecision, entite, startCode, avancement):avancement;
+            avancementsToValidate.add(temp);
+        }
+        return avancementsToValidate;
+    }
+
+    private DroitAvancement createAvancementDecision(LocalDate dateDecision, Entite entite, int startCode, DroitAvancement avancement) {
+        Decision decision=new Decision();
+        decision.setDecisionCode(startCode+"/"+avancement.getExercice().getName());
+        decision.setDecisionDate(dateDecision);
+        decision.setStatus("2");
+        decision.setEmitteur(entite);
+        decision=decisionRepository.save(decision);
+        avancement.setDecision(decision);
+        avancement.setStatus(2);
+        avancement=droitAvancementRepository.save(avancement);
+        createSituation(avancement,decision);
+        createSituation(avancement,decision);
+        return avancement;
+    }
+
+    private void createSituation(DroitAvancement avancement,Decision decision){
+        Situation situation=new Situation();
+        situation.setActive(false);
+        situation.setStatus("2");
+        situation.setAvancement(avancement);
+        situation.setDecision(decision);
+        situation.setNature("AVANCEMENT");
+        situation.setType("INT");
+        situationRepository.save(situation);
+    }
+
+    private Map<String,Object> generateDecisionParameters(List<DroitAvancement> avancements){
+        Map<String,Object> params=new HashMap<String,Object>();
+        String ids="";
+        int cnt=0;
+        for (int i=0;i<avancements.size();i++){
+            ids+=cnt==0?avancements.get(i).getId():", "+avancements.get(i).getId();
+            cnt++;
+        }
+       params.put("avancementsIds",ids);
+        return params;
     }
 }

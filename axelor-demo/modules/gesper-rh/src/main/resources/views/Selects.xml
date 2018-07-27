@@ -39,5 +39,11 @@
         <option value="2">Secondaire</option>
         <option value="3">Abrogé</option>
     </selection>
+    <selection name="select-avancement-status">
+        <option value="0">Brouillon</option>
+        <option value="1">Vérifié</option>
+        <option value="2">En attente de validation</option>
+        <option value="3">Validé</option>
+    </selection>
 
 </object-views>
