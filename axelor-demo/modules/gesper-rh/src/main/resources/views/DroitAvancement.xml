@@ -7,7 +7,7 @@
         <toolbar>
             <button name="generateDroitAvancementList" onClick="action-generate-droit-avancement" title="Droit avancement" icon="fa-caret-square-o-up"/>
             <button name="calculeAvancement" onClick="action-calcule-droit-avancement" title="Calculer l’avancement" icon="fa-level-up"/>
-            <button name="generateDecisions" title="Générer les décisions" icon="fa-print"/>
+            <button name="generateDecisions" onClick="action-decision-avancement" title="Générer les décisions" icon="fa-print"/>
         </toolbar>
         <panel colSpan="12">
             <field name="exercice" onChange="action-droit-avancement-exercice-change-refresh" title="Exercice" x-order="-name" canEdit="false"/>
@@ -28,9 +28,22 @@
         <field name="newEchelon" title="Nouvel echelon"/>
         <field name="newIndice" title="Nouvel indice"/>
         <field name="dateAvancement" title="Date avancement"/>
-        <field name="statut" title="Statut"/>
+        <field name="status" title="Statut" selection="select-avancement-status">
+            <hilite if="status==0" background="info"></hilite>
+            <hilite if="status==1" background="warning"></hilite>
+            <hilite if="status==2" background="danger"></hilite>
+            <hilite if="status==3" background="success"></hilite>
+        </field>
     </grid>
 
+    <form name="avancement-decision-form" title="Générer les décisions" onSave="action-generate-decision-avancement" canEdit="false" canSave="false" canNew="false" model="com.axelor.rh.db.DroitAvancement">
+        <panel colSpan="12">
+            <field name="decisionNum" title="N° debut de décision" type="Integer" required="true" />
+            <field name="date" title="Date de décisions" type="date" required="true" />
+        </panel>
+    </form>
+
+    <!-- ACTIONS -->
     <action-view name="droit.avancement.all" model="com.axelor.rh.db.DroitAvancement" title="Droit avancement">
         <view name="droit-avancement-form" type="form"/>
     </action-view>
@@ -57,4 +70,15 @@
     <action-method name="action-calcule-droit-avancement" model="com.axelor.rh.db.DroitAvancement" >
         <call class="com.axelor.rh.web.DroitAvancementController" method="calculerDroitAvancement"/>
     </action-method>
+
+    <action-method name="action-generate-decision-avancement" model="com.axelor.rh.db.DroitAvancement" >
+        <call class="com.axelor.rh.web.DroitAvancementController" method="generateDecisions"/>
+    </action-method>
+
+    <action-view name="action-decision-avancement" title="Décision" model="com.axelor.rh.db.DroitAvancement" >
+        <view name="avancement-decision-form" type="form"></view>
+        <view-param name="popup" value="reload"></view-param>
+        <view-param name="show-toolbar" value="false"></view-param>
+        <context name="exercice" expr="eval: exercice"></context>
+    </action-view>
 </object-views>

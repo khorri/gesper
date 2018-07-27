@@ -19,11 +19,17 @@ package com.axelor.demo;
 
 import com.axelor.app.AxelorModule;
 import com.axelor.mail.service.MailService;
+import com.axelor.rh.annotation.Avancement;
+import com.axelor.rh.service.AvancementReportService;
+import com.axelor.rh.service.ReportServiceGenerator;
 
 public class DemoModule extends AxelorModule {
 
 	@Override
 	protected void configure() {
 		bind(MailService.class).to(DemoMailService.class);
+		bind(ReportServiceGenerator.class)
+				.annotatedWith(Avancement.class)
+				.to(AvancementReportService.class);
 	}
 }
