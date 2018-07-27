@@ -49,6 +49,7 @@ public class SituationController {
     @Transactional
     public void verifie(ActionRequest request, ActionResponse response) {
         User user = AuthUtils.getUser();
+        Context context = request.getContext();
         Situation situation = request.getContext().asType(Situation.class);
         response.setValue("decisionStatus", 2);
         Decision decision = new Decision();
@@ -61,6 +62,22 @@ public class SituationController {
         response.setValue("decisionDate", decision.getDecisionDate());
         response.setValue("entreprise", decision.getEntreprise());
         response.setValue("emitteur", decision.getEmitteur());
+        Situation previousSituation = situationRepo.all().filter("self.employee.id = ?1 AND self.active =true", situation.getEmployee().getId()).fetchOne();
+        String nature = "";
+        Map<String, Object> grade = (HashMap) context.get("grades");
+        if (SituationRepository.STATUS_STAGIERE.equals(situation.getStatus())) {
+            response.setValue("nature", "RECRUTEMENT");
+        }
+        if (grade.get("id") != previousSituation.getGrade().getGrade().getId()) {
+            response.setValue("nature", "RECLASSEMENT");
+            return;
+        }
+        if (situation.getGrade().getId() != previousSituation.getGrade().getId()) {
+            response.setValue("nature", "AVANCEMENT");
+            return;
+        }
+
+
     }
 
     //
@@ -248,6 +265,8 @@ public class SituationController {
     }
 
     public void getDummies(ActionRequest request, ActionResponse response) {
+        Situation situation = request.getContext().asType(Situation.class);
+        response.setValue("grades", situation.getGrade().getGrade());
         getAudit(request, response);
         getLastDecision(request, response);
     }
@@ -417,10 +436,10 @@ public class SituationController {
 
     public void defaultValues(ActionRequest request, ActionResponse response) {
         Context context = request.getContext();
-        Situation situation = situationRepo.all().filter("self.employee.id = ?1 AND self.active =true", context.get("_id")).fetchOne();
+        Situation previousSituation = situationRepo.all().filter("self.employee.id = ?1 AND self.active =true", context.get("_id")).fetchOne();
         response.setValue("situationDate", new LocalDate());
-        response.setValue("echelonDate", situation.getEchelonDate());
-        response.setValue("gradeDate", situation.getGradeDate());
-        response.setValue("status", situation.getStatus());
+        response.setValue("echelonDate", previousSituation.getEchelonDate());
+        response.setValue("gradeDate", previousSituation.getGradeDate());
+        response.setValue("status", previousSituation.getStatus());
     }
 }
