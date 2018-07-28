@@ -220,7 +220,7 @@ public class DroitAvancementController {
         avancements=createDecisions(avancements,startNumero,dateDecision);
 
         String name="Decisions";
-        String fileLink = reportService.generateMany(IReport.AVANCEMENT_DECISION,name, ReportSettings.FORMAT_DOC,generateDecisionParameters(avancements));
+        String fileLink = reportService.generateMany(IReport.AVANCEMENT_DECISION,name, ReportSettings.FORMAT_DOC,generateDecisionParameters(exercice));
 
         response.setView(ActionView
                 .define(name)
@@ -272,15 +272,10 @@ public class DroitAvancementController {
         situationRepository.save(situation);
     }
 
-    private Map<String,Object> generateDecisionParameters(List<DroitAvancement> avancements){
+    private Map<String,Object> generateDecisionParameters(Exercice exercice){
         Map<String,Object> params=new HashMap<String,Object>();
-        String ids="";
-        int cnt=0;
-        for (int i=0;i<avancements.size();i++){
-            ids+=cnt==0?avancements.get(i).getId():", "+avancements.get(i).getId();
-            cnt++;
-        }
-       params.put("avancementsIds",ids);
+        params.put("exercice",exercice.getId().intValue());
+        params.put("status",DroitAvancementRepository.STATUS_ATTENT_VALIDATION);
         return params;
     }
 
