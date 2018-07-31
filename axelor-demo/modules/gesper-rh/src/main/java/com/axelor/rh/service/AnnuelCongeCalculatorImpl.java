@@ -7,7 +7,9 @@ import com.axelor.rh.db.Employe;
 import com.axelor.rh.db.TypeConge;
 import com.axelor.rh.db.repo.DroitCongeRepository;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.google.inject.persist.Transactional;
+import ma.nawar.config.util.ParametersLoader;
 import org.joda.time.LocalDate;
 import org.joda.time.Months;
 
@@ -24,7 +26,7 @@ public class AnnuelCongeCalculatorImpl implements CongeCalculator{
     DroitCongeRepository droitCongeRepository;
 
     @Inject
-    ParametreRepository parametreRepository;
+    private ParametersLoader parametersLoader;
 
 
 
@@ -56,9 +58,8 @@ public class AnnuelCongeCalculatorImpl implements CongeCalculator{
         int lastYear = now.minusYears(1).getYear();
         LocalDate hireDate = employee.getHireDate();
         int months = Months.monthsBetween(hireDate,now).getMonths();
-        Parametre p = parametreRepository.findByName(NOMBRE_MOIS_REQUIS);
-        int nombreMoisRequis = (p!=null && p.getValeur()!=null)?Integer.valueOf(p.getValeur()):defaultNombreMoisRequisConge;
-
+        String nombreMoisRequisString = parametersLoader.get(NOMBRE_MOIS_REQUIS);
+        int nombreMoisRequis = (nombreMoisRequisString!=null)?Integer.valueOf(nombreMoisRequisString):defaultNombreMoisRequisConge;
         if(months<nombreMoisRequis)
             return 0;
         if(months<nombreMoisRequis*2)

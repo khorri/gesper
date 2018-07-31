@@ -29,9 +29,9 @@
         <panel name="main">
             <field name="status" showTitle="false" colSpan="12" widget="NavSelect"/>
             <field name="employee" colSpan="5" canView="false" canEdit="false" domain="self.activated=true" onChange="calculate-droit-conge-group"/>
-            <field name="typeConge" colSpan="5" canView="false" canEdit="false" onChange="action-conge-methode-compute-duration-group"/>
+            <field name="typeConge" colSpan="5" canView="false" canEdit="false" onChange="calculate-droit-conge-group"/>
             <field name="droitConge" title="Droit au congé" readonly="true" colSpan="2"/>
-            <field name="dateDebut" colSpan="5" onChange="action-conge-valider-date"/>
+            <field name="dateDebut" colSpan="5" onChange="action-conge-methode-compute-duration-group"/>
             <field name="commenceA" colSpan="5" selection="conge.start.select"/>
             <field name="duree" colSpan="2" readonly="true"/>
             <field name="dateFin" colSpan="5" title="Date retour(inclu)" onChange="action-conge-methode-compute-duration-group"/>

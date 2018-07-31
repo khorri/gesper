@@ -1,4 +1,4 @@
-package ma.nawar.config;
+package ma.nawar.config.util;
 
 /**
  * Created by HORRI on 27/07/2018.
