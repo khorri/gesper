@@ -24,21 +24,26 @@
 			  title="Type congé"
 			  action="type.conge.all" />
 
-	<menuitem name="menu-gesper-rh-conge-config-nature-conge" parent="mmenu-gesper-rh-conge"
+	<menuitem name="menu-gesper-rh-conge-config-nature-conge" parent="menu-gesper-rh-conge-config"
 			  title="Nature congé"
 			  action="nature.conge.all"/>
 
-	<menuitem name="menu-gesper-rh-conge-config-jour-ferie" parent="mmenu-gesper-rh-conge"
+	<menuitem name="menu-gesper-rh-conge-config-jour-ferie" parent="menu-gesper-rh-conge-config"
 			  title="Jour férie"
 			  action="jour.ferie.all"/>
 
 	<menuitem name="menu-gesper-rh-conge--autorisation-absence-all" parent="menu-gesper-rh-conge"
 			  title="Autorisation d'absence"
 			  action="autorisation.absence.all"/>
+	<menuitem name="menu-avancement" parent="menu-gesper-rh"
+			  title="Avancement"/>
 
-	<menuitem name="menu-droit-avancement-all" parent="menu-gesper-rh"
-			  title="Droit avancement"
+	<menuitem name="menu-droit-avancement-all" parent="menu-avancement"
+			  title="Avancement"
 			  action="droit.avancement.all"/>
+
+	<menuitem name="menu-avancement-validation" parent="menu-avancement"
+			  title="Avancement validation" action="avancement.validate.all"/>
 
 	<!-- ACTIONS -->
 

@@ -36,10 +36,41 @@
         </field>
     </grid>
 
-    <form name="avancement-decision-form" title="Générer les décisions" onSave="action-generate-decision-avancement" canEdit="false" canSave="false" canNew="false" model="com.axelor.rh.db.DroitAvancement">
+    <form name="avancement-decision-form" title="Plage des numéraux des décisions" canEdit="false" canSave="false" canNew="false" model="com.axelor.rh.db.DroitAvancement">
         <panel colSpan="12">
             <field name="decisionNum" title="N° debut de décision" type="Integer" required="true" />
             <field name="date" title="Date de décisions" type="date" required="true" />
+            <button name="btnPrint" onClick="action-generate-decision-avancement" readonlyIf="decisionNum==null || date==null"
+                    title="Génerer" icon="fa-print" css="btn-success" colOffset="10" colSpan="2"></button>
+        </panel>
+    </form>
+
+    <grid name="avancement-validation-grid" title="Avancements" canSave="false"
+          model="com.axelor.rh.db.DroitAvancement"
+          canNew="false" canEdit="false" canDelete="false" edit-icon="false">
+        <toolbar>
+            <button name="validateAvancements" css="btn-success" onClick="action-validate-avancements-decisions" title="Valider" icon="fa-check"/>
+        </toolbar>
+        <field name="employee.matricule" title="Matricule" readonly="true"/>
+        <field name="employee.firstname" title="Nom" readonly="true" />
+        <field name="employee.lastname" title="Prénom" readonly="true"/>
+        <field name="grade" title="Grade" readonly="true"/>
+        <field name="noteAvancement" title="Note" readonly="true"/>
+        <field name="rythmeAvancement" title="Rythme" readonly="true"/>
+        <field name="newEchelon" title="Nouvel echelon" readonly="true"/>
+        <field name="newIndice" title="Nouvel indice" readonly="true"/>
+        <field name="dateAvancement" title="Date avancement" readonly="true"/>
+        <field name="status" title="Statut" selection="select-avancement-status" readonly="true">
+            <hilite if="status==2" background="warning"></hilite>
+        </field>
+    </grid>
+
+    <form name="avancement-decision-validation-form" title="Décisions" canEdit="false" canSave="false" canNew="false"
+          model="com.axelor.meta.db.MetaFile">
+        <panel colSpan="12">
+            <field name="decisionFiles" title="Fichier" widget="binary-link" x-target="com.axelor.meta.db.MetaFile" type="many-to-one" colSpan="10" />
+            <button name="btnValidate" onClick="action-validate-avancements" readonlyIf="decisionFiles==null"
+                    title="Valider" icon="fa-print" css="btn-success" colOffset="10" colSpan="2"></button>
         </panel>
     </form>
 
@@ -77,8 +108,25 @@
 
     <action-view name="action-decision-avancement" title="Décision" model="com.axelor.rh.db.DroitAvancement" >
         <view name="avancement-decision-form" type="form"></view>
-        <view-param name="popup" value="reload"></view-param>
+        <view-param name="popup" value="true"></view-param>
         <view-param name="show-toolbar" value="false"></view-param>
+        <view-param name="show-confirm" value="false"></view-param>
+        <view-param name="popup-save" value="false"></view-param>
         <context name="exercice" expr="eval: exercice"></context>
     </action-view>
+
+    <!-- Validation decision des avancements -->
+    <action-view name="avancement.validate.all" model="com.axelor.rh.db.DroitAvancement" title="Avancements">
+        <view name="avancement-validation-grid" type="grid"/>
+        <view name="avancement-validation-form" type="form"/>
+        <domain>self.status=2</domain>
+    </action-view>
+
+    <action-method name="action-validate-avancements" model="com.axelor.rh.db.DroitAvancement" >
+        <call class="com.axelor.rh.web.DroitAvancementController" method="validateAvancements"/>
+    </action-method>
+
+    <action-method name="action-validate-avancements-decisions" model="com.axelor.rh.db.DroitAvancement" >
+        <call class="com.axelor.rh.web.DroitAvancementController" method="validateAvancementsDecisions"/>
+    </action-method>
 </object-views>
