@@ -7,32 +7,38 @@
     <grid name="situation-rh-grid" title="Situation Administrative" model="com.axelor.rh.db.Situation" edit-icon="true"
           canEdit="false">
         <button name="edit" onClick="situation-form-edit" icon="fa-pencil"/>
-        <field name="decision.status"/>
+        <field name="status"/>
         <field name="gradeDate"/>
         <field name="echelonDate"/>
         <field name="nature"/>
         <field name="type"/>
         <field name="corps"/>
+        <field name="decision.status">
+            <hilite if="decision.status == 1" background="info"/>
+            <hilite if="decision.status == 2" background="danger"/>
+            <hilite if="decision.status == 3" background="success"/>
+            <hilite if="decision.status == 4" background="warning"/>
+        </field>
         <field name="active"/>
     </grid>
 
+
     <form name="situation-rh-form" title="Situation Administrative" model="com.axelor.rh.db.Situation"
-          onNew="affectation-set-employee">
+          onLoad="situation-dummies-audit-decision" onNew="affectation-set-employee,situation-defaults">
         <panel name="main" readonlyIf="id!=null &amp;&amp; decisionStatus != 1">
             <field name="decisionStatus" showTitle="false" colSpan="12" widget="NavSelect"/>
             <field name="status" selection="employee.status.type.select"/>
             <field name="situationDate"/>
-            <field name="filiere"/>
-            <field name="corps"/>
-            <field name="grade.grade"/>
-            <field name="grade.grade.echelle" colSpan="3"/>
-            <field name="gradeDate" colSpan="3"/>
-            <field name="grade.echelon"/>
+            <field name="grades" title="Grade" x-target="com.axelor.config.db.Grade" type="many-to-one"
+                   onChange="situation-changed-grade"></field>
+            <field name="echelle" title="Echelle" colSpan="3" readonly="true"/>
+            <field name="gradeDate" title="Date Grade" colSpan="3"/>
+            <field name="corps" colSpan="4" title="Corps" readonly="true"/>
+            <field name="filiere" colSpan="4" title="Filière" readonly="true"/>
+            <field name="cadre" colSpan="4" title="Cadre" readonly="true"/>
+            <field name="grade" title="Echelon" domain="self.grade.id = :gradeId"/>
             <field name="grade.indice" colSpan="3"/>
             <field name="echelonDate" colSpan="3"/>
-            <field name="nature"/>
-            <field name="type"/>
-            <field name="active"/>
         </panel>
         <panel name="actions" title="Actions" colSpan="3" sidebar="true" stacked="true">
             <button name="createButton" title="Créer" showIf="id==null" colSpan="4" css="btn-info" icon="fa-plus"
@@ -45,19 +51,18 @@
                     css="btn-danger" icon="fa-close" onClick="situation-set-refused,close"/>
             <button name="cancelButton" title="Annuler" colSpan="4" css="btn-warning" icon="fa-ban" onClick="confirm"/>
         </panel>
-        <panel title="Decision" showIf="id=!null">
-            <field name="decision" showTitle="false" colSpan="12" canNew="false" canEdit="false">
-                <editor>
-                    <field name="decisionCode" colSpan="2" title="N° décision"/>
-                    <field name="entreprise" readonly="true" colSpan="2" showTitle="false"/>
-                    <field name="emitteur" title="Emitteur" canView="false" canEdit="false" colSpan="2"/>
-                    <field name="decisionDate" title="Date" type="date" colSpan="3"/>
-                    <field name="attachement" title="Attachement" canNew="true" widget="binary-link" colSpan="3"/>
-                    <field name="motifRejet" title="Motif de rejet" colSpan="12"/>
-                </editor>
-            </field>
+        <panel title="Decision" showIf="id!=null &amp;&amp; decisionStatus!=1" readonlyIf="decisionStatus &gt; 2">
+            <field name="decisionCode" type="string" colSpan="2" title="N° décision"/>
+            <field name="entreprise" readonly="true" type="string" colSpan="2" showTitle="false"/>
+            <field name="emitteur" title="Emitteur" type="many-to-one" canView="false" canEdit="false"
+                   x-target="com.axelor.config.db.Entite" x-target-name="shortName" colSpan="2"/>
+            <field name="decisionDate" title="Date" type="date" colSpan="3"/>
+            <field name="attachement" title="Attachement" type="many-to-one" canNew="true" widget="binary-link"
+                   x-target="com.axelor.meta.db.MetaFile" colSpan="3"/>
+            <field name="motifRejet" title="Motif de rejet" type="string" colSpan="12"/>
         </panel>
     </form>
+
     <action-view name="situation-form-action" model="com.axelor.rh.db.Situation" title="Situation">
         <view name="situation-rh-form" type="form"/>
         <view-param name="popup" value="reload"/>
@@ -91,5 +96,19 @@
         <view-param name="forceEdit" value="true"/>
         <context name="_showRecord" expr="eval: id"/>
     </action-view>
+    <action-method name="situation-defaults" model="com.axelor.rh.db.Situation">
+        <call method="defaultValues" class="com.axelor.rh.web.SituationController"/>
+    </action-method>
 
+    <action-record name="situation-new-decision" model="com.axelor.rh.db.Decision">
+        <field name="decision" expr="eval: new Decision()"/>
+        <field name="decision.emitteur"
+               expr="eval:__repo__(Entite).all().filter('self.decisionCode = ?1','SAF').fetchOne()"/>
+    </action-record>
+    <action-method name="situation-changed-grade" model="com.axelor.rh.db.Situation">
+        <call method="changedGrade" class="com.axelor.rh.web.SituationController"/>
+    </action-method>
+    <action-method name="situation-dummies-audit-decision" model="com.axelor.rh.db.Situation">
+        <call method="getDummies" class="com.axelor.rh.web.SituationController"/>
+    </action-method>
 </object-views>

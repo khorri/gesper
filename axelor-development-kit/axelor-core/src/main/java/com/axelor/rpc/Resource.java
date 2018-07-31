@@ -253,6 +253,7 @@ public class Resource<T extends Model> {
 			if (!property.isUnique()) {
 				unique = false;
 			}
+
 			sortBy.add(spec);
 		}
 

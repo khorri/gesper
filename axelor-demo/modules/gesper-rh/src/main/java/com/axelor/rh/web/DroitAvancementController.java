@@ -1,6 +1,8 @@
 package com.axelor.rh.web;
 
 import com.axelor.apps.report.engine.ReportSettings;
+import com.axelor.auth.AuthUtils;
+import com.axelor.auth.db.User;
 import com.axelor.config.db.Decision;
 import com.axelor.config.db.Entite;
 import com.axelor.config.db.Exercice;
@@ -11,6 +13,8 @@ import com.axelor.config.db.repo.GradeEchelonRepository;
 import com.axelor.config.db.repo.GradeRepository;
 import com.axelor.db.JPA;
 import com.axelor.exception.AxelorException;
+import com.axelor.meta.db.MetaFile;
+import com.axelor.meta.db.repo.MetaFileRepository;
 import com.axelor.meta.schema.actions.ActionView;
 import com.axelor.rh.annotation.Avancement;
 import com.axelor.rh.db.DroitAvancement;
@@ -38,6 +42,8 @@ import javax.persistence.Entity;
 import javax.persistence.Query;
 import java.lang.invoke.MethodHandles;
 import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class DroitAvancementController {
@@ -47,25 +53,13 @@ public class DroitAvancementController {
     private DroitAvancementRepository droitAvancementRepository;
 
     @Inject
-    private EmployeRepository employeReposotory;
-
-    @Inject
-    private ExerciceRepository exerciceRepository;
-
-    @Inject
-    private GradeRepository gradeRepository;
-
-    @Inject
-    private GradeEchelonRepository gradeEchelonRepository;
-
-    @Inject
     private SituationRepository situationRepository;
 
     @Inject
-    private NoteRepository noteRepository;
+    DecisionRepository decisionRepository;
 
     @Inject
-    DecisionRepository decisionRepository;
+    MetaFileRepository metaFileRepository;
 
     @Inject
     @Avancement
@@ -97,9 +91,16 @@ public class DroitAvancementController {
             response.setError("List des doites d'avancements est déja génerer!!");
             return;
         }
-        Query query= JPA.em().createNativeQuery(SQLQueries.GENERATE_DROIT_AVANCEMENT_LIST_BY_EXERCICE(exerciceId));
+        User user= AuthUtils.getUser();
+        Query query= JPA.em().createNativeQuery(SQLQueries.GENERATE_DROIT_AVANCEMENT_LIST_BY_EXERCICE(exerciceId,user.getId(),getCurrentDateString()));
         query.executeUpdate();
         JPA.em().createNativeQuery(SQLQueries.UPDATE_DROIT_AVANCEMENT_SEQUENCE).executeUpdate();
+    }
+
+    private String getCurrentDateString(){
+        Date d=new Date();
+        DateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        return dateFormat.format(d);
     }
 
     /**
@@ -219,7 +220,7 @@ public class DroitAvancementController {
         avancements=createDecisions(avancements,startNumero,dateDecision);
 
         String name="Decisions";
-        String fileLink = reportService.generateMany(IReport.AVANCEMENT_DECISION,name, ReportSettings.FORMAT_DOC,generateDecisionParameters(avancements));
+        String fileLink = reportService.generateMany(IReport.AVANCEMENT_DECISION,name, ReportSettings.FORMAT_DOC,generateDecisionParameters(exercice));
 
         response.setView(ActionView
                 .define(name)
@@ -238,6 +239,7 @@ public class DroitAvancementController {
         for (DroitAvancement avancement:avancements) {
             DroitAvancement temp=avancement.getDecision()==null?createAvancementDecision(dateDecision, entite, startCode, avancement):avancement;
             avancementsToValidate.add(temp);
+            startCode++;
         }
         return avancementsToValidate;
     }
@@ -246,13 +248,12 @@ public class DroitAvancementController {
         Decision decision=new Decision();
         decision.setDecisionCode(startCode+"/"+avancement.getExercice().getName());
         decision.setDecisionDate(dateDecision);
-        decision.setStatus("2");
+        decision.setStatus(DecisionRepository.STATUS_VERIFIED);
         decision.setEmitteur(entite);
         decision=decisionRepository.save(decision);
         avancement.setDecision(decision);
-        avancement.setStatus(2);
+        avancement.setStatus(DroitAvancementRepository.STATUS_ATTENT_VALIDATION);
         avancement=droitAvancementRepository.save(avancement);
-        createSituation(avancement,decision);
         createSituation(avancement,decision);
         return avancement;
     }
@@ -260,23 +261,113 @@ public class DroitAvancementController {
     private void createSituation(DroitAvancement avancement,Decision decision){
         Situation situation=new Situation();
         situation.setActive(false);
-        situation.setStatus("2");
+        situation.setStatus(DecisionRepository.STATUS_VERIFIED);
         situation.setAvancement(avancement);
         situation.setDecision(decision);
         situation.setNature("AVANCEMENT");
         situation.setType("INT");
+        situation.setEmployee(avancement.getEmployee());
+        situation.setEchelonDate(avancement.getDateEchelon());
+        situation.setGradeDate(avancement.getDateGrade());
         situationRepository.save(situation);
     }
 
-    private Map<String,Object> generateDecisionParameters(List<DroitAvancement> avancements){
+    private Map<String,Object> generateDecisionParameters(Exercice exercice){
         Map<String,Object> params=new HashMap<String,Object>();
-        String ids="";
-        int cnt=0;
-        for (int i=0;i<avancements.size();i++){
-            ids+=cnt==0?avancements.get(i).getId():", "+avancements.get(i).getId();
-            cnt++;
-        }
-       params.put("avancementsIds",ids);
+        params.put("exercice",exercice.getId().intValue());
+        params.put("status",DroitAvancementRepository.STATUS_ATTENT_VALIDATION);
         return params;
     }
+
+    /**
+     * Method pour valider les avancements en masse
+     * @param request
+     * @param response
+     * @Author AYOUB
+     * @Date 27/07/2018
+     */
+    @Transactional
+    public void validateAvancements(ActionRequest request, ActionResponse response){
+        List<Integer> Ids=(List)request.getContext().get("ids");
+        Map<String,Object> file=(HashMap)request.getContext().get("decisionFiles");
+        List<DroitAvancement> avancements=getAvancementsToValidate(Ids);
+        MetaFile metaFile= metaFileRepository.find((Long.valueOf((Integer)file.get("id"))));
+        validateDecision(avancements,metaFile);
+    }
+
+    private List<DroitAvancement> getAvancementsToValidate(List<Integer> ids){
+        List<DroitAvancement> avancements=new ArrayList<>();
+        for (Integer id:ids) {
+            DroitAvancement avancement=droitAvancementRepository.find(Long.valueOf(id));
+            avancements.add(avancement);
+        }
+        return avancements;
+    }
+
+    @Transactional
+    private void validateDecision(List<DroitAvancement> avancements, MetaFile file){
+        for (DroitAvancement avancement:avancements) {
+            Decision decision=decisionRepository.find(avancement.getDecision().getId());
+            decision.setAttachement(file);
+            decision.setStatus(DecisionRepository.STATUS_VALIDATED);
+            decisionRepository.save(decision);
+            avancement.setStatus(DroitAvancementRepository.STATUS_VALIDATED);
+            droitAvancementRepository.save(avancement);
+            List<Situation> situations=situationRepository.all().filter("self.decision.id=?1",decision.getId()).fetch();
+            validateSituations(situations);
+        }
+    }
+
+    @Transactional
+    private void validateSituations(List<Situation> situations){
+        for (Situation situation:situations) {
+            situation.setDecisionStatus(DecisionRepository.STATUS_VALIDATED);
+            situationRepository.save(situation);
+        }
+    }
+
+    private Situation getSituationByAvancement(Integer id){
+        return situationRepository.all().filter("self.avancement.id=?1",id).fetchOne();
+    }
+
+    /**
+     * method qui test le type de validation des avancements
+     * @param request
+     * @param response
+     * @author Ayoub
+     * @Date 27/07/2018
+     */
+    public void validateAvancementsDecisions(ActionRequest request, ActionResponse response){
+        List<Integer> Ids=(List)request.getContext().get("_ids");
+        if(Ids==null || Ids.size()==0){
+            response.setError("Aucun avancement à valider selectionner!!");
+            return;
+        }
+        if(Ids.size()==1){
+            Situation situation=getSituationByAvancement(Ids.get(0));
+            response.setView(ActionView.define("Situations")
+                    .model(Situation.class.getName())
+                    .add("form", "situation-rh-form")
+                    .param("popup","true")
+                    .param("show-toolbar","false")
+                    .param("show-confirm","false")
+                    .param("popup-save","false")
+                    .param("forceTitle", "true")
+                    .context("_showRecord", situation.getId().toString())
+                    .domain("self.id = " + situation.getId())
+                    .map() );
+            return;
+        }
+
+        response.setView(ActionView.define("Décisions").model(MetaFile.class.getName())
+                .add("form","avancement-decision-validation-form")
+                .param("popup","true")
+                .param("show-toolbar","false")
+                .param("show-confirm","false")
+                .param("popup-save","false")
+                .context("ids", Ids)
+                .map()
+        );
+    }
+
 }

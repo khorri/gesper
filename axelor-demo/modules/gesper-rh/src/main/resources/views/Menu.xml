@@ -39,10 +39,15 @@
 	<menuitem name="menu-gesper-rh-conge--autorisation-absence-all" parent="menu-gesper-rh-conge"
 			  title="Autorisation d'absence"
 			  action="autorisation.absence.all"/>
+	<menuitem name="menu-avancement" parent="menu-gesper-rh"
+			  title="Avancement"/>
 
-	<menuitem name="menu-droit-avancement-all" parent="menu-gesper-rh"
-			  title="Droit avancement"
+	<menuitem name="menu-droit-avancement-all" parent="menu-avancement"
+			  title="Avancement"
 			  action="droit.avancement.all"/>
+
+	<menuitem name="menu-avancement-validation" parent="menu-avancement"
+			  title="Avancement validation" action="avancement.validate.all"/>
 
 	<!-- ACTIONS -->
 
