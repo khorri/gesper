@@ -81,16 +81,16 @@
                            validIf="hireDate ==null || radiationDate==null || hireDate &lt;= radiationDate"
                            colSpan="3"/>
                     <field name="motifRadiation" colSpan="3"/>
-                    <button name="sit" title="Ajouter une situation" colSpan="6" css="" icon="fa-plus"
+                    <button hideIf="id==null" name="sit" title="Ajouter une situation" colSpan="6" colOffset="6"
+                            icon="fa-plus"
                             onClick="situation-form-action"/>
-                    <panel-related title="Situation Administrative" colSpan="12" field="situationList"
+                    <panel-related hideIf="id==null" title="Situation Administrative" colSpan="12" field="situationList"
                                    form-view="situation-rh-form" canEdit="false" canNew="false" canRemove="false"
                                    grid-view="situation-rh-grid"/>
                 </panel>
             </panel>
             <panel name="affectation" title="Affectation &amp; Mutation" hideIf="id==null">
-                <field name="dummy" showTitle="false" readonly="true" colSpan="6"/>
-                <button name="affc" title="Ajouter une affectation" colSpan="6" css="" icon="fa-plus"
+                <button name="affc" title="Ajouter une affectation" colOffset="6" colSpan="6" css="" icon="fa-plus"
                         onClick="affectation-form"/>
                 <panel-related title="Historique des affactations" colSpan="12" field="affectationList"
                                grid-view="affectation-rh-grid" onNew="affectation-form" canNew="false" canEdit="false"
