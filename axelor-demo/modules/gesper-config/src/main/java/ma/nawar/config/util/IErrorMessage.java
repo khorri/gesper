@@ -5,4 +5,5 @@ package ma.nawar.config.util;
  */
 public interface IErrorMessage {
      static final public String CONGE_INVALID_DATE_1 = /*$$(*/ "Return date cannot be before leave date " /*)*/;
+     static final public String CONGE_INVALID_DATE_2 = /*$$(*/ "duration is great than your leave duration" /*)*/;
 }

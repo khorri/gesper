@@ -6,13 +6,13 @@ import com.axelor.rh.db.TypeConge;
 /**
  * Created by HORRI on 25/07/2018.
  */
-public class MaterniteCongeCalculatorImpl implements CongeCalculator{
+public class MaterniteCongeCalculatorImpl extends GenericCongeCalculator implements CongeCalculator {
 
     public static  final String TYPE_CONGE="MAT";
 
 
     @Override
-    public Integer getSolde(Employe employee, TypeConge typeConge) {
+    public Integer getCalculatedSolde(Employe employee, TypeConge typeConge) {
         return typeConge.getDroitJour();
     }
 

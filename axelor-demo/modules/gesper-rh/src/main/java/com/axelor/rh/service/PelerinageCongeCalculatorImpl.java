@@ -6,11 +6,12 @@ import com.axelor.rh.db.TypeConge;
 /**
  * Created by HORRI on 25/07/2018.
  */
-public class PelerinageCongeCalculatorImpl implements CongeCalculator{
+public class PelerinageCongeCalculatorImpl extends GenericCongeCalculator implements CongeCalculator {
     public static  final String TYPE_CONGE="PEL";
 
+
     @Override
-    public Integer getSolde(Employe employee, TypeConge typeConge) {
+    public Integer getCalculatedSolde(Employe employee, TypeConge typeConge) {
         return typeConge.getDroitJour();
     }
 

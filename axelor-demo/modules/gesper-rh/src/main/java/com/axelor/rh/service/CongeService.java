@@ -19,8 +19,8 @@ public class CongeService {
 
     public int getDuration(LocalDate start, LocalDate end) {
         List<JourFerie> jourFeries = jourFerieRepository.all().filter("self.dateDebut > ?1 and self.dateFin < ?2", start, end).fetch();
-        int days = Days.daysBetween(start, end).getDays();
-        while (!start.isEqual(end)) {
+        int days = Days.daysBetween(start, end).getDays() + 1;
+        while (!start.isAfter(end)) {
             if (isWeekDayOrHoliday(start, jourFeries)) {
                 days--;
             }

@@ -33,7 +33,7 @@ public class CongeController {
         Employe employe = (Employe) request.getContext().get("employee");
         TypeConge typeConge = (TypeConge)request.getContext().get("typeConge");
         logger.info("Recupérer le droit de congé pour l'agent: "+employe.getName());
-        CongeCalculator congeCalculator = Beans.get(CongeCalculator.class, Names.named(typeConge.getCode()));
+        CongeCalculator congeCalculator = Beans.get(CongeCalculator.class, Names.named(typeConge.getAnnotation()));
         if(congeCalculator==null){
             response.setError("Le type de congé sélectionne n'est pas pris en compte");
             return;
@@ -43,6 +43,7 @@ public class CongeController {
 
     @Transactional
     public void computeDuration(ActionRequest request, ActionResponse response){
+        logger.info("Calculate the leave request duration...");
         LocalDate fromDate = (LocalDate) request.getContext().get("dateDebut");
         LocalDate toDate = (LocalDate) request.getContext().get("dateFin");
         Integer droitConge = (Integer)request.getContext().get("droitConge");
@@ -51,6 +52,10 @@ public class CongeController {
             response.setColor("dateFin", "#FF0000");
         }
         int duration = congeService.getDuration(fromDate,toDate);
+        if (duration > droitConge) {
+            response.setError(I18n.get(IErrorMessage.CONGE_INVALID_DATE_2));
+            response.setValue("duree", 0);
+        }
         response.setValue("duree",duration);
     }
 
