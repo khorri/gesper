@@ -66,11 +66,20 @@
                     <field name="mutationDate" colSpan="3" onChange="action-employee-validate-date" validIf="hireDate ==null || mutationDate==null || hireDate &lt;= mutationDate"/>
                     <field name="radiationDate" colSpan="3" onChange="action-employee-validate-date" validIf="hireDate ==null || radiationDate==null || hireDate &lt;= radiationDate"/>
                     <field name="motifRadiation" colSpan="3"/>
-                    <panel-related title="Situation Administrative" colSpan="12" field="situationList" form-view="situation-rh-form" grid-view="situation-rh-grid"/>
+                    <button hideIf="id==null" name="sit" title="Ajouter une situation" colSpan="6" colOffset="6"
+                            icon="fa-plus"
+                            onClick="situation-form-action"/>
+                    <panel-related hideIf="id==null" title="Situation Administrative" colSpan="12" field="situationList"
+                                   form-view="situation-rh-form" canEdit="false" canNew="false" canRemove="false"
+                                   grid-view="situation-rh-grid"/>
                 </panel>
             </panel>
             <panel name="affectation" title="Affectation &amp; Mutation" hideIf="id==null">
-                <panel-related title="Historique des affactations" colSpan="12" field="affectationList" form-view="affectation-rh-form" grid-view="affectation-rh-grid"/>
+                <button name="affc" title="Ajouter une affectation" colOffset="6" colSpan="6" css="" icon="fa-plus"
+                        onClick="affectation-form"/>
+                <panel-related title="Historique des affactations" colSpan="12" field="affectationList"
+                               grid-view="affectation-rh-grid" onNew="affectation-form" canNew="false" canEdit="false"
+                               canRemove="false" canView="false"/>
             </panel>
             <panel name="affectation" title="Retraite/Mutuelle/AOS/MED" hideIf="id==null">
                 <panel title="Retraite" colSpan="12">
@@ -92,9 +101,14 @@
                         </editor>
                     </field>
                 </panel>
-                <panel-related title="Retraite complémentaire" colSpan="12" field="retraiteComplementaire" form-view="retraiteCom-rh-form" grid-view="retraiteCom-rh-grid" canNew="true"/>
-                <panel-related title="A.O.S" colSpan="12" field="aos" form-view="aos-rh-form" grid-view="aos-rh-grid" canNew="true"/>
-                <panel-related title="Mise en disponibilité" colSpan="12" field="med" form-view="med-rh-form" grid-view="med-rh-grid" canNew="true"/>
+                <panel-related colSpan="12" field="retraiteComplementaire" canNew="true" form-view="retraiteCom-rh-form"
+                               grid-view="retraiteCom-rh-grid" title="Retraite complémentaire"/>
+                <panel-related colSpan="12" field="aos" canNew="true" form-view="aos-rh-form" grid-view="aos-rh-grid"
+                               title="A.O.S"/>
+                <button name="emuddeh" title="Ajouter une mise en disponibilité" colSpan="6" icon="fa-plus"
+                        colOffset="6" onClick="med-popup-form"/>
+                <panel-related title="Mise en disponibilité" colSpan="12" field="med" grid-view="med-rh-grid"
+                               canNew="false" canView="false" canEdit="false" canRemove="false"/>
             </panel>
             <panel name="situation" title="Situation familiale" hideIf="id==null">
                 <field name="status" colSpan="12" placeholder="Situation familale de l'agent (Célébataire, Marié, ...)" selection="employee.civilStatus.type.select"/>

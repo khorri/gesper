@@ -13,11 +13,11 @@
         <field name="nature"/>
         <field name="type"/>
         <field name="corps"/>
-        <field name="decision.status">
-            <hilite if="decision.status == 1" background="info"/>
-            <hilite if="decision.status == 2" background="danger"/>
-            <hilite if="decision.status == 3" background="success"/>
-            <hilite if="decision.status == 4" background="warning"/>
+        <field name="decisionStatus">
+            <hilite if="decisionStatus == 1" background="info"/>
+            <hilite if="decisionStatus == 2" background="danger"/>
+            <hilite if="decisionStatus == 3" background="success"/>
+            <hilite if="decisionStatus == 4" background="warning"/>
         </field>
         <field name="active"/>
     </grid>
@@ -27,18 +27,22 @@
           onLoad="situation-dummies-audit-decision" onNew="affectation-set-employee,situation-defaults">
         <panel name="main" readonlyIf="id!=null &amp;&amp; decisionStatus != 1">
             <field name="decisionStatus" showTitle="false" colSpan="12" widget="NavSelect"/>
-            <field name="status" selection="employee.status.type.select"/>
-            <field name="situationDate"/>
-            <field name="grades" title="Grade" x-target="com.axelor.config.db.Grade" type="many-to-one"
-                   onChange="situation-changed-grade"></field>
-            <field name="echelle" title="Echelle" colSpan="3" readonly="true"/>
-            <field name="gradeDate" title="Date Grade" colSpan="3"/>
-            <field name="corps" colSpan="4" title="Corps" readonly="true"/>
-            <field name="filiere" colSpan="4" title="Filière" readonly="true"/>
-            <field name="cadre" colSpan="4" title="Cadre" readonly="true"/>
-            <field name="grade" title="Echelon" domain="self.grade.id = :gradeId"/>
+            <field name="nature" colSpan="4" selection="situation-natures" readonlyIf="nature!=null"/>
+            <field name="status" selection="employee.status.type.select" colSpan="4"
+                   readonlyIf="nature=='RECLASSEMENT' || nature==null || nature=='AVANCEMENT'"/>
+            <field name="situationDate" colSpan="4" readonlyIf="nature==null || nature=='AVANCEMENT'"/>
+            <field name="grades" title="Grade" type="many-to-one" onChange="situation-changed-grade"
+                   x-target="com.axelor.config.db.Grade" readonlyIf="nature==null || nature=='AVANCEMENT'"
+                   canEdit="false" canView="false"/>
+            <field name="echelle" title="Echelle" readonly="true" colSpan="3"/>
+            <field name="gradeDate" title="Date Grade" colSpan="3" readonlyIf="nature=='AVANCEMENT' || nature==null"/>
+            <field name="corps" title="Corps" readonly="true" colSpan="4"/>
+            <field name="filiere" title="Filière" readonly="true" canEdit="false" canView="false" colSpan="4"/>
+            <field name="cadre" title="Cadre" readonly="true" canEdit="false" canView="false" colSpan="4"/>
+            <field name="grade" title="Echelon" domain="self.grade.id = :gradeId" readonlyIf="nature==null"
+                   canEdit="false" canView="false"/>
             <field name="grade.indice" colSpan="3"/>
-            <field name="echelonDate" colSpan="3"/>
+            <field name="echelonDate" colSpan="3" readonlyIf="nature==null"/>
         </panel>
         <panel name="actions" title="Actions" colSpan="3" sidebar="true" stacked="true">
             <button name="createButton" title="Créer" showIf="id==null" colSpan="4" css="btn-info" icon="fa-plus"
@@ -49,19 +53,36 @@
                     icon="fa-check" onClick="situation-set-valide-group"/>
             <button name="refuseButton" title="Refuser" showIf="id!=null &amp;&amp; decisionStatus == 2" colSpan="4"
                     css="btn-danger" icon="fa-close" onClick="situation-set-refused,close"/>
-            <button name="cancelButton" title="Annuler" colSpan="4" css="btn-warning" icon="fa-ban" onClick="confirm"/>
+            <button name="cancelButton" title="Annuler" colSpan="4" css="btn-warning" icon="fa-ban" onClick="close"/>
         </panel>
-        <panel title="Decision" showIf="id!=null &amp;&amp; decisionStatus!=1" readonlyIf="decisionStatus &gt; 2">
-            <field name="decisionCode" type="string" colSpan="2" title="N° décision"/>
-            <field name="entreprise" readonly="true" type="string" colSpan="2" showTitle="false"/>
-            <field name="emitteur" title="Emitteur" type="many-to-one" canView="false" canEdit="false"
-                   x-target="com.axelor.config.db.Entite" x-target-name="shortName" colSpan="2"/>
-            <field name="decisionDate" title="Date" type="date" colSpan="3"/>
-            <field name="attachement" title="Attachement" type="many-to-one" canNew="true" widget="binary-link"
-                   x-target="com.axelor.meta.db.MetaFile" colSpan="3"/>
-            <field name="motifRejet" title="Motif de rejet" type="string" colSpan="12"/>
+        <panel name="audit" showTitle="false"
+               showIf="decision.verifiedBy!=null||decision.verifiedOn!=null||decision.validatedBy!=null||decision.validatedOn!=null||decision.rejectedBy!=null||decision.rejectedOn!=null"
+               sidebar="true" stacked="false">
+            <field name="decision.verifiedBy" title="Verifié par" readonly="true" showIf="decision.verifiedBy!=null"
+                   colSpan="3" canView="false"/>
+            <field name="decision.verifiedOn" title="Verifié le" readonly="true" showIf="decision.verifiedOn!=null"
+                   colSpan="3"/>
+            <field name="decision.validatedBy" title="Validé par" readonly="true" showIf="decision.validatedBy!=null"
+                   colSpan="3" canView="false"/>
+            <field name="decision.validatedOn" title="Validé le" readonly="true" showIf="decision.validatedOn!=null"
+                   colSpan="3"/>
+            <field name="decision.rejectedBy" title="rejeté par" readonly="true" showIf="decision.rejectedBy!=null"
+                   colSpan="3" canView="false"/>
+            <field name="decision.rejectedOn" title="rejeté le" readonly="true" showIf="decision.rejectedOn!=null"
+                   colSpan="3"/>
+        </panel>
+        <panel title="Decision" showIf="id!=null &amp;&amp; decisionStatus!=1" readonlyIf="decisionStatus > 2">
+            <field name="decisionCode" title="N° décision" colSpan="2" type="string"/>
+            <field name="entreprise" showTitle="false" readonly="true" colSpan="2" type="string"/>
+            <field name="emitteur" title="Emitteur" colSpan="2" type="many-to-one" canView="false" canEdit="false"
+                   x-target="com.axelor.config.db.Entite" x-target-name="shortName"/>
+            <field name="decisionDate" title="Date" colSpan="3" type="date"/>
+            <field name="attachement" title="Attachement" colSpan="3" type="many-to-one" widget="binary-link"
+                   canNew="true" x-target="com.axelor.meta.db.MetaFile"/>
+            <field name="motifRejet" title="Motif de rejet" colSpan="12" type="string"/>
         </panel>
     </form>
+
 
     <action-view name="situation-form-action" model="com.axelor.rh.db.Situation" title="Situation">
         <view name="situation-rh-form" type="form"/>
