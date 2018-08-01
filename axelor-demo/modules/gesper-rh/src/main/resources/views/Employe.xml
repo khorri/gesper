@@ -122,8 +122,10 @@
                                grid-view="retraiteCom-rh-grid" title="Retraite complémentaire"/>
                 <panel-related colSpan="12" field="aos" canNew="true" form-view="aos-rh-form" grid-view="aos-rh-grid"
                                title="A.O.S"/>
-                <panel-related colSpan="12" field="med" canNew="true" form-view="med-rh-form" grid-view="med-rh-grid"
-                               title="Mise en disponibilité"/>
+                <button name="emuddeh" title="Ajouter une mise en disponibilité" colSpan="6" icon="fa-plus"
+                        colOffset="6" onClick="med-popup-form"/>
+                <panel-related title="Mise en disponibilité" colSpan="12" field="med" grid-view="med-rh-grid"
+                               canNew="false" canView="false" canEdit="false" canRemove="false"/>
             </panel>
             <panel name="situation" title="Situation familiale" hideIf="id==null">
                 <field name="status" colSpan="12" selection="employee.civilStatus.type.select"

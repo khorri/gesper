@@ -47,13 +47,8 @@
     </selection>
     <selection name="situation-natures">
         <option value="RECRUTEMENT">RECRUTEMENT</option>
-        <option value="RECLASSEMENT">RECLASSEMENT</option>
         <option value="AVANCEMENT">AVANCEMENT</option>
-        <!--<option value="DEGRADATION">DEGRADATION</option>-->
-        <!--<option value="PROMOTION">PROMOTION</option>-->
-        <!--<option value="TITULARISATION">TITULARISATION</option>-->
-        <!--<option value="REVERSEMENT">REVERSEMENT</option>-->
-        <!--<option value="MIGRATION">MIGRATION</option>-->
+        <option value="RECLASSEMENT">RECLASSEMENT</option>
     </selection>
     <selection name="situation-reclassement-natures">
         <option value="CHO">Choix</option>

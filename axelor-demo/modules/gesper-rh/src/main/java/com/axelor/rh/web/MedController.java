@@ -6,9 +6,8 @@ import com.axelor.config.db.Decision;
 import com.axelor.config.db.repo.DecisionRepository;
 import com.axelor.config.db.repo.EntiteRepository;
 import com.axelor.exception.AxelorException;
-import com.axelor.rh.db.Sanction;
-import com.axelor.rh.db.Situation;
-import com.axelor.rh.db.repo.SanctionRepository;
+import com.axelor.rh.db.Med;
+import com.axelor.rh.db.repo.MedRepository;
 import com.axelor.rh.service.DecisionService;
 import com.axelor.rpc.ActionRequest;
 import com.axelor.rpc.ActionResponse;
@@ -24,19 +23,20 @@ import java.lang.invoke.MethodHandles;
 /**
  * Created by HB on 10/07/2018.
  */
-public class SanctionController {
+public class MedController {
     @Inject
     private EntiteRepository entiteRep;
     @Inject
     private DecisionRepository decisionRepo;
     @Inject
-    private SanctionRepository sanctionRepository;
+    private MedRepository medRepository;
     @Inject
     private DecisionService decisionService;
     private final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     @Transactional
     public void verifie(ActionRequest request, ActionResponse response) throws AxelorException {
+        Med med = request.getContext().asType(Med.class);
         User user = AuthUtils.getUser();
         response.setValue("decisionStatus", 2);
         Decision decision = new Decision();
@@ -49,7 +49,7 @@ public class SanctionController {
         response.setValue("decisionDate", decision.getDecisionDate());
         response.setValue("entreprise", decision.getEntreprise());
         response.setValue("emitteur", decision.getEmitteur());
-        printDecision(request, response);
+        decisionService.printMedDecision(decision, med.getId());
     }
 
     //
@@ -74,7 +74,7 @@ public class SanctionController {
 //            }
 //        }
 
-        Sanction sanction = sanctionRepository.find((Long) context.get("id"));
+        Med med = medRepository.find((Long) context.get("id"));
 
         String errorMessage = decisionService.validerDecisionValidation(context);
         if (errorMessage != null) {
@@ -86,16 +86,16 @@ public class SanctionController {
             response.setError("Une décision avec le même N° exsite déjà.");
             return;
         }
-        if (sanction.getDecision() != null) {
+        if (med.getDecision() != null) {
             //update current decsion with new values
-            Decision decision = decisionService.updateDecision(context, sanction.getDecision(), DecisionRepository.STATUS_VALIDATED);
+            Decision decision = decisionService.updateDecision(context, med.getDecision(), DecisionRepository.STATUS_VALIDATED);
 
             decision.setValidatedBy(user);
             decision.setValidatedOn(new LocalDate());
             decision.setStatus(DecisionRepository.STATUS_VALIDATED);
             decisionRepo.save(decision);
 
-            sanctionRepository.save(sanction);
+            medRepository.save(med);
         }
         response.setReload(true);
     }
@@ -105,20 +105,20 @@ public class SanctionController {
     public void refuser(ActionRequest request, ActionResponse response) {
         User user = AuthUtils.getUser();
         Context context = request.getContext();
-        Sanction sanction = sanctionRepository.find((Long) context.get("id"));
+        Med med = medRepository.find((Long) context.get("id"));
         String errorMessage = decisionService.refuserDecisionValidation(context);
         if (errorMessage != null) {
             response.setError(errorMessage);
             return;
         }
 
-        if (sanction.getDecision() != null) {
+        if (med.getDecision() != null) {
             //update current decsion with new values
-            Decision decision = decisionService.updateDecision(context, sanction.getDecision(), DecisionRepository.STATUS_REJECTED);
+            Decision decision = decisionService.updateDecision(context, med.getDecision(), DecisionRepository.STATUS_REJECTED);
             decision.setRejectedBy(user);
             decision.setRejectedOn(new LocalDate());
             decision.setStatus(DecisionRepository.STATUS_REJECTED);
-            sanctionRepository.save(sanction);
+            medRepository.save(med);
 
         }
         response.setReload(true);
@@ -143,9 +143,9 @@ public class SanctionController {
 
 
     public void printDecision(ActionRequest request, ActionResponse response) throws AxelorException {
-        Situation situation = request.getContext().asType(Situation.class);
-        if (situation.getDecision() != null) {
-            Decision decision = decisionRepo.find(situation.getDecision().getId());
+        Med med = request.getContext().asType(Med.class);
+        if (med.getDecision() != null) {
+            Decision decision = decisionRepo.find(med.getDecision().getId());
         }
     }
 

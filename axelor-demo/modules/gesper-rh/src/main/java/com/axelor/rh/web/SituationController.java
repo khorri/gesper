@@ -1,5 +1,6 @@
 package com.axelor.rh.web;
 
+import com.axelor.apps.report.engine.ReportSettings;
 import com.axelor.auth.AuthUtils;
 import com.axelor.auth.db.User;
 import com.axelor.config.db.Decision;
@@ -9,6 +10,7 @@ import com.axelor.config.db.repo.EntiteRepository;
 import com.axelor.config.db.repo.GradeRepository;
 import com.axelor.exception.AxelorException;
 import com.axelor.meta.db.repo.MetaFileRepository;
+import com.axelor.meta.schema.actions.ActionView;
 import com.axelor.rh.db.Situation;
 import com.axelor.rh.db.repo.SituationRepository;
 import com.axelor.rh.service.DecisionService;
@@ -63,30 +65,7 @@ public class SituationController {
         response.setValue("decisionDate", decision.getDecisionDate());
         response.setValue("entreprise", decision.getEntreprise());
         response.setValue("emitteur", decision.getEmitteur());
-        /*Situation previousSituation = situationRepo.all().filter("self.employee.id = ?1 AND self.active =true", situation.getEmployee().getId()).fetchOne();
-        String nature = "";
-        Map<String, Object> grade = (HashMap) context.get("grades");
-        if (SituationRepository.STATUS_STAGIERE.equals(situation.getStatus())) {
-            response.setValue("nature", "RECRUTEMENT");
-        }
-        if (grade.get("id") != previousSituation.getGrade().getGrade().getId()) {
-            response.setValue("nature", "RECLASSEMENT");
-            return;
-        }
-        if (situation.getGrade().getId() != previousSituation.getGrade().getId()) {
-            response.setValue("nature", "AVANCEMENT");
-            return;
-        }*/
-//        String language = "fr";
-//
-//        String name = situationService.getFileName(decision);
-//
-//        String fileLink = situationService.getReportLink(decision, name, language, ReportSettings.FORMAT_DOC);
-//        logger.debug("Printing " + name);
-//        response.setView(ActionView
-//                .define(name)
-//                .add("html", fileLink).map());
-
+        decisionService.printSituationDecision(decision, situation.getId());
 
     }
 
@@ -149,14 +128,6 @@ public class SituationController {
         }
     }
 
-    //
-    private boolean decisionIsUsedInAffecation(Context context) {
-        Decision decision = decisionRepo.all().filter("self.decisionCode = ?1", context.get("decisionCode")).fetchOne();
-        if (decision == null)
-            return false;
-        int count = situationService.decsionUsedInOtherSituation(decision);
-        return count > 0;
-    }
 
     @Transactional
     public void refuser(ActionRequest request, ActionResponse response) {
@@ -191,25 +162,8 @@ public class SituationController {
             response.setValue("decisionDate", decision.getDecisionDate());
             response.setValue("entreprise", decision.getEntreprise());
             response.setValue("emitteur", decision.getEmitteur());
+            response.setValue("attachement", decision.getAttachement());
         }
-    }
-
-    @Transactional
-    public void getAudit(ActionRequest request, ActionResponse response) {
-        Context context = request.getContext();
-        Decision decision = (Decision) context.get("decision");
-        if (decision == null)
-            return;
-        if (decision.getVerifiedBy() != null)
-            response.setValue("verifiedBy", decision.getVerifiedBy().getFullName());
-        if (decision.getValidatedBy() != null)
-            response.setValue("validatedBy", decision.getValidatedBy().getFullName());
-        if (decision.getRejectedBy() != null)
-            response.setValue("rejectedBy", decision.getRejectedBy().getFullName());
-        response.setValue("verifiedOn", decision.getVerifiedOn());
-        response.setValue("validatedOn", decision.getValidatedOn());
-        response.setValue("rejectedOn", decision.getRejectedOn());
-        response.setValue("emitteur", decision.getEmitteur());
     }
 
     public void getDummies(ActionRequest request, ActionResponse response) {
@@ -224,37 +178,23 @@ public class SituationController {
             response.setValue("echelle", grade.getEchelle());
             response.setValue("gradeId", grade.getId());
         }
-        getAudit(request, response);
         getLastDecision(request, response);
     }
 
-    private String refuserDecisionValidation(Decision decision) {
-        String errorMessage = "Les champ suivant sont requis pour le refus: ";
-        boolean hasError = false;
-        if (decision.getMotifRejet() == null) {
-            if (hasError)
-                errorMessage += ", ";
-            hasError = true;
-            errorMessage += "Motif de rejet";
-        }
-        if (decision.getEmitteur() == null) {
-            if (hasError)
-                errorMessage += ", ";
-            hasError = true;
-            errorMessage += "Emitteur";
-        }
-        if (hasError) {
-            errorMessage += ".";
-            return errorMessage;
-        } else
-            return null;
-
-    }
 
     public void printDecision(ActionRequest request, ActionResponse response) throws AxelorException {
         Situation situation = request.getContext().asType(Situation.class);
         if (situation.getDecision() != null) {
             Decision decision = decisionRepo.find(situation.getDecision().getId());
+            String language = "fr";
+
+            String name = situationService.getFileName(decision);
+
+            String fileLink = situationService.getReportLink(decision, name, language, ReportSettings.FORMAT_DOC);
+            logger.debug("Printing " + name);
+            response.setView(ActionView
+                    .define(name)
+                    .add("html", fileLink).map());
         }
     }
 

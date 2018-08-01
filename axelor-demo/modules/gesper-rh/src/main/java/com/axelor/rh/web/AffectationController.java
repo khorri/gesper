@@ -7,7 +7,6 @@ import com.axelor.config.db.Decision;
 import com.axelor.config.db.repo.DecisionRepository;
 import com.axelor.config.db.repo.EntiteRepository;
 import com.axelor.exception.AxelorException;
-import com.axelor.meta.db.repo.MetaFileRepository;
 import com.axelor.meta.schema.actions.ActionView;
 import com.axelor.rh.db.Affectation;
 import com.axelor.rh.db.repo.AffectationRepository;
@@ -35,8 +34,6 @@ public class AffectationController {
     private DecisionRepository decisionRep;
     @Inject
     private AffectationRepository affectationRepository;
-    @Inject
-    private MetaFileRepository fileRep;
     @Inject
     private AffectationService affectationService;
     @Inject
@@ -202,6 +199,7 @@ public class AffectationController {
                 response.setValue("decisionDate", decision.getDecisionDate());
                 response.setValue("entreprise", decision.getEntreprise());
                 response.setValue("emitteur", decision.getEmitteur());
+                response.setValue("attachement", decision.getAttachement());
             }
 
         }

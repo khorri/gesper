@@ -27,20 +27,22 @@
           onLoad="situation-dummies-audit-decision" onNew="affectation-set-employee,situation-defaults">
         <panel name="main" readonlyIf="id!=null &amp;&amp; decisionStatus != 1">
             <field name="decisionStatus" showTitle="false" colSpan="12" widget="NavSelect"/>
-            <field name="nature" colSpan="4" selection="situation-natures"/>
-            <field name="status" selection="employee.status.type.select" colSpan="4"/>
-            <field name="situationDate" colSpan="4"/>
+            <field name="nature" colSpan="4" selection="situation-natures" readonlyIf="nature!=null"/>
+            <field name="status" selection="employee.status.type.select" colSpan="4"
+                   readonlyIf="nature=='RECLASSEMENT' || nature==null || nature=='AVANCEMENT'"/>
+            <field name="situationDate" colSpan="4" readonlyIf="nature==null || nature=='AVANCEMENT'"/>
             <field name="grades" title="Grade" type="many-to-one" onChange="situation-changed-grade"
-                   x-target="com.axelor.config.db.Grade" readonly="false" canEdit="false" canView="false"/>
+                   x-target="com.axelor.config.db.Grade" readonlyIf="nature==null || nature=='AVANCEMENT'"
+                   canEdit="false" canView="false"/>
             <field name="echelle" title="Echelle" readonly="true" colSpan="3"/>
-            <field name="gradeDate" title="Date Grade" colSpan="3"/>
+            <field name="gradeDate" title="Date Grade" colSpan="3" readonlyIf="nature=='AVANCEMENT' || nature==null"/>
             <field name="corps" title="Corps" readonly="true" colSpan="4"/>
-            <field name="filiere" title="Filière" readonly="false" canEdit="false" canView="false" colSpan="4"/>
-            <field name="cadre" title="Cadre" readonly="false" canEdit="false" canView="false" colSpan="4"/>
-            <field name="grade" title="Echelon" domain="self.grade.id = :gradeId" readonly="false" canEdit="false"
-                   canView="false"/>
+            <field name="filiere" title="Filière" readonly="true" canEdit="false" canView="false" colSpan="4"/>
+            <field name="cadre" title="Cadre" readonly="true" canEdit="false" canView="false" colSpan="4"/>
+            <field name="grade" title="Echelon" domain="self.grade.id = :gradeId" readonlyIf="nature==null"
+                   canEdit="false" canView="false"/>
             <field name="grade.indice" colSpan="3"/>
-            <field name="echelonDate" colSpan="3"/>
+            <field name="echelonDate" colSpan="3" readonlyIf="nature==null"/>
         </panel>
         <panel name="actions" title="Actions" colSpan="3" sidebar="true" stacked="true">
             <button name="createButton" title="Créer" showIf="id==null" colSpan="4" css="btn-info" icon="fa-plus"
@@ -51,7 +53,23 @@
                     icon="fa-check" onClick="situation-set-valide-group"/>
             <button name="refuseButton" title="Refuser" showIf="id!=null &amp;&amp; decisionStatus == 2" colSpan="4"
                     css="btn-danger" icon="fa-close" onClick="situation-set-refused,close"/>
-            <button name="cancelButton" title="Annuler" colSpan="4" css="btn-warning" icon="fa-ban" onClick="confirm"/>
+            <button name="cancelButton" title="Annuler" colSpan="4" css="btn-warning" icon="fa-ban" onClick="close"/>
+        </panel>
+        <panel name="audit" showTitle="false"
+               showIf="decision.verifiedBy!=null||decision.verifiedOn!=null||decision.validatedBy!=null||decision.validatedOn!=null||decision.rejectedBy!=null||decision.rejectedOn!=null"
+               sidebar="true" stacked="false">
+            <field name="decision.verifiedBy" title="Verifié par" readonly="true" showIf="decision.verifiedBy!=null"
+                   colSpan="3" canView="false"/>
+            <field name="decision.verifiedOn" title="Verifié le" readonly="true" showIf="decision.verifiedOn!=null"
+                   colSpan="3"/>
+            <field name="decision.validatedBy" title="Validé par" readonly="true" showIf="decision.validatedBy!=null"
+                   colSpan="3" canView="false"/>
+            <field name="decision.validatedOn" title="Validé le" readonly="true" showIf="decision.validatedOn!=null"
+                   colSpan="3"/>
+            <field name="decision.rejectedBy" title="rejeté par" readonly="true" showIf="decision.rejectedBy!=null"
+                   colSpan="3" canView="false"/>
+            <field name="decision.rejectedOn" title="rejeté le" readonly="true" showIf="decision.rejectedOn!=null"
+                   colSpan="3"/>
         </panel>
         <panel title="Decision" showIf="id!=null &amp;&amp; decisionStatus!=1" readonlyIf="decisionStatus > 2">
             <field name="decisionCode" title="N° décision" colSpan="2" type="string"/>

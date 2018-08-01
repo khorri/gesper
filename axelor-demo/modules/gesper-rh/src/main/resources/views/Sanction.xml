@@ -8,8 +8,8 @@
     <action-view name="sanction.all" model="com.axelor.rh.db.Sanction" title="Sanctions">
         <view name="sanction-rh-grid" type="grid"/>
         <view name="sanction-rh-form" type="form"/>
-        <domain>self.employee.id = :id</domain>
-        <context name="id" expr="eval: id"/>
+        <domain>self.employee.id = :_id</domain>
+        <context name="_id" expr="eval: id"/>
     </action-view>
 
     <grid name="sanction-rh-grid" title="Sanctions" model="com.axelor.rh.db.Sanction" edit-icon="true">
@@ -19,46 +19,64 @@
         <field name="motif"/>
     </grid>
 
-    <form name="sanction-rh-form" title="Sanction"
-          model="com.axelor.rh.db.Sanction" onNew="sanction-employe-call">
-
-        <panel name="main">
-            <field name="decision.status" showTitle="false" widget="NavSelect" colSpan="12"/>
+    <form name="sanction-rh-form" title="Sanction" model="com.axelor.rh.db.Sanction"
+          onLoad="com.axelor.rh.web.SanctionController:getDummies" onNew="affectation-set-employee">
+        <panel name="main" readonlyIf="id!=null &amp;&amp; decision != null">
+            <field name="decision.status" showTitle="false" colSpan="12" widget="NavSelect"/>
             <field name="nature"/>
             <field name="dateeffet"/>
             <field name="period"/>
             <field name="motif"/>
             <field name="grade"/>
-            <field name="employee"/>
-            <field name="employee.echelon" readonly="true"/>
-            <field name="decision"/>
-            <field name="archived"/>
+            <field name="employee" readonly="true"/>
+            <field name="employee.echelon"/>
         </panel>
-        <panel name="actions" title="Actions" sidebar="true" stacked="true" colSpan="3">
-            <button name="createButton" title="Créer" css="btn-info" colSpan="4" icon="fa-plus" onClick="save,close"/>
-            <button name="validateButton" title="Validate"  colSpan="4" icon="fa-check"/>
-            <button name="refuseButton" title="Refuse" css="btn-danger" colSpan="4" icon="fa-close"/>
-            <button name="cancelButton" title="Cancel" css="btn-warning" colSpan="4" icon="fa-ban"/>
+        <panel name="actions" title="Actions" colSpan="3" sidebar="true" stacked="true">
+            <button name="createButton" title="Créer" showIf="id==null" colSpan="4" css="btn-info" icon="fa-plus"
+                    onClick="save"/>
+            <button name="verifyButton" title="Vérifier" showIf="id!=null &amp;&amp; decision== null" colSpan="4"
+                    icon="fa-check" onClick="com.axelor.rh.web.SanctionController:verifie,save"/>
+            <button name="validateButton" title="Valider" showIf="id!=null &amp;&amp; decision.status == 2" colSpan="4"
+                    icon="fa-check" onClick="com.axelor.rh.web.SanctionController:valider"/>
+            <button name="refuseButton" title="Refuser" showIf="id!=null &amp;&amp; decision.status == 2" colSpan="4"
+                    css="btn-danger" icon="fa-close" onClick="com.axelor.rh.web.SanctionController:refuser"/>
+            <button name="cancelButton" title="Annuler" colSpan="4" css="btn-warning" icon="fa-ban" onClick="close"/>
         </panel>
-        <panel title="Decision" >
-            <field  name="decision" showTitle="false" canEdit="false" canNew="false" colSpan="12">
-                <editor >
-                    <field name="attachement" canNew="true" canAttach="true" widget="binary"/>
-                    <field name="decisionCode" colSpan="3"/>
-                    <field name="emitteur" colSpan="3"/>
-                    <field name="entreprise" colSpan="3"/>
-                    <field name="decisionDate" colSpan="3"/>
-                    <field name="motifRejet" colSpan="3"/>
-                </editor>
-            </field>
+        <panel name="audit" showTitle="false"
+               showIf="decision.verifiedBy!=null||decision.verifiedOn!=null||decision.validatedBy!=null||decision.validatedOn!=null||decision.rejectedBy!=null||decision.rejectedOn!=null"
+               sidebar="true" stacked="false">
+            <field name="decision.verifiedBy" title="Verifié par" readonly="true" showIf="decision.verifiedBy!=null"
+                   colSpan="3" canView="false"/>
+            <field name="decision.verifiedOn" title="Verifié le" readonly="true" showIf="decision.verifiedOn!=null"
+                   colSpan="3"/>
+            <field name="decision.validatedBy" title="Validé par" readonly="true" showIf="decision.validatedBy!=null"
+                   colSpan="3" canView="false"/>
+            <field name="decision.validatedOn" title="Validé le" readonly="true" showIf="decision.validatedOn!=null"
+                   colSpan="3"/>
+            <field name="decision.rejectedBy" title="rejeté par" readonly="true" showIf="decision.rejectedBy!=null"
+                   colSpan="3" canView="false"/>
+            <field name="decision.rejectedOn" title="rejeté le" readonly="true" showIf="decision.rejectedOn!=null"
+                   colSpan="3"/>
+        </panel>
+        <panel title="Decision" showIf="id!=null &amp;&amp; decision!=null" readonlyIf="decision.status > 2">
+            <field name="$decisionCode" title="N° décision" colSpan="2" type="string"/>
+            <field name="$entreprise" showTitle="false" readonly="true" colSpan="2" type="string"/>
+            <field name="$emitteur" title="Emitteur" colSpan="2" type="many-to-one" canView="false" canEdit="false"
+                   x-target="com.axelor.config.db.Entite" x-target-name="shortName"/>
+            <field name="$decisionDate" title="Date" colSpan="3" type="date"/>
+            <field name="$attachement" title="Attachement" colSpan="3" type="many-to-one" widget="binary-link"
+                   canNew="true" x-target="com.axelor.meta.db.MetaFile"/>
+            <field name="$motifRejet" title="Motif de rejet" colSpan="12" type="string"/>
         </panel>
     </form>
+
+
     <action-record name="sanction-employe"
-    		model="com.axelor.rh.db.Employe" search="('self.id = ?1', id)">
-    	<field name="employee" expr="eval:employee?.firstName" />
+                   model="com.axelor.rh.db.Employe" search="('self.id = ?1', id)">
+        <field name="employee" expr="eval:employee?.firstName"/>
     </action-record>
     <action-record name="sanction-employe-call"
-    		model="com.axelor.rh.db.Employe">
-      	<field name="employee" expr="action:sanction-employe" />
+                   model="com.axelor.rh.db.Employe">
+        <field name="employee" expr="action:sanction-employe"/>
     </action-record>
 </object-views>
