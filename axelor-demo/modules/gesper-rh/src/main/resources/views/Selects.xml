@@ -24,9 +24,10 @@
         <option value="T">TITULAIRE</option>
     </selection>
     <selection name="employee.civilStatus.type.select">
-        <option value="M">Marié</option>
-        <option value="C">Célébataire</option>
-        <option value="V">Veuf(ve)</option>
+        <option value="M" order="1">Marié</option>
+        <option value="C" order="0">Célébataire</option>
+        <option value="V" order="2">Veuf(ve)</option>
+        <option value="A" order="3">Autre</option>
     </selection>
     <selection name="employee.depart.type.select">
         <option value="DEC">Décés</option>
@@ -46,20 +47,11 @@
         <option value="3">Validé</option>
     </selection>
     <selection name="situation-natures">
-
         <option value="RECRUTEMENT">RECRUTEMENT</option>
-        <option value="RECLASSEMENT">RECLASSEMENT</option>
         <option value="AVANCEMENT">AVANCEMENT</option>
-        <option value="DEGRADATION">DEGRADATION</option>
-        <option value="PROMOTION">PROMOTION</option>
-        <option value="TITULARISATION">TITULARISATION</option>
-        <option value="REVERSEMENT">REVERSEMENT</option>
-        <option value="MIGRATION">MIGRATION</option>
-        <option value="REVERSEMENT">REVERSEMENT</option>
-        <option value="REVERSEMENT">REVERSEMENT</option>
-        <option value="REVERSEMENT">REVERSEMENT</option>
+        <option value="RECLASSEMENT">RECLASSEMENT</option>
     </selection>
-    <selection name="situation-reclassement-natures">
+    <selection name="situation-reclassement-natures"  >
         <option value="CHO">Choix</option>
         <option value="CHQ">Choix avec quota</option>
         <option value="CHS">Choix sans quota</option>
@@ -67,6 +59,11 @@
         <option value="DIP">DIP</option>
         <option value="EAP">EAP</option>
         <option value="EXC">EXC</option>
+    </selection>
+    <selection name="ouissam-type">
+        <option value="EXP">Ouissam de mérite national Exceptionnel</option>
+        <option value="1GR">Ouissam de mérite national de 1er Grade</option>
+        <option value="2GR">Ouissam de mérite national de 2ème Grade</option>
     </selection>
     <selection name="conge.start.select">
         <option value="1">Matin</option>

@@ -668,3 +668,17 @@ left join gesper.config_fonction fo on fo.`name` = gfon.FON_LIB
 ) pseudo
 left join (select id,CONCAT_WS("",employee, DATE_FORMAT(affectation_date,'%Y-%m-%d'), fonction,entite,service,type_affectation) as unique_field from gesper.rh_affectation) gaf on pseudo.unique_field like gaf.unique_field
 having decision is not null and CONCAT_WS('',gaf.id,pseudo.decision) not in (select CONCAT_WS('',rh_affectation,decision) from gesper.rh_affectation_decision);
+
+
+-- nature reclamsement
+
+INSERT INTO gesper.rh_nature_reclassement (id,code, name)
+SELECT
+@rownum := @rownum + 1 AS position,
+nr.RECNAT_COD, nr.RECNAT_LIB
+ FROM grh.nature_reclassement nr
+JOIN (SELECT @rownum := (SELECT next_val FROM gesper.rh_nature_reclassement_seq)-1) as r
+WHERE nr.RECNAT_COD not in (SELECT `code` from gesper.rh_nature_reclassement);
+
+UPDATE gesper.rh_nature_reclassement_seq
+set next_val = IF((SELECT id+1 as seq from gesper.rh_nature_reclassement ORDER BY id desc LIMIT 1) is null,1,(SELECT id+1 as seq from gesper.rh_nature_reclassement ORDER BY id desc LIMIT 1));

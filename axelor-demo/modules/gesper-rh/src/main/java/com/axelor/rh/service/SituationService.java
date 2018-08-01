@@ -2,10 +2,11 @@ package com.axelor.rh.service;
 
 import com.axelor.apps.ReportFactory;
 import com.axelor.config.db.Decision;
-import com.axelor.db.JPA;
 import com.axelor.exception.AxelorException;
 import com.axelor.i18n.I18n;
 import com.axelor.report.ReportGenerator;
+import com.axelor.rh.db.Situation;
+import com.axelor.rh.db.repo.SituationRepository;
 import com.axelor.rh.report.IReport;
 import com.google.inject.Inject;
 import org.slf4j.Logger;
@@ -24,6 +25,8 @@ public class SituationService implements Serializable {
 
     @Inject
     private ReportGenerator generator;
+    @Inject
+    private SituationRepository situationRepository;
 
     public String getFileName(Decision decision) {
 
@@ -32,7 +35,7 @@ public class SituationService implements Serializable {
 
     public String getReportLink(Decision decision, String name, String language, String format) throws AxelorException {
 
-        return ReportFactory.createReport(IReport.AFFECTATION_DECISION, name + "-${date}")
+        return ReportFactory.createReport(IReport.SITUATION_DECISION, name + "-${date}")
                 .addParam("Locale", language)
                 .addParam("DecisionId", decision.getId())
                 .addFormat(format)
@@ -41,12 +44,11 @@ public class SituationService implements Serializable {
     }
 
     public int decsionUsedInOtherSituation(Decision decision) {
-
-        List<Object> affectation = JPA.em().createQuery(
-                "SELECT si from Situation as si "
-                        + " join si.decision d"
-                        + " where d.id = :decisionId ").setParameter("decisionId", decision.getId()
-        ).getResultList();
-        return affectation.size();
+        List<Situation> situations = situationRepository.all().filter("self.decision.id = ?1", decision.getId()).fetch();
+//        List<Object> situation = JPA.em().createQuery(
+//                "SELECT si from Situation as si "
+//                        + " where si.decision.id = :decisionId ").setParameter("decisionId", decision.getId()
+//        ).getResultList();
+        return situations.size();
     }
 }

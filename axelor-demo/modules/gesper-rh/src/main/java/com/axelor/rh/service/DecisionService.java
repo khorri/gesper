@@ -112,4 +112,13 @@ public class DecisionService implements Serializable {
 
     }
 
+
+    public void printSituationDecision(Decision decision, Long id) {
+    }
+
+    public void printMedDecision(Decision decision, Long id) {
+    }
+
+    public void printSanctionDecision(Decision decision, Long id) {
+    }
 }

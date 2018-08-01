@@ -11,7 +11,7 @@
         <boolean name="scolarise" title="Scolarisé?"  />
         <boolean name="infirme" title="Infirmé?"  />
         <boolean name="handicape" title="Handicapé?"  />
-        <date name="dateDeces" title="date décès"  />
+        <date name="dateDeces" title="Date décès"  />
         <many-to-one name="employee" ref="com.axelor.rh.db.Employe" title="Agent"></many-to-one>
     </entity>
 

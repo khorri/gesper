@@ -8,7 +8,7 @@
     <entity name="Mutuelle"  cachable="true">
         <string name="affiliationNum" title="N° d'affiliation"/>
         <string name="mutuelleNum" title="N° d'immatriculation"/>
-        <date name="affiliationDate" title="date d'affiliation"  />
+        <date name="affiliationDate" title="Date d'affiliation"  />
         <many-to-one name="organisme" ref="com.axelor.config.db.Organisme" title="Organisme"/>
         <many-to-one name="employee" ref="com.axelor.rh.db.Employe" title="Agent"></many-to-one>
     </entity>
