@@ -7,8 +7,8 @@
 
     <entity name="Experience"  cachable="true">
         <string name="name" title="Emploi"  />
-        <date name="dateDebut" title="date debut"  />
-        <date name="dateFin" title="date fin"  />
+        <date name="dateDebut" title="Date début"  />
+        <date name="dateFin" title="Date fin"  />
         <string name="etablissement" title="Etablissement"  />
         <many-to-one name="employee" ref="com.axelor.rh.db.Employe" title="Agent"></many-to-one>
     </entity>

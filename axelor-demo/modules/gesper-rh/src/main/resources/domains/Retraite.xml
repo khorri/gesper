@@ -7,7 +7,7 @@
 
     <entity name="Retraite"  cachable="true">
         <string name="affiliationNum" title="N° d'affiliation"/>
-        <date name="affiliationDate" title="date d'affiliation"  />
+        <date name="affiliationDate" title="Date d'affiliation"  />
         <many-to-one name="organisme" ref="com.axelor.config.db.Organisme" title="Organisme"/>
         <one-to-one name="employee" ref="com.axelor.rh.db.Employe" title="Agent"></one-to-one>
     </entity>

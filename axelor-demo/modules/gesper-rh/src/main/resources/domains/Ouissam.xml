@@ -5,11 +5,9 @@
 
     <module name="rh" package="com.axelor.rh.db"/>
 
-    <entity name="Aos"  cachable="true">
-        <string name="affiliationNum" title="N° d'affiliation"/>
-        <date name="dateDebut" title="Date début"  />
-        <date name="dateFin" title="Date fin"  />
-        <many-to-one name="employee" ref="com.axelor.rh.db.Employe" title="Agent"></many-to-one>
+    <entity name="Ouissam" cachable="true">
+        <string name="name" title="Type"/>
+        <date name="dateOuissam" title="Date"/>
+        <many-to-one name="employee" ref="com.axelor.rh.db.Employe" ></many-to-one>
     </entity>
-
 </domain-models>

@@ -5,7 +5,7 @@
   http://axelor.com/xml/ns/object-views/object-views_4.0.xsd">
 
 
-    <grid name="retraiteCom-rh-grid" title="Retraite Complémentaire"
+    <grid name="retraiteCom-rh-grid" title="Retraite complémentaire"
           model="com.axelor.rh.db.RetraiteComplementaire">
         <field name="organisme"/>
         <field name="affiliationNum"/>
@@ -15,14 +15,14 @@
         <field name="assurance"></field>
     </grid>
 
-    <form name="retraiteCom-rh-form" title="RetraiteComplementaire"
+    <form name="retraiteCom-rh-form" title="Retraite complementaire"
           model="com.axelor.rh.db.Retraite" width="large">
 
         <panel name="Retraite" colSpan="12">
             <field name="organisme" domain="self.type='RETRAITE'"/>
             <field name="affiliationNum"/>
-            <field name="dateDebut"  onChange="action-aos-validate-datedebut-datefin" validIf="dateDebut ==null || dateFin==null || dateDebut &lt;= dateFin"/>
-            <field name="dateFin"  onChange="action-aos-validate-datedebut-datefin" validIf="dateDebut ==null || dateFin==null || dateDebut &lt;= dateFin"/>
+            <field name="dateDebut" title="Date début"  onChange="action-aos-validate-datedebut-datefin" validIf="dateDebut ==null || dateFin==null || dateDebut &lt;= dateFin"/>
+            <field name="dateFin" title="Date fin"  onChange="action-aos-validate-datedebut-datefin" validIf="dateDebut ==null || dateFin==null || dateDebut &lt;= dateFin"/>
             <field name="cotisation"></field>
             <field name="assurance"></field>
         </panel>

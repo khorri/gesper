@@ -19,12 +19,12 @@
           model="com.axelor.rh.db.Conjointe" width="large">
 
         <panel name="Conjointe" colSpan="12">
-            <field name="name" colSpan="4"/>
-            <field name="profession" colSpan="4"/>
-            <field name="dateNaissance" colSpan="4"/>
-            <field name="dateMariage" colSpan="4"/>
-            <field name="dateDivorce" colSpan="4"/>
-            <field name="dateDeces" colSpan="4"/>
+            <field name="name" colSpan="6"/>
+            <field name="profession" colSpan="6"/>
+            <field name="dateNaissance" colSpan="3"/>
+            <field name="dateMariage" colSpan="3"/>
+            <field name="dateDivorce" colSpan="3"/>
+            <field name="dateDeces" colSpan="3"/>
         </panel>
 
     </form>

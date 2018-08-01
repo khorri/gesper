@@ -7,7 +7,7 @@
 
     <entity name="Affectation" cachable="true">
         <string name="type" title="Type"/>
-        <date name="affectationDate" title="date d'affectation" required="true"/>
+        <date name="affectationDate" title="Date d'affectation" required="true"/>
         <date name="fonctionDate" title="Date de fonction" required="true"/>
         <boolean name="principal" title="Principale?"></boolean>
         <string name="typeAffectation" selection="affectation.type.select" title="Type d'affectation"
@@ -19,7 +19,7 @@
         <many-to-one name="caida" ref="com.axelor.config.db.Caida" title="Grade"></many-to-one>
         <many-to-one name="residence" ref="com.axelor.config.db.Residence" title="Cadre"/>
         <many-to-one name="fonction" ref="com.axelor.config.db.Fonction" title="Grade" required="true"></many-to-one>
-        <many-to-many name="decision" ref="com.axelor.config.db.Decision" title="decision"></many-to-many>
+        <many-to-many name="decision" ref="com.axelor.config.db.Decision" title="Decision"></many-to-many>
         <many-to-one name="employee" ref="com.axelor.rh.db.Employe" title="Agent"></many-to-one>
         <string name="status" title="Etat" selection="decision.config.status" default="1" readonly="true"/>
 

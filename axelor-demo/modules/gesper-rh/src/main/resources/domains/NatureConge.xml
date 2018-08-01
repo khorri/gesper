@@ -9,7 +9,7 @@
         <string name="code" title="Code" unique="true" required="true"/>
         <string name="name" title="Libellé" />
         <decimal name="droitJour" title="Nombre jours"/>
-        <many-to-one name="typeConge" ref="com.axelor.rh.db.TypeConge" ></many-to-one>
+        <many-to-one name="typeConge" ref="com.axelor.rh.db.TypeConge" title="Type congé" ></many-to-one>
         <!--
         <one-to-many name="congesList" ref="com.axelor.rh.db.Conge" mappedBy="natureConge" help="true"/>
         -->

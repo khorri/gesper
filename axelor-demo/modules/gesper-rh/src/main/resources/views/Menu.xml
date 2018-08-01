@@ -39,11 +39,11 @@
 			  title="Avancement"/>
 
 	<menuitem name="menu-droit-avancement-all" parent="menu-avancement"
-			  title="Avancement"
+			  title="Droit avancement"
 			  action="droit.avancement.all"/>
 
 	<menuitem name="menu-avancement-validation" parent="menu-avancement"
-			  title="Avancement validation" action="avancement.validate.all"/>
+			  title="Valider les avancement" action="avancement.validate.all"/>
 
 	<!-- ACTIONS -->
 
