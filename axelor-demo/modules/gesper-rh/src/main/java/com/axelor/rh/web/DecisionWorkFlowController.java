@@ -1,16 +1,18 @@
 package com.axelor.rh.web;
 
+import com.axelor.config.db.Decision;
 import com.axelor.db.JPA;
 import com.axelor.db.JpaRepository;
 import com.axelor.db.Model;
 import com.axelor.db.Repository;
 import com.axelor.exception.AxelorException;
+import com.axelor.rh.service.DecisionService;
 import com.axelor.rh.service.IDecisionWorkFlow;
 import com.axelor.rpc.ActionRequest;
 import com.axelor.rpc.ActionResponse;
+import com.axelor.rpc.Context;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
-import com.google.inject.name.Named;
 import com.google.inject.persist.Transactional;
 import org.slf4j.LoggerFactory;
 
@@ -26,13 +28,36 @@ public class DecisionWorkFlowController {
     private final org.slf4j.Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     @Inject
-    @Named("decision")
     IDecisionWorkFlow decisionWorkFlow;
+
+    @Inject
+    private DecisionService decisionService;
 
     @Transactional
     public void verifie(ActionRequest request, ActionResponse response) throws AxelorException {
         Model model = getModel(request);
-        decisionWorkFlow.verify(model);
+        Decision decision = decisionWorkFlow.verify(model);
+        response.setValue("decision", decision);
+        response.setValue("decisionCode", decision.getDecisionCode());
+        response.setValue("decisionDate", decision.getDecisionDate());
+        response.setValue("entreprise", decision.getEntreprise());
+        response.setValue("emitteur", decision.getEmitteur());
+    }
+
+
+    @Transactional
+    public void valider(ActionRequest request, ActionResponse response) throws AxelorException {
+
+        Context context = request.getContext();
+
+        if (decisionService.isValid(context, response)) {
+            Model model = getModel(request);
+            decisionWorkFlow.validate(model, context);
+            response.setReload(true);
+        }
+
+
+
     }
 
     private Model getModel(ActionRequest request) throws AxelorException {
@@ -41,10 +66,11 @@ public class DecisionWorkFlowController {
             Class model = Class.forName(modelString);
             final Repository repository = JpaRepository.of(model);
             List<Object> records = request.getRecords();
-            List<Object> data = Lists.newArrayList();
+
+            Model bean = null;
             if (records == null) {
                 records = Lists.newArrayList();
-                records.add(request.getData());
+                records.add(request.getData().get("context"));
             }
             for (Object record : records) {
 
@@ -54,36 +80,19 @@ public class DecisionWorkFlowController {
 
                 record = (Map) repository.validate((Map) record, request.getContext());
 
-                Long id = findId((Map) record);
 
-//                if (id == null || id <= 0L) {
-//                    security.get().check(JpaSecurity.CAN_CREATE, model);
-//                }
 
                 Map<String, Object> orig = (Map) ((Map) record).get("_original");
                 JPA.verify(model, orig);
 
-                // save translatable values and remove them from record
-//                Translator.saveTranslatables((Map) record, model);
 
-                Model bean = JPA.edit(model, (Map) record);
-                id = bean.getId();
+                bean = JPA.edit(model, (Map) record);
 
-//                if (bean != null && id != null && id > 0L) {
-//                    security.get().check(JpaSecurity.CAN_WRITE, model, id);
-//                }
 
                 bean = JPA.manage(bean);
-//                if (repository != null) {
-//                    bean = repository.save(bean);
-//                }
+                if (bean != null)
+                    return bean;
 
-                // if it's a translation object, invalidate cache
-//                if (bean instanceof MetaTranslation) {
-//                    I18nBundle.invalidate();
-//                }
-
-                //data.add(repository.populate(toMap(bean), request.getContext()));
             }
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
@@ -92,11 +101,5 @@ public class DecisionWorkFlowController {
         return null;
     }
 
-    private Long findId(Map<String, Object> values) {
-        try {
-            return Long.parseLong(values.get("id").toString());
-        } catch (Exception e) {
-        }
-        return null;
-    }
+
 }

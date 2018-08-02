@@ -44,12 +44,13 @@ public class MedController {
         decision.setEmitteur(entiteRep.all().filter("self.shortName = ?1", "SAF").fetchOne());
         decision.setVerifiedBy(user);
         decision.setVerifiedOn(new LocalDate());
+        decisionService.printMedDecision(decision, med.getId());
         response.setValue("decision", decision);
         response.setValue("decisionCode", decision.getDecisionCode());
         response.setValue("decisionDate", decision.getDecisionDate());
         response.setValue("entreprise", decision.getEntreprise());
         response.setValue("emitteur", decision.getEmitteur());
-        decisionService.printMedDecision(decision, med.getId());
+
     }
 
     //

@@ -4,12 +4,15 @@ package com.axelor.rh.service;
  * Created by HB on 26/07/2018.
  */
 
+import com.axelor.auth.AuthUtils;
+import com.axelor.auth.db.User;
 import com.axelor.config.db.Decision;
 import com.axelor.config.db.Entite;
 import com.axelor.config.db.repo.DecisionRepository;
 import com.axelor.config.db.repo.EntiteRepository;
 import com.axelor.meta.db.MetaFile;
 import com.axelor.meta.db.repo.MetaFileRepository;
+import com.axelor.rpc.ActionResponse;
 import com.axelor.rpc.Context;
 import com.google.inject.Inject;
 import com.google.inject.persist.Transactional;
@@ -19,7 +22,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
 import java.lang.invoke.MethodHandles;
-import java.util.HashMap;
 import java.util.Map;
 
 public class DecisionService implements Serializable {
@@ -37,12 +39,13 @@ public class DecisionService implements Serializable {
     public Decision updateDecision(Context context, Decision d, String status) {
         Decision decision = decisionRep.find(d.getId());
 
-        Map<String, Object> dataFile = (HashMap) context.get("attachement");
+
+        Map<String, Object> dataFile = (Map) context.get("attachement");
         if (dataFile != null) {
             MetaFile file = fileRep.find(Long.valueOf((Integer) dataFile.get("id")));
             decision.setAttachement(file);
         }
-        Map<String, Object> entiteData = (HashMap) context.get("emitteur");
+        Map<String, Object> entiteData = (Map) context.get("emitteur");
         if (entiteData != null) {
             Entite entite = entiteRep.find(Long.valueOf((Integer) entiteData.get("id")));
             decision.setEmitteur(entite);
@@ -55,9 +58,22 @@ public class DecisionService implements Serializable {
 
         decision.setEntreprise((String) context.get("entreprise"));
 
-        //Who's execute the action (Verification, Validation, Rejection)
+        setAuditableFields(status, decision);
 
         return decisionRep.save(decision);
+    }
+
+    private void setAuditableFields(String status, Decision decision) {
+        User user = AuthUtils.getUser();
+        if (DecisionRepository.STATUS_VALIDATED.equals(status)) {
+            decision.setValidatedBy(user);
+            decision.setValidatedOn(new LocalDate());
+        }
+
+        if (DecisionRepository.STATUS_REJECTED.equals(status)) {
+            decision.setRejectedBy(user);
+            decision.setRejectedOn(new LocalDate());
+        }
     }
 
     public String refuserDecisionValidation(Context context) {
@@ -117,8 +133,22 @@ public class DecisionService implements Serializable {
     }
 
     public void printMedDecision(Decision decision, Long id) {
+
+    }
+
+    public void printDecision(Decision decision, Long id) {
+
     }
 
     public void printSanctionDecision(Decision decision, Long id) {
+    }
+
+    public boolean isValid(Context context, ActionResponse response) {
+        String errorMessage = validerDecisionValidation(context);
+        if (errorMessage != null) {
+            response.setError(errorMessage);
+            return false;
+        }
+        return true;
     }
 }
