@@ -5,11 +5,12 @@
 
     <module name="rh" package="com.axelor.rh.db"/>
 
-    <entity name="Depart"  cachable="true">
-        <date name="dateDepart" title="Date départ"  />
-        <string name="type" title="Type départ"  />
-        <string name="motif" title="Motif"  />
+    <entity name="Depart" cachable="true">
+        <date name="dateDepart" title="Date départ"/>
+        <string name="type" title="Type départ"/>
+        <string name="motif" title="Motif"/>
         <string name="observation" title="Observation" large="true"/>
+        <string name="status" title="Etat" selection="decision.config.status" default="1" readonly="true"/>
         <one-to-one name="employee" ref="com.axelor.rh.db.Employe" title="Agent" mappedBy="depart"></one-to-one>
         <many-to-one name="decision" ref="com.axelor.config.db.Decision" title="decision"></many-to-one>
     </entity>

@@ -47,7 +47,7 @@
         <panel name="actions" title="Actions" colSpan="3" sidebar="true" stacked="true">
             <button name="createButton" title="Créer" showIf="id==null" colSpan="4" css="btn-info" icon="fa-plus"
                     onClick="save,close"/>
-            <button name="verifyButton" title="Vérifier" showIf="id!=null &amp;&amp; decisionStatus == 1" colSpan="4"
+            <button name="verifyButton" title="Vérifier" showIf="id!=null &amp;&amp; decision== null" colSpan="4"
                     icon="fa-check" onClick="situation-set-verified,save,close"/>
             <button name="validateButton" title="Valider" showIf="id!=null &amp;&amp; decisionStatus == 2" colSpan="4"
                     icon="fa-check" onClick="situation-set-valide-group"/>
