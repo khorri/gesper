@@ -10,6 +10,7 @@ import com.axelor.rpc.ActionRequest;
 import com.axelor.rpc.ActionResponse;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
+import com.google.inject.name.Named;
 import com.google.inject.persist.Transactional;
 import org.slf4j.LoggerFactory;
 
@@ -25,6 +26,7 @@ public class DecisionWorkFlowController {
     private final org.slf4j.Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     @Inject
+    @Named("decision")
     IDecisionWorkFlow decisionWorkFlow;
 
     @Transactional
