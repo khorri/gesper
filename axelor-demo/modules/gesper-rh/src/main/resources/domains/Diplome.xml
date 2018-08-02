@@ -9,7 +9,7 @@
         <string name="name" title="Diplôme"/>
         <string name="niveauScolaire" title="Niveau scolaire"/>
         <date name="dateDiplome" title="Date diplôme"  />
-        <string name="titre" title="titre"  />
+        <string name="titre" title="Titre"  />
         <string name="specialite" title="Spécialité"  />
         <string name="etablissement" title="Etablissement"  />
         <many-to-one name="employee" ref="com.axelor.rh.db.Employe" title="Agent"></many-to-one>

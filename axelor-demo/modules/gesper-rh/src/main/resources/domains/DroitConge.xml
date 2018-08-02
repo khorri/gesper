@@ -5,11 +5,10 @@
 
     <module name="rh" package="com.axelor.rh.db"/>
 
-    <entity name="Aos"  cachable="true">
-        <string name="affiliationNum" title="N° d'affiliation"/>
-        <date name="dateDebut" title="Date début"  />
-        <date name="dateFin" title="Date fin"  />
-        <many-to-one name="employee" ref="com.axelor.rh.db.Employe" title="Agent"></many-to-one>
+    <entity name="DroitConge" cachable="true">
+        <integer name="exercice" title="Durée"/>
+        <integer name="solde" title="Droit congé"/>
+        <many-to-one name="employee" ref="com.axelor.rh.db.Employe" ></many-to-one>
+        <many-to-one name="typeConge" ref="com.axelor.rh.db.TypeConge" ></many-to-one>
     </entity>
-
 </domain-models>

@@ -1,3 +1,5 @@
 "key","message","comment","context"
 "ERR_FA_002","There's already an employee with this registration number.",,
 "work certificate",,,
+"Return date cannot be before leave date","Return date cannot be before leave date",,
+"Duration is great than your leave duration","Duration is great than your leave duration"                ,         ,

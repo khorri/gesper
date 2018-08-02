@@ -8,7 +8,8 @@
     <entity name="TypeConge" cachable="true">
         <string name="code" title="Code" unique="true" required="true"/>
         <string name="name" title="Libellé"/>
-        <decimal name="limite" title="Plafonné à"></decimal>
+        <integer name="droitJour" title="Nombre jours"/>
+        <string name="annotation" required="true" title="Annotation technique"></string>
         <one-to-many name="natureCongeList" ref="com.axelor.rh.db.NatureConge" mappedBy="typeConge" help="true"/>
 
     </entity>

@@ -7,8 +7,8 @@
 
     <entity name="RetraiteComplementaire"  cachable="true">
         <string name="affiliationNum" title="N° d'affiliation"/>
-        <date name="dateDebut" title="date debut"  />
-        <date name="dateFin" title="date fin"  />
+        <date name="dateDebut" title="Date début"  />
+        <date name="dateFin" title="Date fin"  />
         <decimal name="cotisation" title="Montant de cotisation"></decimal>
         <decimal name="assurance" title="Montant d'assurance"></decimal>
         <many-to-one name="organisme" ref="com.axelor.config.db.Organisme" title="Organisme"/>

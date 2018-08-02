@@ -217,7 +217,7 @@ public class DroitAvancementController {
         List<DroitAvancement> avancements=JPA.em().createQuery("SELECT da FROM DroitAvancement AS da WHERE da.exercice.id=:exercice AND da.status=1")
                 .setParameter("exercice",exercice.getId()).getResultList();
 
-        avancements=createDecisions(avancements,startNumero,dateDecision);
+        avancements=createDecisions(avancements,startNumero,dateDecision,response);
 
         String name="Decisions";
         String fileLink = reportService.generateMany(IReport.AVANCEMENT_DECISION,name, ReportSettings.FORMAT_DOC,generateDecisionParameters(exercice));
@@ -232,12 +232,22 @@ public class DroitAvancementController {
         return formatter.parseLocalDate(date);
     }
 
-    private List<DroitAvancement> createDecisions(List<DroitAvancement> avancements, int startNumber, LocalDate dateDecision){
+    private List<DroitAvancement> createDecisions(List<DroitAvancement> avancements, int startNumber, LocalDate dateDecision,ActionResponse response){
         List<DroitAvancement> avancementsToValidate=new ArrayList<>();
         Entite entite= (Entite) JPA.em().createQuery("select en from Entite as en where en.shortName='SAF'").getSingleResult();
         int startCode=startNumber;
         for (DroitAvancement avancement:avancements) {
-            DroitAvancement temp=avancement.getDecision()==null?createAvancementDecision(dateDecision, entite, startCode, avancement):avancement;
+            DroitAvancement temp = null;
+            temp=avancement.getDecision()==null?createAvancementDecision(dateDecision, entite, startCode, avancement):avancement;
+            if(avancement.getDecision()==null){
+                temp=createAvancementDecision(dateDecision, entite, startCode, avancement);
+                if(temp==null){
+                    response.setError("Numéro de decision donné déja existé!");
+                    return null;
+                }
+            }else{
+                temp=avancement;
+            }
             avancementsToValidate.add(temp);
             startCode++;
         }
@@ -246,7 +256,10 @@ public class DroitAvancementController {
 
     private DroitAvancement createAvancementDecision(LocalDate dateDecision, Entite entite, int startCode, DroitAvancement avancement) {
         Decision decision=new Decision();
-        decision.setDecisionCode(startCode+"/"+avancement.getExercice().getName());
+        String numero=startCode+"/"+avancement.getExercice().getName();
+        if(checkDesision(numero))
+            return null;
+        decision.setDecisionCode(numero);
         decision.setDecisionDate(dateDecision);
         decision.setStatus(DecisionRepository.STATUS_VERIFIED);
         decision.setEmitteur(entite);
@@ -256,6 +269,11 @@ public class DroitAvancementController {
         avancement=droitAvancementRepository.save(avancement);
         createSituation(avancement,decision);
         return avancement;
+    }
+
+    private boolean checkDesision(String numero){
+        Decision decision=decisionRepository.all().filter("self.decisionCode=?1",numero).fetchOne();
+        return decision==null?false:true;
     }
 
     private void createSituation(DroitAvancement avancement,Decision decision){
@@ -348,7 +366,7 @@ public class DroitAvancementController {
             response.setView(ActionView.define("Situations")
                     .model(Situation.class.getName())
                     .add("form", "situation-rh-form")
-                    .param("popup","true")
+                    .param("popup","reload")
                     .param("show-toolbar","false")
                     .param("show-confirm","false")
                     .param("popup-save","false")

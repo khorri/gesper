@@ -20,6 +20,10 @@
 	<menuitem name="menu-gesper-rh-conge-config" parent="menu-gesper-rh-conge"
 			  title="Configuration"/>
 
+	<menuitem name="menu-gesper-rh-conge-demande-conge" parent="menu-gesper-rh-conge"
+			  title="Demandes congé"
+	action="conge.all"/>
+
 	<menuitem name="menu-gesper-rh-conge-config-type-conge" parent="menu-gesper-rh-conge-config"
 			  title="Type congé"
 			  action="type.conge.all" />
@@ -39,11 +43,11 @@
 			  title="Avancement"/>
 
 	<menuitem name="menu-droit-avancement-all" parent="menu-avancement"
-			  title="Avancement"
+			  title="Droit avancement"
 			  action="droit.avancement.all"/>
 
 	<menuitem name="menu-avancement-validation" parent="menu-avancement"
-			  title="Avancement validation" action="avancement.validate.all"/>
+			  title="Valider les avancement" action="avancement.validate.all"/>
 
 	<!-- ACTIONS -->
 
@@ -84,5 +88,10 @@
 	<action-view name="jour.ferie.all" model="com.axelor.rh.db.JourFerie" title="Jours fériés">
 		<view name="jour-ferie-grid" type="grid"/>
 		<view name="jour-ferie-form" type="form"/>
+	</action-view>
+
+	<action-view name="conge.all" model="com.axelor.rh.db.Conge" title="Demanade de Congé">
+		<view name="conge-grid" type="grid"/>
+		<view name="conge-form" type="form"/>
 	</action-view>
 </object-views>

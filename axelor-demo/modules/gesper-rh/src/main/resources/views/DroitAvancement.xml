@@ -18,7 +18,7 @@
         </panel>
     </form>
 
-    <grid name="droit-avancement-grid" title="Droit avancements" model="com.axelor.rh.db.DroitAvancement" canEdit="false" edit-icon="false">
+    <grid name="droit-avancement-grid" title="Droit avancements" model="com.axelor.rh.db.DroitAvancement" orderBy="-status" canEdit="false" edit-icon="false">
         <field name="employee.matricule" title="Matricule"/>
         <field name="employee.firstame" title="Nom"/>
         <field name="employee.lastname" title="Prénom"/>
@@ -40,7 +40,7 @@
         <panel colSpan="12">
             <field name="decisionNum" title="N° debut de décision" type="Integer" required="true" />
             <field name="date" title="Date de décisions" type="date" required="true" />
-            <button name="btnPrint" onClick="action-generate-decision-avancement" readonlyIf="decisionNum==null || date==null"
+            <button name="btnPrint" onClick="action-generate-decision-avancement,close" readonlyIf="decisionNum==null || date==null"
                     title="Génerer" icon="fa-print" css="btn-success" colOffset="10" colSpan="2"></button>
         </panel>
     </form>
@@ -69,7 +69,7 @@
           model="com.axelor.meta.db.MetaFile">
         <panel colSpan="12">
             <field name="decisionFiles" title="Fichier" widget="binary-link" x-target="com.axelor.meta.db.MetaFile" type="many-to-one" colSpan="10" />
-            <button name="btnValidate" onClick="action-validate-avancements" readonlyIf="decisionFiles==null"
+            <button name="btnValidate" onClick="action-validate-avancements,close" readonlyIf="decisionFiles==null"
                     title="Valider" icon="fa-print" css="btn-success" colOffset="10" colSpan="2"></button>
         </panel>
     </form>

@@ -8,7 +8,7 @@
     <entity name="NatureConge" cachable="true">
         <string name="code" title="Code" unique="true" required="true"/>
         <string name="name" title="Libellé" />
-        <decimal name="droitJour" title="Nombre jours"/>
+        <integer name="limite" title="Plafonné à"></integer>
         <many-to-one name="typeConge" ref="com.axelor.rh.db.TypeConge" ></many-to-one>
         <!--
         <one-to-many name="congesList" ref="com.axelor.rh.db.Conge" mappedBy="natureConge" help="true"/>

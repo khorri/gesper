@@ -9,6 +9,8 @@
         <panel title="Overview">
             <field name="code" title="Code"/>
             <field name="name" title="Libellé"/>
+            <field name="droitJour" title="Droit de congé (jours)"/>
+
         </panel>
         <panel sidebar="true">
             <field name="createdOn"/>
@@ -21,5 +23,6 @@
     <grid name="type-conge-grid" title="Type congé" model="com.axelor.rh.db.TypeConge">
         <field name="code" title="Code"/>
         <field name="name" title="Libellé"/>
+        <field name="droitJour" title="Droit de congé"/>
     </grid>
 </object-views>

@@ -5,19 +5,17 @@
 	<grid name="experience-rh-grid" title="Experiences antérieures"
           model="com.axelor.rh.db.Experience">
         <field name="name"/>
+        <field name="etablissement"/>
         <field name="dateDebut"/>
         <field name="dateFin"/>
-        <field name="etablissement"/>
     </grid>
 
-    <form name="experience-rh-form" title="Experiences antérieures"
-          model="com.axelor.rh.db.Experience">
-
+    <form name="experience-rh-form" title="Experiences antérieures" model="com.axelor.rh.db.Experience">
         <panel name="main">
             <field name="name"/>
-            <field name="dateDebut"  onChange="action-aos-validate-datedebut-datefin" validIf="dateDebut ==null || dateFin==null || dateDebut &lt;= dateFin"/>
-            <field name="dateFin"  onChange="action-aos-validate-datedebut-datefin" validIf="dateDebut ==null || dateFin==null || dateDebut &lt;= dateFin"/>
             <field name="etablissement"/>
+            <field name="dateDebut" onChange="action-aos-validate-datedebut-datefin" validIf="dateDebut ==null || dateFin==null || dateDebut &lt;= dateFin"/>
+            <field name="dateFin" onChange="action-aos-validate-datedebut-datefin" validIf="dateDebut ==null || dateFin==null || dateDebut &lt;= dateFin"/>
         </panel>
     </form>
 

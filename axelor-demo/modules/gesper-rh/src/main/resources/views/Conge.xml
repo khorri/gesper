@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://axelor.com/xml/ns/object-views
+  http://axelor.com/xml/ns/object-views/object-views_4.0.xsd">
+
+
+    <grid name="conge-grid" title="Demande de congé" model="com.axelor.rh.db.Conge" edit-icon="true">
+        <field name="employee.matricule" title="Matricule"/>
+        <field name="employee.firstname" title="Nom"/>
+        <field name="employee.lastname" title="Prénom"/>
+        <field name="typeConge"/>
+        <field name="dateDebut"/>
+        <field name="dateFin"/>
+        <field name="duree"/>
+        <field name="interime.matricule" title="Intérim Matricule"/>
+        <field name="interime.firstname" title="Intérim Nom"/>
+        <field name="interime.lastname" title="Intérim Prénom"/>
+        <field name="Statut" title="Statut">
+            <hilite if="status == 1" background="info"/>
+            <hilite if="status == 2" background="danger"/>
+            <hilite if="status == 3" background="success"/>
+            <hilite if="status == 4" background="warning"/>
+        </field>
+    </grid>
+
+    <form name="conge-form" title="Demande de congé" model="com.axelor.rh.db.Conge" width="large" onNew="conge-defaults">
+
+        <panel name="main">
+            <field name="status" showTitle="false" colSpan="12" widget="NavSelect"/>
+            <field name="employee" colSpan="5" canView="false" canEdit="false" domain="self.activated=true" onChange="calculate-droit-conge-group"/>
+            <field name="typeConge" colSpan="5" canView="false" canEdit="false" onChange="calculate-droit-conge-group"/>
+            <field name="droitConge" title="Droit au congé" readonly="true" colSpan="2"/>
+            <field name="dateDebut" colSpan="5" onChange="action-conge-methode-compute-duration-group"/>
+            <field name="commenceA" colSpan="5" selection="conge.start.select"/>
+            <field name="duree" colSpan="2" readonly="true"/>
+            <field name="dateFin" colSpan="5" title="Date retour(inclu)" onChange="action-conge-methode-compute-duration-group"/>
+            <field name="termineA" colSpan="5" selection="conge.start.select"/>
+            <field name="interime" colSpan="12" canView="false" canEdit="false" domain="self.activated=true"/>
+        </panel>
+        <panel name="actions" title="Actions" sidebar="true" stacked="true">
+            <button name="createButton" title="Créer" showIf="id==null" colSpan="4" css="btn-info" icon="fa-plus"
+                    onClick="save,close"/>
+            <button name="verifyButton" title="Vérifier" showIf="id!=null &amp;&amp; status == 1" colSpan="4"
+                    icon="fa-check" onClick="validate,save,close"/>
+            <button name="validateButton" title="Valider" showIf="id!=null &amp;&amp; status == 2" colSpan="4"
+                    icon="fa-check" onClick=""/>
+            <button name="refuseButton" title="Refuser" showIf="id!=null &amp;&amp; status == 2" colSpan="4"
+                    css="btn-danger" icon="fa-close" onClick="save,close"/>
+            <button name="cancelButton" title="Annuler" colSpan="4" css="btn-warning" icon="fa-ban" onClick="close"/>
+        </panel>
+        <panel sidebar="true">
+            <field name="createdOn"/>
+            <field name="createdBy"/>
+            <field name="updatedOn"/>
+            <field name="updatedBy"/>
+        </panel>
+        <panel title="Decision" >
+            <field  name="decision" showTitle="false" canEdit="false" canNew="false" colSpan="12">
+                <editor >
+                    <field name="attachement" canNew="true" canAttach="true" widget="binary"/>
+                    <field name="decisionCode" colSpan="3"/>
+                    <field name="emitteur" colSpan="3"/>
+                    <field name="entreprise" colSpan="3"/>
+                    <field name="decisionDate" colSpan="3"/>
+                    <field name="motifRejet" colSpan="3"/>
+                </editor>
+            </field>
+        </panel>
+        <panel-tabs>
+            <panel name="AvisRetour" title="Avis de retour" hideIf="id==null">
+                <field name="dummy" showTitle="false" readonly="true" colSpan="6"/>
+                <button name="newAvisRetourBtn" title="Créer un avis de reour" colSpan="6" css="" icon="fa-plus" onClick=""/>
+                <panel-related title="Avis de retour" colSpan="12" field="avisRetour" grid-view="avisRetour-grid" onNew="avisRetour-form" canNew="false" canEdit="false" canRemove="false" canView="false"/>
+            </panel>
+            <panel name="AvisDepart" title="Avis de départ" hideIf="id==null">
+                <field name="dummy" showTitle="false" readonly="true" colSpan="6"/>
+                <button name="affc" title="Ajouter une affectation" colSpan="6" css="" icon="fa-plus" onClick="affectation-form"/>
+                <panel-related title="Avis de départ" colSpan="12" field="avisDepart" grid-view="avisDepart-grid" onNew="avisDepart-form" canNew="false" canEdit="false" canRemove="false" canView="false"/>
+            </panel>
+        </panel-tabs>
+    </form>
+
+
+    <grid name="avisRetour-grid" title="Avis de retour" model="com.axelor.rh.db.AvisRetour" edit-icon="true">
+        <field name="employee.matricule" title="Matricule"/>
+        <field name="employee.firstname" title="Nom"/>
+        <field name="employee.lastname" title="Prénom"/>
+        <field name="dateRetour"/>
+        <field name="createdOn"/>
+        <field name="createdBy"/>
+    </grid>
+
+    <form name="avisRetour-form" title="Demande de congé" model="com.axelor.rh.db.AvisRetour" width="large">
+
+        <panel name="main">
+            <field name="employee"/>
+            <field name="dateRetour"/>
+        </panel>
+
+    </form>
+
+
+    <grid name="avisDepart-grid" title="Avis de retour" model="com.axelor.rh.db.AvisDepart" edit-icon="true">
+        <field name="employee.matricule" title="Matricule"/>
+        <field name="employee.firstname" title="Nom"/>
+        <field name="employee.lastname" title="Prénom"/>
+        <field name="dateDebut"/>
+        <field name="dateFin"/>
+        <field name="duree"/>
+        <field name="interime.matricule" title="Intérim Matricule"/>
+        <field name="interime.firstname" title="Intérim Nom"/>
+        <field name="interime.lastname" title="Intérim Prénom"/>
+    </grid>
+
+    <form name="avisDepart-form" title="Demande de congé" model="com.axelor.rh.db.AvisDepart" width="large">
+
+        <panel name="main">
+            <field name="employee"/>
+            <field name="dateDebut"/>
+            <field name="dateFin"/>
+            <field name="duree"/>
+            <field name="interime" title="Intérim"/>
+        </panel>
+
+    </form>
+
+
+    <action-record name="conge-defaults" model="com.axelor.rh.db.Conge">
+        <field name="commenceA" expr="1"/>
+        <field name="termineA" expr="2"></field>
+    </action-record>
+
+    <action-method name="calculate-droit-conge" >
+        <call class="com.axelor.rh.web.CongeController" method="getDroitConge" />
+    </action-method>
+
+    <action-group name="calculate-droit-conge-group">
+        <action name="calculate-droit-conge" if="employee!=null &amp;&amp; typeConge!=null"/>
+    </action-group>
+
+
+
+    <action-method name="action-conge-methode-compute-duration">
+        <call class="com.axelor.rh.web.CongeController" method="computeDuration"/>
+    </action-method>
+
+    <action-group name="action-conge-methode-compute-duration-group">
+        <action name="action-conge-methode-compute-duration" if="dateFin &amp;&amp; dateDebut"/>
+    </action-group>
+
+</object-views>
