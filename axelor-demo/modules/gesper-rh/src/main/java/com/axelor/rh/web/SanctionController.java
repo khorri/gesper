@@ -7,7 +7,6 @@ import com.axelor.config.db.repo.DecisionRepository;
 import com.axelor.config.db.repo.EntiteRepository;
 import com.axelor.exception.AxelorException;
 import com.axelor.rh.db.Sanction;
-import com.axelor.rh.db.Situation;
 import com.axelor.rh.db.repo.SanctionRepository;
 import com.axelor.rh.service.DecisionService;
 import com.axelor.rpc.ActionRequest;
@@ -141,14 +140,5 @@ public class SanctionController {
     public void getDummies(ActionRequest request, ActionResponse response) {
         getLastDecision(request, response);
     }
-
-
-    public void printDecision(ActionRequest request, ActionResponse response) throws AxelorException {
-        Situation situation = request.getContext().asType(Situation.class);
-        if (situation.getDecision() != null) {
-            Decision decision = decisionRepo.find(situation.getDecision().getId());
-        }
-    }
-
 
 }
