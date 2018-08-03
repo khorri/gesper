@@ -1,6 +1,7 @@
 package com.axelor.rh.web;
 
 import com.axelor.config.db.Decision;
+import com.axelor.config.db.repo.DecisionRepository;
 import com.axelor.db.JPA;
 import com.axelor.db.JpaRepository;
 import com.axelor.db.Model;
@@ -42,6 +43,7 @@ public class DecisionWorkFlowController {
         response.setValue("decisionDate", decision.getDecisionDate());
         response.setValue("entreprise", decision.getEntreprise());
         response.setValue("emitteur", decision.getEmitteur());
+        response.setValue("status", DecisionRepository.STATUS_VERIFIED);
     }
 
 

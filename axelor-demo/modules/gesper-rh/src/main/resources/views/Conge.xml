@@ -24,63 +24,85 @@
         </field>
     </grid>
 
-    <form name="conge-form" title="Demande de congé" model="com.axelor.rh.db.Conge" width="large" onNew="conge-defaults">
+    <!-- START FORM CONGE -->
 
+    <form name="conge-form" title="Demande de congé" model="com.axelor.rh.db.Conge" width="large" onNew="conge-defaults"
+          canSave="false" onLoad="calculate-droit-conge-group">
         <panel name="main">
-            <field name="status" showTitle="false" colSpan="12" widget="NavSelect"/>
-            <field name="employee" colSpan="5" canView="false" canEdit="false" domain="self.activated=true" onChange="calculate-droit-conge-group"/>
-            <field name="typeConge" colSpan="5" canView="false" canEdit="false" onChange="calculate-droit-conge-group"/>
+            <field name="status" showTitle="false" readonly="true" colSpan="12" widget="NavSelect"/>
+            <field name="employee" readonlyIf="status &gt;= 2" colSpan="5" canView="false" canEdit="false"
+                   onChange="calculate-droit-conge-group" domain="self.activated=true"/>
+            <field name="typeConge" readonlyIf="status &gt;= 2" colSpan="5" canView="false" canEdit="false"
+                   onChange="calculate-droit-conge-group"/>
             <field name="droitConge" title="Droit au congé" readonly="true" colSpan="2"/>
-            <field name="dateDebut" colSpan="5" onChange="action-conge-methode-compute-duration-group"/>
-            <field name="commenceA" colSpan="5" selection="conge.start.select"/>
-            <field name="duree" colSpan="2" readonly="true"/>
-            <field name="dateFin" colSpan="5" title="Date retour(inclu)" onChange="action-conge-methode-compute-duration-group"/>
-            <field name="termineA" colSpan="5" selection="conge.start.select"/>
-            <field name="interime" colSpan="12" canView="false" canEdit="false" domain="self.activated=true"/>
+            <field name="dateDebut" readonlyIf="status &gt;= 2" colSpan="5"
+                   onChange="action-conge-methode-compute-duration-group"/>
+            <field name="commenceA" readonlyIf="status &gt;= 2" colSpan="5" selection="conge.start.select"/>
+            <field name="duree" readonly="true" colSpan="2"/>
+            <field name="dateFin" readonlyIf="status &gt;= 2" title="Date retour(inclu)" colSpan="5"
+                   onChange="action-conge-methode-compute-duration-group"/>
+            <field name="termineA" readonlyIf="status &gt;= 2" colSpan="5" selection="conge.start.select"/>
+            <field name="interime" readonlyIf="status &gt;= 2" colSpan="12" canView="false" canEdit="false"
+                   domain="self.activated=true"/>
         </panel>
         <panel name="actions" title="Actions" sidebar="true" stacked="true">
             <button name="createButton" title="Créer" showIf="id==null" colSpan="4" css="btn-info" icon="fa-plus"
-                    onClick="save,close"/>
-            <button name="verifyButton" title="Vérifier" showIf="id!=null &amp;&amp; status == 1" colSpan="4"
-                    icon="fa-check" onClick="validate,save,close"/>
+                    onClick="save"/>
+            <button name="verifyButton" title="Vérifier" showIf="id!=null &amp;&amp; status==1" colSpan="4"
+                    icon="fa-check" onClick="com.axelor.rh.web.DecisionWorkFlowController:verifie,save"/>
             <button name="validateButton" title="Valider" showIf="id!=null &amp;&amp; status == 2" colSpan="4"
-                    icon="fa-check" onClick=""/>
+                    icon="fa-check" onClick="com.axelor.rh.web.DecisionWorkFlowController:valider"/>
             <button name="refuseButton" title="Refuser" showIf="id!=null &amp;&amp; status == 2" colSpan="4"
-                    css="btn-danger" icon="fa-close" onClick="save,close"/>
-            <button name="cancelButton" title="Annuler" colSpan="4" css="btn-warning" icon="fa-ban" onClick="close"/>
+                    css="btn-danger" icon="fa-close" onClick="com.axelor.rh.web.DecisionWorkFlowController:refuser"/>
         </panel>
-        <panel sidebar="true">
+        <panel name="audit" showTitle="false"
+               showIf="decision.verifiedBy!=null||decision.verifiedOn!=null||decision.validatedBy!=null||decision.validatedOn!=null||decision.rejectedBy!=null||decision.rejectedOn!=null"
+               sidebar="true" stacked="false">
             <field name="createdOn"/>
             <field name="createdBy"/>
-            <field name="updatedOn"/>
-            <field name="updatedBy"/>
+            <field name="decision.verifiedBy" title="Verifié par" readonly="true" showIf="decision.verifiedBy!=null"
+                   colSpan="3" canView="false"/>
+            <field name="decision.verifiedOn" title="Verifié le" readonly="true" showIf="decision.verifiedOn!=null"
+                   colSpan="3"/>
+            <field name="decision.validatedBy" title="Validé par" readonly="true" showIf="decision.validatedBy!=null"
+                   colSpan="3" canView="false"/>
+            <field name="decision.validatedOn" title="Validé le" readonly="true" showIf="decision.validatedOn!=null"
+                   colSpan="3"/>
+            <field name="decision.rejectedBy" title="rejeté par" readonly="true" showIf="decision.rejectedBy!=null"
+                   colSpan="3" canView="false"/>
+            <field name="decision.rejectedOn" title="rejeté le" readonly="true" showIf="decision.rejectedOn!=null"
+                   colSpan="3"/>
         </panel>
-        <panel title="Decision" >
-            <field  name="decision" showTitle="false" canEdit="false" canNew="false" colSpan="12">
-                <editor >
-                    <field name="attachement" canNew="true" canAttach="true" widget="binary"/>
-                    <field name="decisionCode" colSpan="3"/>
-                    <field name="emitteur" colSpan="3"/>
-                    <field name="entreprise" colSpan="3"/>
-                    <field name="decisionDate" colSpan="3"/>
-                    <field name="motifRejet" colSpan="3"/>
-                </editor>
-            </field>
+        <panel title="Decision" showIf="id!=null &amp;&amp; decision!=null" readonlyIf="decision.status > 2">
+            <field name="decisionCode" title="N° décision" colSpan="2" type="string"/>
+            <field name="entreprise" showTitle="false" readonly="true" colSpan="2" type="string"/>
+            <field name="emitteur" title="Emitteur" colSpan="2" type="many-to-one" canView="false" canEdit="false"
+                   x-target="com.axelor.config.db.Entite" x-target-name="shortName"/>
+            <field name="decisionDate" title="Date" colSpan="3" type="date"/>
+            <field name="attachement" title="Attachement" colSpan="3" type="many-to-one" widget="binary-link"
+                   canNew="true" x-target="com.axelor.meta.db.MetaFile"/>
+            <field name="motifRejet" title="Motif de rejet" colSpan="12" type="string"/>
         </panel>
-        <panel-tabs>
-            <panel name="AvisRetour" title="Avis de retour" hideIf="id==null">
+        <panel-tabs showIf="id!=null &amp;&amp; decision!=null &amp;&amp; decision.status === 3">
+            <panel name="AvisRetour" title="Avis de retour">
                 <field name="dummy" showTitle="false" readonly="true" colSpan="6"/>
                 <button name="newAvisRetourBtn" title="Créer un avis de reour" colSpan="6" css="" icon="fa-plus" onClick=""/>
-                <panel-related title="Avis de retour" colSpan="12" field="avisRetour" grid-view="avisRetour-grid" onNew="avisRetour-form" canNew="false" canEdit="false" canRemove="false" canView="false"/>
+                <panel-related title="Avis de retour" colSpan="12" field="avisRetour" grid-view="avisRetour-grid"
+                               onNew="avisRetour-form" canNew="false" canView="false" canEdit="false"
+                               canRemove="false"/>
             </panel>
-            <panel name="AvisDepart" title="Avis de départ" hideIf="id==null">
+            <panel name="AvisDepart" title="Avis de départ">
                 <field name="dummy" showTitle="false" readonly="true" colSpan="6"/>
                 <button name="affc" title="Ajouter une affectation" colSpan="6" css="" icon="fa-plus" onClick="affectation-form"/>
-                <panel-related title="Avis de départ" colSpan="12" field="avisDepart" grid-view="avisDepart-grid" onNew="avisDepart-form" canNew="false" canEdit="false" canRemove="false" canView="false"/>
+                <panel-related title="Avis de départ" colSpan="12" field="avisDepart" grid-view="avisDepart-grid"
+                               onNew="avisDepart-form" canNew="false" canView="false" canEdit="false"
+                               canRemove="false"/>
             </panel>
         </panel-tabs>
     </form>
 
+
+    <!--  END FORM CONGE -->
 
     <grid name="avisRetour-grid" title="Avis de retour" model="com.axelor.rh.db.AvisRetour" edit-icon="true">
         <field name="employee.matricule" title="Matricule"/>
