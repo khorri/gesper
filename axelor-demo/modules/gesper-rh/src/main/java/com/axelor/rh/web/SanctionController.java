@@ -49,6 +49,7 @@ public class SanctionController {
         response.setValue("decisionDate", decision.getDecisionDate());
         response.setValue("entreprise", decision.getEntreprise());
         response.setValue("emitteur", decision.getEmitteur());
+        response.setReload(true);
         decisionService.printSanctionDecision(decision, sanction.getId());
     }
 

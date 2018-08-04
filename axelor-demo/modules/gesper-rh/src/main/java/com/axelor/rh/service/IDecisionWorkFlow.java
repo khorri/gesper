@@ -18,6 +18,6 @@ public interface IDecisionWorkFlow extends Serializable {
 
     boolean validate(Model entity, Context context) throws AxelorException;
 
-    boolean refuse(Model entity, Decision decision);
+    boolean refuse(Model entity, Context context) throws AxelorException;
 
 }

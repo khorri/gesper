@@ -5,6 +5,7 @@ import com.axelor.auth.db.User;
 import com.axelor.config.db.Decision;
 import com.axelor.config.db.repo.DecisionRepository;
 import com.axelor.config.db.repo.EntiteRepository;
+import com.axelor.db.JPA;
 import com.axelor.exception.AxelorException;
 import com.axelor.rh.db.Med;
 import com.axelor.rh.db.repo.MedRepository;
@@ -150,5 +151,10 @@ public class MedController {
         }
     }
 
+    public LocalDate lastMedDateByEmployeeId(Integer id) throws AxelorException {
+        if (id == null)
+            return null;
+        return (LocalDate) JPA.em().createQuery("SELECT MAX(dateFin) from Med m where m.employee.id =:id").setParameter("id", id.longValue()).getSingleResult();
+    }
 
 }

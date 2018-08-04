@@ -24,12 +24,9 @@ public class DecisionWorkFlowImpl implements IDecisionWorkFlow {
 
     @Inject
     private EntiteRepository entiteRep;
-    @Inject
-    private DecisionRepository decisionRepo;
 
     @Inject
     private DecisionService decisionService;
-
 
     @Override
     public Model create(Model entity) {
@@ -65,7 +62,15 @@ public class DecisionWorkFlowImpl implements IDecisionWorkFlow {
     }
 
     @Override
-    public boolean refuse(Model entity, Decision decision) {
-        return false;
+    public boolean refuse(Model model, Context context) throws AxelorException {
+        try {
+            Method m = model.getClass().getMethod("getDecision");
+            Decision decision = (Decision) m.invoke(model);
+            decision = decisionService.updateDecision(context, decision, DecisionRepository.STATUS_REJECTED);
+            return decision != null;
+
+        } catch (Exception e) {
+            throw new AxelorException();
+        }
     }
 }

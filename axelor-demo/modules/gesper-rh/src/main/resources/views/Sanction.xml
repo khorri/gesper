@@ -35,7 +35,7 @@
             <button name="createButton" title="Créer" showIf="id==null" colSpan="4" css="btn-info" icon="fa-plus"
                     onClick="save"/>
             <button name="verifyButton" title="Vérifier" showIf="id!=null &amp;&amp; decision== null" colSpan="4"
-                    icon="fa-check" onClick="com.axelor.rh.web.SanctionController:verifie,save"/>
+                    icon="fa-check" onClick="com.axelor.rh.web.SanctionController:verifie"/>
             <button name="validateButton" title="Valider" showIf="id!=null &amp;&amp; decision.status == 2" colSpan="4"
                     icon="fa-check" onClick="com.axelor.rh.web.SanctionController:valider"/>
             <button name="refuseButton" title="Refuser" showIf="id!=null &amp;&amp; decision.status == 2" colSpan="4"

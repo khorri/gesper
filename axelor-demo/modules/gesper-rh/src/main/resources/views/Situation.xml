@@ -4,9 +4,9 @@
               xsi:schemaLocation="http://axelor.com/xml/ns/object-views
   http://axelor.com/xml/ns/object-views/object-views_4.0.xsd">
 
-    <grid name="situation-rh-grid" title="Situation Administrative" model="com.axelor.rh.db.Situation" edit-icon="true"
-          canEdit="false">
-        <button name="edit" onClick="situation-form-edit" icon="fa-pencil"/>
+    <grid name="situation-rh-grid" title="Situation Administrative" model="com.axelor.rh.db.Situation" canEdit="false"
+          edit-icon="true" orderBy="-situationDate">
+        <button name="edit" icon="fa-pencil" onClick="situation-form-edit"/>
         <field name="status"/>
         <field name="gradeDate"/>
         <field name="echelonDate"/>
@@ -14,10 +14,10 @@
         <field name="type"/>
         <field name="corps"/>
         <field name="decisionStatus">
-            <hilite if="decisionStatus == 1" background="info"/>
-            <hilite if="decisionStatus == 2" background="danger"/>
-            <hilite if="decisionStatus == 3" background="success"/>
-            <hilite if="decisionStatus == 4" background="warning"/>
+            <hilite background="info" if="decisionStatus == 1"/>
+            <hilite background="danger" if="decisionStatus == 2"/>
+            <hilite background="success" if="decisionStatus == 3"/>
+            <hilite background="warning" if="decisionStatus == 4"/>
         </field>
         <field name="active"/>
     </grid>

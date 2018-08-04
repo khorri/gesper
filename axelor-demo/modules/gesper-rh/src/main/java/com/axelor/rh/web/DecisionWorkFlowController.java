@@ -1,6 +1,7 @@
 package com.axelor.rh.web;
 
 import com.axelor.config.db.Decision;
+import com.axelor.config.db.repo.DecisionRepository;
 import com.axelor.db.JPA;
 import com.axelor.db.JpaRepository;
 import com.axelor.db.Model;
@@ -37,11 +38,7 @@ public class DecisionWorkFlowController {
     public void verifie(ActionRequest request, ActionResponse response) throws AxelorException {
         Model model = getModel(request);
         Decision decision = decisionWorkFlow.verify(model);
-        response.setValue("decision", decision);
-        response.setValue("decisionCode", decision.getDecisionCode());
-        response.setValue("decisionDate", decision.getDecisionDate());
-        response.setValue("entreprise", decision.getEntreprise());
-        response.setValue("emitteur", decision.getEmitteur());
+        decisionService.fillDecisionDummyFields(response, decision);
     }
 
 
@@ -50,14 +47,25 @@ public class DecisionWorkFlowController {
 
         Context context = request.getContext();
 
-        if (decisionService.isValid(context, response)) {
+        if (decisionService.isValid(context, response, DecisionRepository.STATUS_VALIDATED)) {
+            if (!decisionService.exists(response, (String) context.get("decisionCode"))) {
+                Model model = getModel(request);
+                decisionWorkFlow.validate(model, context);
+                response.setReload(true);
+            }
+        }
+    }
+
+    @Transactional
+    public void refuser(ActionRequest request, ActionResponse response) throws AxelorException {
+
+        Context context = request.getContext();
+
+        if (decisionService.isValid(context, response, DecisionRepository.STATUS_REJECTED)) {
             Model model = getModel(request);
-            decisionWorkFlow.validate(model, context);
+            decisionWorkFlow.refuse(model, context);
             response.setReload(true);
         }
-
-
-
     }
 
     private Model getModel(ActionRequest request) throws AxelorException {
@@ -79,7 +87,6 @@ public class DecisionWorkFlowController {
                 }
 
                 record = (Map) repository.validate((Map) record, request.getContext());
-
 
 
                 Map<String, Object> orig = (Map) ((Map) record).get("_original");

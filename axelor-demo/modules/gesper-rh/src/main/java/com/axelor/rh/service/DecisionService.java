@@ -143,12 +143,34 @@ public class DecisionService implements Serializable {
     public void printSanctionDecision(Decision decision, Long id) {
     }
 
-    public boolean isValid(Context context, ActionResponse response) {
-        String errorMessage = validerDecisionValidation(context);
+    public boolean isValid(Context context, ActionResponse response, String status) {
+        String errorMessage = null;
+        if (DecisionRepository.STATUS_VALIDATED.equals(status))
+            errorMessage = validerDecisionValidation(context);
+        if (DecisionRepository.STATUS_REJECTED.equals(status))
+            errorMessage = refuserDecisionValidation(context);
         if (errorMessage != null) {
             response.setError(errorMessage);
             return false;
         }
         return true;
+    }
+
+    public void fillDecisionDummyFields(ActionResponse response, Decision decision) {
+        response.setValue("decision", decision);
+        response.setValue("decisionCode", decision.getDecisionCode());
+        response.setValue("decisionDate", decision.getDecisionDate());
+        response.setValue("entreprise", decision.getEntreprise());
+        response.setValue("emitteur", decision.getEmitteur());
+    }
+
+    public boolean exists(ActionResponse response, String decisionCode) {
+        if (decisionCode == null)
+            return false;
+        if (decisionRep.all().filter("self.decisionCode = ?1", decisionCode).fetchOne() != null) {
+            response.setError("Une décision avec le même N° exsite déjà.");
+            return true;
+        }
+        return false;
     }
 }

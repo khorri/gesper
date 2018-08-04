@@ -79,7 +79,7 @@ public class DepartController {
     public void valider(ActionRequest request, ActionResponse response) {
         User user = AuthUtils.getUser();
         Context context = request.getContext();
-        Employe employe = request.getContext().asType(Employe.class);
+        Employe employe = employeRepository.find((Long) request.getContext().get("id"));
         Depart depart = departRepository.find(employe.getDepart().getId());
 
         String errorMessage = decisionService.validerDecisionValidation(context);
@@ -104,6 +104,7 @@ public class DepartController {
             departRepository.save(depart);
             //Employee()
             employe.setActivated(false);
+            employe.setRadiationDate(depart.getDateDepart());
             employeRepository.save(employe);
 
         }
@@ -115,8 +116,7 @@ public class DepartController {
     public void refuser(ActionRequest request, ActionResponse response) {
         User user = AuthUtils.getUser();
         Context context = request.getContext();
-        Employe employe = request.getContext().asType(Employe.class);
-        
+        Employe employe = employeRepository.find((Long) context.get("id"));
         Depart depart = departRepository.find(employe.getDepart().getId());
         String errorMessage = decisionService.refuserDecisionValidation(context);
         if (errorMessage != null) {
@@ -130,10 +130,12 @@ public class DepartController {
             decision.setRejectedBy(user);
             decision.setRejectedOn(new LocalDate());
             decision.setStatus(DecisionRepository.STATUS_REJECTED);
-            depart.setStatus(DecisionRepository.STATUS_REJECTED);
-            departRepository.save(depart);
+            employe.setDepart(null);
+            employeRepository.save(employe);
+            departRepository.remove(depart);
 
         }
+
         response.setReload(true);
     }
 
@@ -146,12 +148,12 @@ public class DepartController {
         Depart depart = departRepository.find(employe.getDepart().getId());
         if (depart.getDecision() == null)
             return;
-        response.setValue("$decisionCode", depart.getDecision().getDecisionCode());
-        response.setValue("$decisionDate", depart.getDecision().getDecisionDate());
-        response.setValue("$entreprise", depart.getDecision().getEntreprise());
-        response.setValue("$emitteur", depart.getDecision().getEmitteur());
-        response.setValue("$attachement", depart.getDecision().getAttachement());
-
+        response.setValue("decisionCode", depart.getDecision().getDecisionCode());
+        response.setValue("decisionDate", depart.getDecision().getDecisionDate());
+        response.setValue("entreprise", depart.getDecision().getEntreprise());
+        response.setValue("emitteur", depart.getDecision().getEmitteur());
+        response.setValue("attachement", depart.getDecision().getAttachement());
+        response.setValue("motifRejet", depart.getDecision().getMotifRejet());
     }
 
     @Transactional
