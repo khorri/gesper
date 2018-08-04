@@ -162,6 +162,7 @@ public class DecisionService implements Serializable {
         response.setValue("decisionDate", decision.getDecisionDate());
         response.setValue("entreprise", decision.getEntreprise());
         response.setValue("emitteur", decision.getEmitteur());
+        response.setValue("status", DecisionRepository.STATUS_VERIFIED);
     }
 
     public boolean exists(ActionResponse response, String decisionCode) {
