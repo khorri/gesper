@@ -61,6 +61,7 @@
                 <field name="birthday" colSpan="2"/>
                 <field name="birthplace" colSpan="2"/>
                 <field name="birthplaceAr" colSpan="2"/>
+
                 <panel title="Info.professionnelles" colSpan="12">
                     <field name="hireDate" colSpan="3" onChange="action-employee-validate-date"/>
                     <field name="mutationDate" colSpan="3" onChange="action-employee-validate-date" validIf="hireDate ==null || mutationDate==null || hireDate &lt;= mutationDate"/>
@@ -83,9 +84,10 @@
             </panel>
             <panel name="affectation" title="Retraite/Mutuelle/AOS/MED" hideIf="id==null">
                 <panel title="Retraite" colSpan="12">
-                    <field name="retraite" showTitle="false" colSpan="12" canSelect="false" canSearch="false" canNew="true" form-view="retraite-rh-form" grid-view="retraite-rh-grid">
+                    <field name="retraite" showTitle="false" colSpan="12" canNew="true" form-view="retraite-rh-form"
+                           grid-view="retraite-rh-grid">
                         <editor x-viewer="true">
-                            <field name="organisme" canEdit="false" canView="false" colSpan="4" domain="self.type='RETRAITE'"/>
+                            <field name="organisme" domain="self.type='RETRAITE'" colSpan="4"/>
                             <field name="affiliationNum" colSpan="4"/>
                             <field name="affiliationDate" colSpan="4"/>
                         </editor>

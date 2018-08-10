@@ -1,0 +1,771 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 4.6.0.v201606072122</property>
+    <list-property name="propertyBindings">
+        <structure>
+            <property name="name">odaDriverClass</property>
+            <property name="id">250</property>
+            <expression name="value" type="javascript">params["DefaultDriver"].value</expression>
+        </structure>
+        <structure>
+            <property name="name">odaURL</property>
+            <property name="id">250</property>
+            <expression name="value" type="javascript">params["DBName"].value</expression>
+        </structure>
+        <structure>
+            <property name="name">odaUser</property>
+            <property name="id">250</property>
+            <expression name="value" type="javascript">params["UserName"].value</expression>
+        </structure>
+        <structure>
+            <property name="name">odaPassword</property>
+            <property name="id">250</property>
+            <expression name="value" type="javascript">params["Password"].value</expression>
+        </structure>
+    </list-property>
+    <property name="units">in</property>
+    <property name="iconFile">/templates/first_report.gif</property>
+    <property name="cheatSheet">org.eclipse.birt.reports.designer.ui.cheatsheet.firstreport</property>
+    <property name="bidiLayoutOrientation">ltr</property>
+    <property name="imageDPI">96</property>
+    <parameters>
+        <scalar-parameter name="UserName" id="3796">
+            <property name="hidden">true</property>
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">root</value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="DBName" id="3797">
+            <property name="hidden">true</property>
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">jdbc:mysql://localhost:3306/gesper</value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="Password" id="3798">
+            <property name="hidden">true</property>
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">root</value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="DefaultDriver" id="3819">
+            <property name="hidden">true</property>
+            <property name="valueType">static</property>
+            <property name="isRequired">true</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">com.mysql.jdbc.Driver</value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="AttachmentPath" id="3849">
+            <property name="hidden">true</property>
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+    </parameters>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="Data Source" id="250">
+            <list-property name="privateDriverProperties">
+                <ex-property>
+                    <name>metadataBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+                <ex-property>
+                    <name>disabledMetadataBidiFormatStr</name>
+                </ex-property>
+                <ex-property>
+                    <name>contentBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+                <ex-property>
+                    <name>disabledContentBidiFormatStr</name>
+                </ex-property>
+            </list-property>
+            <property name="odaDriverClass">com.mysql.jdbc.Driver</property>
+            <property name="odaURL">jdbc:mysql://localhost:3306/gesper</property>
+            <property name="odaUser">root</property>
+            <encrypted-property name="odaPassword" encryptionID="base64">cm9vdA==</encrypted-property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Data Set" id="4082">
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">entite</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">entite</text-property>
+                    <text-property name="heading">entite</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">matricule</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">matricule</text-property>
+                    <text-property name="heading">matricule</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">nom</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">nom</text-property>
+                    <text-property name="heading">nom</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">prenom</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">prenom</text-property>
+                    <text-property name="heading">prenom</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">grade_name</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">grade_name</text-property>
+                    <text-property name="heading">grade_name</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">grade_code</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">grade_code</text-property>
+                    <text-property name="heading">grade_code</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">date_naissance</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">date_naissance</text-property>
+                    <text-property name="heading">date_naissance</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">radiation_date</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">radiation_date</text-property>
+                    <text-property name="heading">radiation_date</text-property>
+                </structure>
+            </list-property>
+            <list-property name="parameters"/>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">entite</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">matricule</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">nom</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">prenom</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">grade_name</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">grade_code</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">date_naissance</property>
+                        <property name="dataType">date</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">radiation_date</property>
+                        <property name="dataType">date</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">Data Source</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">entite</property>
+                    <property name="nativeName">name</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">matricule</property>
+                    <property name="nativeName">matricule</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">nom</property>
+                    <property name="nativeName">firstname</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">prenom</property>
+                    <property name="nativeName">lastname</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">grade_name</property>
+                    <property name="nativeName">name</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">grade_code</property>
+                    <property name="nativeName">id</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">-5</property>
+                </structure>
+                <structure>
+                    <property name="position">7</property>
+                    <property name="name">date_naissance</property>
+                    <property name="nativeName">birthday</property>
+                    <property name="dataType">date</property>
+                    <property name="nativeDataType">91</property>
+                </structure>
+                <structure>
+                    <property name="position">8</property>
+                    <property name="name">radiation_date</property>
+                    <property name="nativeName">hire_date</property>
+                    <property name="dataType">date</property>
+                    <property name="nativeDataType">91</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[select en.name as entite, 
+		emp.matricule as matricule, 
+		emp.firstname as nom, 
+		emp.lastname as prenom, 
+		g.name as grade_name, 
+		g.id as grade_code, 
+		emp.birthday as date_naissance, 
+		emp.hire_date as radiation_date
+		from rh_employe as emp 
+join rh_affectation as aff on aff.employee=emp.id
+join config_fonction as fonc on fonc.id=aff.fonction
+join config_entite as en on en.id=aff.entite
+left join rh_situation as sit on sit.employee=emp.id
+left join config_grade_echelon as ge on sit.grade=ge.id
+left join config_grade as g on g.id=ge.grade
+where aff.active is true and sit.active is true and emp.activated is true
+order by emp.matricule*1]]></xml-property>
+            <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
+  <Version>2.0</Version>
+  <design:ResultSets derivedMetaData="true">
+    <design:resultSetDefinitions>
+      <design:resultSetColumns>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>name</design:name>
+              <design:position>1</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>255</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>entite</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>entite</design:label>
+            <design:formattingHints>
+              <design:displaySize>255</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>matricule</design:name>
+              <design:position>2</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>255</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>NotNullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>matricule</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>matricule</design:label>
+            <design:formattingHints>
+              <design:displaySize>255</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>firstname</design:name>
+              <design:position>3</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>255</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>NotNullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>nom</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>nom</design:label>
+            <design:formattingHints>
+              <design:displaySize>255</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>lastname</design:name>
+              <design:position>4</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>255</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>NotNullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>prenom</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>prenom</design:label>
+            <design:formattingHints>
+              <design:displaySize>255</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>name</design:name>
+              <design:position>5</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>60</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>grade_name</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>grade_name</design:label>
+            <design:formattingHints>
+              <design:displaySize>60</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>id</design:name>
+              <design:position>6</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>-5</design:nativeDataTypeCode>
+            <design:precision>20</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>grade_code</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>grade_code</design:label>
+            <design:formattingHints>
+              <design:displaySize>20</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>birthday</design:name>
+              <design:position>7</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>91</design:nativeDataTypeCode>
+            <design:precision>10</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>date_naissance</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>date_naissance</design:label>
+            <design:formattingHints>
+              <design:displaySize>10</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>radiation_date</design:name>
+              <design:position>8</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>91</design:nativeDataTypeCode>
+            <design:precision>10</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>radiation_date</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>radiation_date</design:label>
+            <design:formattingHints>
+              <design:displaySize>10</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+      </design:resultSetColumns>
+      <design:criteria/>
+    </design:resultSetDefinitions>
+  </design:ResultSets>
+</model:DesignValues>]]></xml-property>
+        </oda-data-set>
+    </data-sets>
+    <styles>
+        <style name="reports" id="110">
+            <property name="fontFamily">sans-serif</property>
+            <property name="fontSize">10pt</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="mainMasterPage" id="2">
+            <property name="orientation">landscape</property>
+            <property name="headerHeight">140px</property>
+            <property name="footerHeight">40px</property>
+            <page-header>
+                <grid id="4003">
+                    <column id="4004"/>
+                    <column id="4005"/>
+                    <column id="4006"/>
+                    <row id="4007">
+                        <cell id="4008">
+                            <property name="fontSize">12pt</property>
+                            <label id="4015">
+                                <property name="fontFamily">sans-serif</property>
+                                <property name="textAlign">center</property>
+                                <text-property name="text">ROYAUME DU MAROC</text-property>
+                            </label>
+                            <label id="4016">
+                                <property name="fontFamily">sans-serif</property>
+                                <property name="fontSize">10pt</property>
+                                <property name="textAlign">center</property>
+                                <text-property name="text">MINISTERE DE L’AGRICULTURE, DE LA PECHE MARITIME,&#13;
+DU DEVELOPPEMENT RURAL ET DES EAUX ET FORETS&#13;
+OFFICE REGIONAL DE MISE EN VALEUR AGRICOLE DU HAOUZ</text-property>
+                            </label>
+                        </cell>
+                        <cell id="4009">
+                            <property name="textAlign">center</property>
+                            <image id="4012">
+                                <property name="height">1.125in</property>
+                                <property name="width">1.2604166666666667in</property>
+                                <property name="source">file</property>
+                                <expression name="uri" type="constant">img/ormvah.png</expression>
+                            </image>
+                        </cell>
+                        <cell id="4010">
+                            <label id="4017">
+                                <property name="fontFamily">sans-serif</property>
+                                <property name="fontSize">12pt</property>
+                                <property name="fontWeight">bold</property>
+                                <property name="textAlign">center</property>
+                                <text-property name="text">المملكة المغربية</text-property>
+                            </label>
+                            <label id="4018">
+                                <property name="fontFamily">sans-serif</property>
+                                <property name="fontWeight">bold</property>
+                                <property name="textAlign">center</property>
+                                <text-property name="text">وزارة الفلاحة والصيد البحري والتنمية القروية والمياه والغابات&#13;
+المكتب الجهوي للإستثمار الفلاحي الحوز</text-property>
+                            </label>
+                        </cell>
+                    </row>
+                </grid>
+            </page-header>
+            <page-footer>
+                <grid id="4022">
+                    <column id="4023"/>
+                    <column id="4024"/>
+                    <row id="4025">
+                        <cell id="4026">
+                            <property name="verticalAlign">bottom</property>
+                            <text id="4029">
+                                <property name="fontFamily">sans-serif</property>
+                                <property name="fontSize">9pt</property>
+                                <property name="contentType">html</property>
+                                <text-property name="content"><![CDATA[<VALUE-OF format="dd/MM/yyyy hh:mm:ss">new Date()</VALUE-OF>]]></text-property>
+                            </text>
+                        </cell>
+                        <cell id="4027">
+                            <property name="verticalAlign">bottom</property>
+                            <text id="4028">
+                                <property name="fontFamily">sans-serif</property>
+                                <property name="fontSize">9pt</property>
+                                <property name="textAlign">right</property>
+                                <property name="contentType">html</property>
+                                <text-property name="content"><![CDATA[<VALUE-OF>pageNumber</VALUE-OF>/<value-of>totalPage</value-of>
+]]></text-property>
+                            </text>
+                        </cell>
+                    </row>
+                </grid>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <table id="4083">
+            <property name="dataSet">Data Set</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">entite</property>
+                    <text-property name="displayName">entite</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["entite"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">matricule</property>
+                    <text-property name="displayName">matricule</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["matricule"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">nom</property>
+                    <text-property name="displayName">nom</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["nom"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">prenom</property>
+                    <text-property name="displayName">prenom</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["prenom"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">grade_name</property>
+                    <text-property name="displayName">grade_name</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["grade_name"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">grade_code</property>
+                    <text-property name="displayName">grade_code</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["grade_code"]</expression>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="name">date_naissance</property>
+                    <text-property name="displayName">date_naissance</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["date_naissance"]</expression>
+                    <property name="dataType">date</property>
+                </structure>
+                <structure>
+                    <property name="name">radiation_date</property>
+                    <text-property name="displayName">radiation_date</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["radiation_date"]</expression>
+                    <property name="dataType">date</property>
+                </structure>
+            </list-property>
+            <property name="pageBreakInterval">17</property>
+            <column id="4127">
+                <property name="width">200px</property>
+            </column>
+            <column id="4128">
+                <property name="width">70px</property>
+            </column>
+            <column id="4129"/>
+            <column id="4130"/>
+            <column id="4131"/>
+            <column id="4132">
+                <property name="width">60px</property>
+            </column>
+            <column id="4133">
+                <property name="width">100px</property>
+            </column>
+            <column id="4134">
+                <property name="width">110px</property>
+            </column>
+            <header>
+                <row id="4084">
+                    <property name="backgroundColor">#DDDDDD</property>
+                    <property name="fontFamily">sans-serif</property>
+                    <property name="textAlign">left</property>
+                    <property name="verticalAlign">middle</property>
+                    <cell id="4085">
+                        <label id="4086">
+                            <text-property name="text">Entité</text-property>
+                        </label>
+                    </cell>
+                    <cell id="4087">
+                        <label id="4088">
+                            <text-property name="text">Matricule</text-property>
+                        </label>
+                    </cell>
+                    <cell id="4089">
+                        <label id="4090">
+                            <text-property name="text">Nom</text-property>
+                        </label>
+                    </cell>
+                    <cell id="4091">
+                        <label id="4092">
+                            <text-property name="text">Prénom</text-property>
+                        </label>
+                    </cell>
+                    <cell id="4093">
+                        <label id="4094">
+                            <text-property name="text">Grade libellé</text-property>
+                        </label>
+                    </cell>
+                    <cell id="4095">
+                        <label id="4096">
+                            <property name="textAlign">center</property>
+                            <text-property name="text">Code g</text-property>
+                        </label>
+                    </cell>
+                    <cell id="4097">
+                        <label id="4098">
+                            <text-property name="text">Date naissance</text-property>
+                        </label>
+                    </cell>
+                    <cell id="4099">
+                        <label id="4100">
+                            <text-property name="text">Date embauche</text-property>
+                        </label>
+                    </cell>
+                </row>
+            </header>
+            <detail>
+                <row id="4101">
+                    <property name="fontFamily">"Arial"</property>
+                    <property name="fontSize">9pt</property>
+                    <property name="verticalAlign">middle</property>
+                    <property name="height">30px</property>
+                    <cell id="4102">
+                        <data id="4103">
+                            <property name="resultSetColumn">entite</property>
+                        </data>
+                    </cell>
+                    <cell id="4104">
+                        <data id="4105">
+                            <property name="resultSetColumn">matricule</property>
+                        </data>
+                    </cell>
+                    <cell id="4106">
+                        <data id="4107">
+                            <property name="resultSetColumn">nom</property>
+                        </data>
+                    </cell>
+                    <cell id="4108">
+                        <data id="4109">
+                            <property name="resultSetColumn">prenom</property>
+                        </data>
+                    </cell>
+                    <cell id="4110">
+                        <data id="4111">
+                            <property name="resultSetColumn">grade_name</property>
+                        </data>
+                    </cell>
+                    <cell id="4112">
+                        <data id="4113">
+                            <property name="textAlign">center</property>
+                            <property name="resultSetColumn">grade_code</property>
+                        </data>
+                    </cell>
+                    <cell id="4114">
+                        <data id="4115">
+                            <structure name="dateTimeFormat">
+                                <property name="category">Short Date</property>
+                                <property name="pattern">Short Date</property>
+                            </structure>
+                            <property name="resultSetColumn">date_naissance</property>
+                        </data>
+                    </cell>
+                    <cell id="4116">
+                        <data id="4117">
+                            <structure name="dateTimeFormat">
+                                <property name="category">Short Date</property>
+                                <property name="pattern">Short Date</property>
+                            </structure>
+                            <property name="resultSetColumn">radiation_date</property>
+                        </data>
+                    </cell>
+                </row>
+            </detail>
+            <footer>
+                <row id="4118">
+                    <cell id="4119"/>
+                    <cell id="4120"/>
+                    <cell id="4121"/>
+                    <cell id="4122"/>
+                    <cell id="4123"/>
+                    <cell id="4124"/>
+                    <cell id="4125"/>
+                    <cell id="4126"/>
+                </row>
+            </footer>
+        </table>
+    </body>
+</report>
