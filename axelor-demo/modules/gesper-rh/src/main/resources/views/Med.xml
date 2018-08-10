@@ -59,7 +59,7 @@
             <field name="$motifRejet" title="Motif de rejet" colSpan="12" type="string"/>
         </panel>
     </form>
-    
+
     <action-view name="med-popup-form" model="com.axelor.rh.db.Med" title="Mise en disponibilité">
         <view name="med-rh-form" type="form"/>
         <view-param name="popup" value="reload"/>

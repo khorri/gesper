@@ -12,12 +12,12 @@
         <string name="adresseConge" title="Adresse de congé"/>
         <string name="commenceA" title="Commencé"/>
         <string name="termineA" title="Se termine"/>
-        <string name="status" title="Statut"/>
+        <string name="status" title="Statut" selection="decision.config.status" default="1" readonly="true"/>
         <many-to-one name="employee" ref="com.axelor.rh.db.Employe" ></many-to-one>
         <many-to-one name="interime" ref="com.axelor.rh.db.Employe" ></many-to-one>
         <many-to-one name="typeConge" ref="com.axelor.rh.db.TypeConge" ></many-to-one>
         <many-to-one name="natureConge" ref="com.axelor.rh.db.NatureConge" ></many-to-one>
-        <many-to-one name="decisionConge" ref="com.axelor.config.db.Decision" ></many-to-one>
+        <many-to-one name="decision" ref="com.axelor.config.db.Decision"></many-to-one>
         <one-to-many name="avisRetour" ref="com.axelor.rh.db.AvisRetour" ></one-to-many>
         <one-to-many name="avisDepart" ref="com.axelor.rh.db.AvisDepart" ></one-to-many>
         <one-to-many name="historiqueDemandeConge" ref="com.axelor.rh.db.HistoriqueDemandeConge" ></one-to-many>

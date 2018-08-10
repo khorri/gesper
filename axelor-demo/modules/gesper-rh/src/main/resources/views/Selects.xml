@@ -51,7 +51,7 @@
         <option value="AVANCEMENT">AVANCEMENT</option>
         <option value="RECLASSEMENT">RECLASSEMENT</option>
     </selection>
-    <selection name="situation-reclassement-natures"  >
+    <selection name="situation-reclassement-natures">
         <option value="CHO">Choix</option>
         <option value="CHQ">Choix avec quota</option>
         <option value="CHS">Choix sans quota</option>

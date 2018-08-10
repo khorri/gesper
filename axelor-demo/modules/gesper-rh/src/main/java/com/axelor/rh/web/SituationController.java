@@ -82,7 +82,9 @@ public class SituationController {
         Context context = request.getContext();
 
         Decision d = decisionRepo.all().filter("self.decisionCode = ?1", context.get("decisionCode")).fetchOne();
-
+        response.setAttr("decisionCode", "required", true);
+        if (true)
+            return;
         if (d != null) {
             int count = situationService.decsionUsedInOtherSituation(d);
             if (count == 0) {

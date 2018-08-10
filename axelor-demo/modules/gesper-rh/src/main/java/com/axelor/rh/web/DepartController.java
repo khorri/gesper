@@ -6,8 +6,11 @@ import com.axelor.config.db.Decision;
 import com.axelor.config.db.repo.DecisionRepository;
 import com.axelor.config.db.repo.EntiteRepository;
 import com.axelor.exception.AxelorException;
+import com.axelor.rh.db.Depart;
+import com.axelor.rh.db.Employe;
 import com.axelor.rh.db.Med;
-import com.axelor.rh.db.repo.MedRepository;
+import com.axelor.rh.db.repo.DepartRepository;
+import com.axelor.rh.db.repo.EmployeRepository;
 import com.axelor.rh.service.DecisionService;
 import com.axelor.rpc.ActionRequest;
 import com.axelor.rpc.ActionResponse;
@@ -23,34 +26,46 @@ import java.lang.invoke.MethodHandles;
 /**
  * Created by HB on 10/07/2018.
  */
-public class MedController {
+public class DepartController {
     @Inject
     private EntiteRepository entiteRep;
     @Inject
     private DecisionRepository decisionRepo;
     @Inject
-    private MedRepository medRepository;
+    private DepartRepository departRepository;
     @Inject
     private DecisionService decisionService;
+    @Inject
+    private EmployeRepository employeRepository;
     private final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     @Transactional
     public void verifie(ActionRequest request, ActionResponse response) throws AxelorException {
-        Med med = request.getContext().asType(Med.class);
+        Employe employe = request.getContext().asType(Employe.class);
+        Depart originDepart = departRepository.find(employe.getDepart().getId());
+        Depart depart = employe.getDepart();
         User user = AuthUtils.getUser();
-        response.setValue("decisionStatus", 2);
+
+        originDepart.setStatus(DecisionRepository.STATUS_VERIFIED);
+        originDepart.setDateDepart(depart.getDateDepart());
+        originDepart.setType(depart.getType());
+        originDepart.setMotif(depart.getMotif());
+        originDepart.setObservation(depart.getObservation());
+
         Decision decision = new Decision();
         decision.setStatus(DecisionRepository.STATUS_VERIFIED);
         decision.setEmitteur(entiteRep.all().filter("self.shortName = ?1", "SAF").fetchOne());
         decision.setVerifiedBy(user);
         decision.setVerifiedOn(new LocalDate());
-        decisionService.printMedDecision(decision, med.getId());
-        response.setValue("decision", decision);
+        originDepart.setDecision(decision);
+        response.setValue("depart", originDepart);
+        response.setValue("decisionStatus", DecisionRepository.STATUS_VERIFIED);
         response.setValue("decisionCode", decision.getDecisionCode());
         response.setValue("decisionDate", decision.getDecisionDate());
         response.setValue("entreprise", decision.getEntreprise());
         response.setValue("emitteur", decision.getEmitteur());
-
+        response.setReload(true);
+//        decisionService.printMedDecision(decision, med.getId());
     }
 
     //
@@ -64,18 +79,8 @@ public class MedController {
     public void valider(ActionRequest request, ActionResponse response) {
         User user = AuthUtils.getUser();
         Context context = request.getContext();
-
-        Decision d = decisionRepo.all().filter("self.decisionCode = ?1", context.get("decisionCode")).fetchOne();
-
-//        if (d != null) {
-//            int count = situationService.decsionUsedInOtherSituation(d);
-//            if (count == 0) {
-//                response.setError("Une décision avec le même N° existe déjà.");
-//                return;
-//            }
-//        }
-
-        Med med = medRepository.find((Long) context.get("id"));
+        Employe employe = request.getContext().asType(Employe.class);
+        Depart depart = departRepository.find(employe.getDepart().getId());
 
         String errorMessage = decisionService.validerDecisionValidation(context);
         if (errorMessage != null) {
@@ -87,16 +92,20 @@ public class MedController {
             response.setError("Une décision avec le même N° exsite déjà.");
             return;
         }
-        if (med.getDecision() != null) {
+        if (depart.getDecision() != null) {
             //update current decsion with new values
-            Decision decision = decisionService.updateDecision(context, med.getDecision(), DecisionRepository.STATUS_VALIDATED);
-
+            Decision decision = decisionService.updateDecision(context, depart.getDecision(), DecisionRepository.STATUS_VALIDATED);
             decision.setValidatedBy(user);
             decision.setValidatedOn(new LocalDate());
             decision.setStatus(DecisionRepository.STATUS_VALIDATED);
             decisionRepo.save(decision);
 
-            medRepository.save(med);
+            depart.setStatus(DecisionRepository.STATUS_VALIDATED);
+            departRepository.save(depart);
+            //Employee()
+            employe.setActivated(false);
+            employeRepository.save(employe);
+
         }
         response.setReload(true);
     }
@@ -106,20 +115,23 @@ public class MedController {
     public void refuser(ActionRequest request, ActionResponse response) {
         User user = AuthUtils.getUser();
         Context context = request.getContext();
-        Med med = medRepository.find((Long) context.get("id"));
+        Employe employe = request.getContext().asType(Employe.class);
+        
+        Depart depart = departRepository.find(employe.getDepart().getId());
         String errorMessage = decisionService.refuserDecisionValidation(context);
         if (errorMessage != null) {
             response.setError(errorMessage);
             return;
         }
 
-        if (med.getDecision() != null) {
+        if (depart.getDecision() != null) {
             //update current decsion with new values
-            Decision decision = decisionService.updateDecision(context, med.getDecision(), DecisionRepository.STATUS_REJECTED);
+            Decision decision = decisionService.updateDecision(context, depart.getDecision(), DecisionRepository.STATUS_REJECTED);
             decision.setRejectedBy(user);
             decision.setRejectedOn(new LocalDate());
             decision.setStatus(DecisionRepository.STATUS_REJECTED);
-            medRepository.save(med);
+            depart.setStatus(DecisionRepository.STATUS_REJECTED);
+            departRepository.save(depart);
 
         }
         response.setReload(true);
@@ -127,19 +139,46 @@ public class MedController {
 
     @Transactional
     public void getLastDecision(ActionRequest request, ActionResponse response) {
+//        Context context = request.getContext();
+        Employe employe = request.getContext().asType(Employe.class);
+        if (employe.getDepart() == null)
+            return;
+        Depart depart = departRepository.find(employe.getDepart().getId());
+        if (depart.getDecision() == null)
+            return;
+        response.setValue("$decisionCode", depart.getDecision().getDecisionCode());
+        response.setValue("$decisionDate", depart.getDecision().getDecisionDate());
+        response.setValue("$entreprise", depart.getDecision().getEntreprise());
+        response.setValue("$emitteur", depart.getDecision().getEmitteur());
+        response.setValue("$attachement", depart.getDecision().getAttachement());
+
+    }
+
+    @Transactional
+    public void getAudit(ActionRequest request, ActionResponse response) {
         Context context = request.getContext();
-        Decision decision = (Decision) context.get("decision");
-        if (decision != null) {
-            response.setValue("decisionCode", decision.getDecisionCode());
-            response.setValue("decisionDate", decision.getDecisionDate());
-            response.setValue("entreprise", decision.getEntreprise());
-            response.setValue("emitteur", decision.getEmitteur());
-            response.setValue("attachement", decision.getAttachement());
-        }
+        Employe employe = request.getContext().asType(Employe.class);
+        if (employe.getDepart() == null)
+            return;
+        Depart depart = departRepository.find(employe.getDepart().getId());
+        if (depart.getDecision() == null)
+            return;
+        if (depart.getDecision().getVerifiedBy() != null)
+            response.setValue("verifiedBy", depart.getDecision().getVerifiedBy().getFullName());
+        if (depart.getDecision().getValidatedBy() != null)
+            response.setValue("validatedBy", depart.getDecision().getValidatedBy().getFullName());
+        if (depart.getDecision().getRejectedBy() != null)
+            response.setValue("rejectedBy", depart.getDecision().getRejectedBy().getFullName());
+        response.setValue("verifiedOn", depart.getDecision().getVerifiedOn());
+        response.setValue("validatedOn", depart.getDecision().getValidatedOn());
+        response.setValue("rejectedOn", depart.getDecision().getRejectedOn());
+        response.setValue("emitteur", depart.getDecision().getEmitteur());
+
     }
 
     public void getDummies(ActionRequest request, ActionResponse response) {
         getLastDecision(request, response);
+        getAudit(request, response);
     }
 
 
