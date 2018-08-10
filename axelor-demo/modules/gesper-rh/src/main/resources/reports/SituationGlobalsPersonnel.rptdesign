@@ -132,17 +132,12 @@
         </oda-data-source>
     </data-sources>
     <data-sets>
-        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="agents" id="4429">
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="agents" id="4500">
             <list-property name="columnHints">
                 <structure>
-                    <property name="columnName">matricule</property>
-                    <text-property name="displayName">matricule</text-property>
-                    <text-property name="heading">matricule</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">cin</property>
-                    <text-property name="displayName">cin</text-property>
-                    <text-property name="heading">cin</text-property>
+                    <property name="columnName">grade</property>
+                    <text-property name="displayName">grade</text-property>
+                    <text-property name="heading">grade</text-property>
                 </structure>
                 <structure>
                     <property name="columnName">nom</property>
@@ -155,6 +150,11 @@
                     <text-property name="heading">prenom</text-property>
                 </structure>
                 <structure>
+                    <property name="columnName">cin</property>
+                    <text-property name="displayName">cin</text-property>
+                    <text-property name="heading">cin</text-property>
+                </structure>
+                <structure>
                     <property name="columnName">birthday</property>
                     <text-property name="displayName">birthday</text-property>
                     <text-property name="heading">birthday</text-property>
@@ -165,9 +165,14 @@
                     <text-property name="heading">hire_date</text-property>
                 </structure>
                 <structure>
-                    <property name="columnName">grade</property>
-                    <text-property name="displayName">grade</text-property>
-                    <text-property name="heading">grade</text-property>
+                    <property name="columnName">matricule</property>
+                    <text-property name="displayName">matricule</text-property>
+                    <text-property name="heading">matricule</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">statut</property>
+                    <text-property name="displayName">statut</text-property>
+                    <text-property name="heading">statut</text-property>
                 </structure>
                 <structure>
                     <property name="columnName">echelon</property>
@@ -175,41 +180,46 @@
                     <text-property name="heading">echelon</text-property>
                 </structure>
                 <structure>
-                    <property name="columnName">indice</property>
-                    <text-property name="displayName">indice</text-property>
-                    <text-property name="heading">indice</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">echelon_date</property>
-                    <text-property name="displayName">echelon_date</text-property>
-                    <text-property name="heading">echelon_date</text-property>
-                </structure>
-                <structure>
                     <property name="columnName">grade_date</property>
                     <text-property name="displayName">grade_date</text-property>
                     <text-property name="heading">grade_date</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">fonction</property>
+                    <text-property name="displayName">fonction</text-property>
+                    <text-property name="heading">fonction</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">service</property>
+                    <text-property name="displayName">service</text-property>
+                    <text-property name="heading">service</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">residence</property>
+                    <text-property name="displayName">residence</text-property>
+                    <text-property name="heading">residence</text-property>
                 </structure>
             </list-property>
             <structure name="cachedMetaData">
                 <list-property name="resultSet">
                     <structure>
                         <property name="position">1</property>
-                        <property name="name">matricule</property>
+                        <property name="name">grade</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">2</property>
-                        <property name="name">cin</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">3</property>
                         <property name="name">nom</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">4</property>
+                        <property name="position">3</property>
                         <property name="name">prenom</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">cin</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
@@ -224,28 +234,38 @@
                     </structure>
                     <structure>
                         <property name="position">7</property>
-                        <property name="name">grade</property>
+                        <property name="name">matricule</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">8</property>
+                        <property name="name">statut</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">9</property>
                         <property name="name">echelon</property>
                         <property name="dataType">integer</property>
                     </structure>
                     <structure>
-                        <property name="position">9</property>
-                        <property name="name">indice</property>
-                        <property name="dataType">integer</property>
-                    </structure>
-                    <structure>
                         <property name="position">10</property>
-                        <property name="name">echelon_date</property>
+                        <property name="name">grade_date</property>
                         <property name="dataType">date</property>
                     </structure>
                     <structure>
                         <property name="position">11</property>
-                        <property name="name">grade_date</property>
-                        <property name="dataType">date</property>
+                        <property name="name">fonction</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">12</property>
+                        <property name="name">service</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">13</property>
+                        <property name="name">residence</property>
+                        <property name="dataType">string</property>
                     </structure>
                 </list-property>
             </structure>
@@ -253,29 +273,29 @@
             <list-property name="resultSet">
                 <structure>
                     <property name="position">1</property>
-                    <property name="name">matricule</property>
-                    <property name="nativeName">matricule</property>
+                    <property name="name">grade</property>
+                    <property name="nativeName">name</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">2</property>
-                    <property name="name">cin</property>
-                    <property name="nativeName">cin</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                </structure>
-                <structure>
-                    <property name="position">3</property>
                     <property name="name">nom</property>
                     <property name="nativeName">firstname</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">4</property>
+                    <property name="position">3</property>
                     <property name="name">prenom</property>
                     <property name="nativeName">lastname</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">cin</property>
+                    <property name="nativeName">cin</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
@@ -295,49 +315,76 @@
                 </structure>
                 <structure>
                     <property name="position">7</property>
-                    <property name="name">grade</property>
-                    <property name="nativeName">name</property>
+                    <property name="name">matricule</property>
+                    <property name="nativeName">matricule</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">8</property>
+                    <property name="name">statut</property>
+                    <property name="nativeName">status</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">9</property>
                     <property name="name">echelon</property>
                     <property name="nativeName">echelon</property>
                     <property name="dataType">integer</property>
                     <property name="nativeDataType">4</property>
                 </structure>
                 <structure>
-                    <property name="position">9</property>
-                    <property name="name">indice</property>
-                    <property name="nativeName">indice</property>
-                    <property name="dataType">integer</property>
-                    <property name="nativeDataType">4</property>
-                </structure>
-                <structure>
                     <property name="position">10</property>
-                    <property name="name">echelon_date</property>
-                    <property name="nativeName">echelon_date</property>
-                    <property name="dataType">date</property>
-                    <property name="nativeDataType">91</property>
-                </structure>
-                <structure>
-                    <property name="position">11</property>
                     <property name="name">grade_date</property>
                     <property name="nativeName">grade_date</property>
                     <property name="dataType">date</property>
                     <property name="nativeDataType">91</property>
                 </structure>
+                <structure>
+                    <property name="position">11</property>
+                    <property name="name">fonction</property>
+                    <property name="nativeName">name</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">12</property>
+                    <property name="name">service</property>
+                    <property name="nativeName">short_name</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">13</property>
+                    <property name="name">residence</property>
+                    <property name="nativeName">name</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[select emp.matricule, emp.cin, emp.firstname as nom, emp.lastname as prenom, emp.birthday, emp.hire_date, 
-g.name as grade, ge.echelon, ge.indice,sit.echelon_date, sit.grade_date
+            <xml-property name="queryText"><![CDATA[select  g.name as grade, 
+	emp.firstname as nom, 
+	emp.lastname as prenom, 
+	emp.cin, 
+	emp.birthday,
+	emp.hire_date, 
+	emp.matricule, 
+	sit.status as statut,
+ 	ge.echelon,
+	sit.grade_date,
+	fonc.name as fonction,
+	ser.short_name as service,
+	res.name as residence
 		from rh_employe as emp 
 join rh_affectation as aff on aff.employee=emp.id
 join config_fonction as fonc on fonc.id=aff.fonction
 join config_entite as en on en.id=aff.entite
 join rh_situation as sit on sit.employee=emp.id
-left join config_grade_echelon as ge on sit.grade=ge.id
-left join config_grade as g on g.id=ge.grade
+join config_grade_echelon as ge on sit.grade=ge.id
+join config_grade as g on g.id=ge.grade
+join config_service as ser on ser.id=aff.service
+join config_residence as res on res.id=aff.residence
 where aff.active is true and sit.active is true and emp.activated is true]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
@@ -348,42 +395,21 @@ where aff.active is true and sit.active is true and emp.activated is true]]></xm
         <design:resultColumnDefinitions>
           <design:attributes>
             <design:identifier>
-              <design:name>matricule</design:name>
+              <design:name>name</design:name>
               <design:position>1</design:position>
             </design:identifier>
             <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
-            <design:precision>255</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>NotNullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>matricule</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>matricule</design:label>
-            <design:formattingHints>
-              <design:displaySize>255</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>cin</design:name>
-              <design:position>2</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
-            <design:precision>255</design:precision>
+            <design:precision>60</design:precision>
             <design:scale>0</design:scale>
             <design:nullability>Nullable</design:nullability>
             <design:uiHints>
-              <design:displayName>cin</design:displayName>
+              <design:displayName>grade</design:displayName>
             </design:uiHints>
           </design:attributes>
           <design:usageHints>
-            <design:label>cin</design:label>
+            <design:label>grade</design:label>
             <design:formattingHints>
-              <design:displaySize>255</design:displaySize>
+              <design:displaySize>60</design:displaySize>
             </design:formattingHints>
           </design:usageHints>
         </design:resultColumnDefinitions>
@@ -391,7 +417,7 @@ where aff.active is true and sit.active is true and emp.activated is true]]></xm
           <design:attributes>
             <design:identifier>
               <design:name>firstname</design:name>
-              <design:position>3</design:position>
+              <design:position>2</design:position>
             </design:identifier>
             <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
             <design:precision>255</design:precision>
@@ -412,7 +438,7 @@ where aff.active is true and sit.active is true and emp.activated is true]]></xm
           <design:attributes>
             <design:identifier>
               <design:name>lastname</design:name>
-              <design:position>4</design:position>
+              <design:position>3</design:position>
             </design:identifier>
             <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
             <design:precision>255</design:precision>
@@ -424,6 +450,27 @@ where aff.active is true and sit.active is true and emp.activated is true]]></xm
           </design:attributes>
           <design:usageHints>
             <design:label>prenom</design:label>
+            <design:formattingHints>
+              <design:displaySize>255</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>cin</design:name>
+              <design:position>4</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>255</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>cin</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>cin</design:label>
             <design:formattingHints>
               <design:displaySize>255</design:displaySize>
             </design:formattingHints>
@@ -474,21 +521,42 @@ where aff.active is true and sit.active is true and emp.activated is true]]></xm
         <design:resultColumnDefinitions>
           <design:attributes>
             <design:identifier>
-              <design:name>name</design:name>
+              <design:name>matricule</design:name>
               <design:position>7</design:position>
             </design:identifier>
             <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
-            <design:precision>60</design:precision>
+            <design:precision>255</design:precision>
             <design:scale>0</design:scale>
-            <design:nullability>Nullable</design:nullability>
+            <design:nullability>NotNullable</design:nullability>
             <design:uiHints>
-              <design:displayName>grade</design:displayName>
+              <design:displayName>matricule</design:displayName>
             </design:uiHints>
           </design:attributes>
           <design:usageHints>
-            <design:label>grade</design:label>
+            <design:label>matricule</design:label>
             <design:formattingHints>
-              <design:displaySize>60</design:displaySize>
+              <design:displaySize>255</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>status</design:name>
+              <design:position>8</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>255</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>statut</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>statut</design:label>
+            <design:formattingHints>
+              <design:displaySize>255</design:displaySize>
             </design:formattingHints>
           </design:usageHints>
         </design:resultColumnDefinitions>
@@ -496,7 +564,7 @@ where aff.active is true and sit.active is true and emp.activated is true]]></xm
           <design:attributes>
             <design:identifier>
               <design:name>echelon</design:name>
-              <design:position>8</design:position>
+              <design:position>9</design:position>
             </design:identifier>
             <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
             <design:precision>11</design:precision>
@@ -516,50 +584,8 @@ where aff.active is true and sit.active is true and emp.activated is true]]></xm
         <design:resultColumnDefinitions>
           <design:attributes>
             <design:identifier>
-              <design:name>indice</design:name>
-              <design:position>9</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
-            <design:precision>11</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>Nullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>indice</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>indice</design:label>
-            <design:formattingHints>
-              <design:displaySize>11</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>echelon_date</design:name>
-              <design:position>10</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>91</design:nativeDataTypeCode>
-            <design:precision>10</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>Nullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>echelon_date</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>echelon_date</design:label>
-            <design:formattingHints>
-              <design:displaySize>10</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
               <design:name>grade_date</design:name>
-              <design:position>11</design:position>
+              <design:position>10</design:position>
             </design:identifier>
             <design:nativeDataTypeCode>91</design:nativeDataTypeCode>
             <design:precision>10</design:precision>
@@ -573,6 +599,69 @@ where aff.active is true and sit.active is true and emp.activated is true]]></xm
             <design:label>grade_date</design:label>
             <design:formattingHints>
               <design:displaySize>10</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>name</design:name>
+              <design:position>11</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>255</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>NotNullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>fonction</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>fonction</design:label>
+            <design:formattingHints>
+              <design:displaySize>255</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>short_name</design:name>
+              <design:position>12</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>255</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>service</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>service</design:label>
+            <design:formattingHints>
+              <design:displaySize>255</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>name</design:name>
+              <design:position>13</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>255</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>residence</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>residence</design:label>
+            <design:formattingHints>
+              <design:displaySize>255</design:displaySize>
             </design:formattingHints>
           </design:usageHints>
         </design:resultColumnDefinitions>
@@ -663,7 +752,7 @@ OFFICE REGIONAL DE MISE EN VALEUR AGRICOLE DU HAOUZ</text-property>
                                 <property name="paddingLeft">1pt</property>
                                 <property name="paddingBottom">8pt</property>
                                 <property name="textAlign">center</property>
-                                <text-property name="text">SITUATION PROFETIONNELLE DES AGENTS</text-property>
+                                <text-property name="text">SITUATION GLOBAL DU PERSONNEL DE L'ORMVA DU HAOUZ</text-property>
                             </label>
                         </cell>
                     </row>
@@ -692,19 +781,13 @@ OFFICE REGIONAL DE MISE EN VALEUR AGRICOLE DU HAOUZ</text-property>
         </simple-master-page>
     </page-setup>
     <body>
-        <table id="4430">
+        <table id="4604">
             <property name="dataSet">agents</property>
             <list-property name="boundDataColumns">
                 <structure>
-                    <property name="name">matricule</property>
-                    <text-property name="displayName">matricule</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["matricule"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">cin</property>
-                    <text-property name="displayName">cin</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["cin"]</expression>
+                    <property name="name">grade</property>
+                    <text-property name="displayName">grade</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["grade"]</expression>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
@@ -720,6 +803,12 @@ OFFICE REGIONAL DE MISE EN VALEUR AGRICOLE DU HAOUZ</text-property>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
+                    <property name="name">cin</property>
+                    <text-property name="displayName">cin</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["cin"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
                     <property name="name">birthday</property>
                     <text-property name="displayName">birthday</text-property>
                     <expression name="expression" type="javascript">dataSetRow["birthday"]</expression>
@@ -732,9 +821,15 @@ OFFICE REGIONAL DE MISE EN VALEUR AGRICOLE DU HAOUZ</text-property>
                     <property name="dataType">date</property>
                 </structure>
                 <structure>
-                    <property name="name">grade</property>
-                    <text-property name="displayName">grade</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["grade"]</expression>
+                    <property name="name">matricule</property>
+                    <text-property name="displayName">matricule</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["matricule"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">statut</property>
+                    <text-property name="displayName">statut</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["statut"]</expression>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
@@ -744,217 +839,319 @@ OFFICE REGIONAL DE MISE EN VALEUR AGRICOLE DU HAOUZ</text-property>
                     <property name="dataType">integer</property>
                 </structure>
                 <structure>
-                    <property name="name">indice</property>
-                    <text-property name="displayName">indice</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["indice"]</expression>
-                    <property name="dataType">integer</property>
-                </structure>
-                <structure>
-                    <property name="name">echelon_date</property>
-                    <text-property name="displayName">echelon_date</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["echelon_date"]</expression>
-                    <property name="dataType">date</property>
-                </structure>
-                <structure>
                     <property name="name">grade_date</property>
                     <text-property name="displayName">grade_date</text-property>
                     <expression name="expression" type="javascript">dataSetRow["grade_date"]</expression>
                     <property name="dataType">date</property>
                 </structure>
+                <structure>
+                    <property name="name">fonction</property>
+                    <text-property name="displayName">fonction</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["fonction"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">service</property>
+                    <text-property name="displayName">service</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["service"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">residence</property>
+                    <text-property name="displayName">residence</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["residence"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">Aggregation</property>
+                    <property name="dataType">integer</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>GradeGroup</value>
+                    </simple-property-list>
+                    <property name="aggregateFunction">COUNT</property>
+                    <list-property name="arguments">
+                        <structure>
+                            <property name="name">Expression</property>
+                            <expression name="value" type="javascript">row["matricule"]</expression>
+                        </structure>
+                    </list-property>
+                    <property name="allowExport">true</property>
+                </structure>
             </list-property>
-            <column id="4489">
+            <column id="4673"/>
+            <column id="4674"/>
+            <column id="4675">
                 <property name="width">70px</property>
             </column>
-            <column id="4490">
-                <property name="width">70px</property>
+            <column id="4676">
+                <property name="width">90px</property>
             </column>
-            <column id="4491"/>
-            <column id="4492"/>
-            <column id="4493">
+            <column id="4677">
+                <property name="width">80px</property>
+            </column>
+            <column id="4678">
+                <property name="width">65px</property>
+            </column>
+            <column id="4679">
+                <property name="width">40px</property>
+            </column>
+            <column id="4680">
+                <property name="width">50px</property>
+            </column>
+            <column id="4681">
+                <property name="width">80px</property>
+            </column>
+            <column id="4682">
+                <property name="width">150px</property>
+            </column>
+            <column id="4683">
+                <property name="width">50px</property>
+            </column>
+            <column id="4684">
                 <property name="width">100px</property>
             </column>
-            <column id="4494"/>
-            <column id="4495"/>
-            <column id="4496">
-                <property name="width">50px</property>
-            </column>
-            <column id="4497">
-                <property name="width">50px</property>
-            </column>
-            <column id="4498">
-                <property name="width">90px</property>
-            </column>
-            <column id="4499">
-                <property name="width">90px</property>
-            </column>
             <header>
-                <row id="4431">
-                    <cell id="4432">
-                        <label id="4433">
-                            <property name="fontWeight">bold</property>
-                            <property name="textUnderline">underline</property>
-                            <property name="textAlign">left</property>
-                            <text-property name="text">Matricule</text-property>
-                        </label>
-                    </cell>
-                    <cell id="4434">
-                        <label id="4435">
-                            <property name="fontWeight">bold</property>
-                            <property name="textUnderline">underline</property>
-                            <property name="textAlign">left</property>
-                            <text-property name="text">CIN</text-property>
-                        </label>
-                    </cell>
-                    <cell id="4436">
-                        <label id="4437">
+                <row id="4605">
+                    <cell id="4606">
+                        <label id="4504">
                             <property name="fontWeight">bold</property>
                             <property name="textUnderline">underline</property>
                             <property name="textAlign">left</property>
                             <text-property name="text">Nom</text-property>
                         </label>
                     </cell>
-                    <cell id="4438">
-                        <label id="4439">
+                    <cell id="4608">
+                        <label id="4506">
                             <property name="fontWeight">bold</property>
                             <property name="textUnderline">underline</property>
                             <property name="textAlign">left</property>
                             <text-property name="text">Prénom</text-property>
                         </label>
                     </cell>
-                    <cell id="4440">
-                        <label id="4441">
+                    <cell id="4610">
+                        <label id="4508">
                             <property name="fontWeight">bold</property>
                             <property name="textUnderline">underline</property>
                             <property name="textAlign">left</property>
-                            <text-property name="text">Date naissance</text-property>
+                            <text-property name="text">CIN</text-property>
                         </label>
                     </cell>
-                    <cell id="4442">
-                        <label id="4443">
+                    <cell id="4612">
+                        <label id="4510">
                             <property name="fontWeight">bold</property>
                             <property name="textUnderline">underline</property>
                             <property name="textAlign">left</property>
-                            <text-property name="text">Date recrutement</text-property>
+                            <text-property name="text">Date Naissance</text-property>
                         </label>
                     </cell>
-                    <cell id="4444">
-                        <label id="4445">
+                    <cell id="4614">
+                        <label id="4512">
                             <property name="fontWeight">bold</property>
                             <property name="textUnderline">underline</property>
                             <property name="textAlign">left</property>
-                            <text-property name="text">Grade</text-property>
+                            <text-property name="text">Date Recrutement</text-property>
                         </label>
                     </cell>
-                    <cell id="4446">
-                        <label id="4447">
+                    <cell id="4616">
+                        <label id="4514">
                             <property name="fontWeight">bold</property>
                             <property name="textUnderline">underline</property>
                             <property name="textAlign">left</property>
-                            <text-property name="text">Echelon</text-property>
+                            <text-property name="text">Matricule</text-property>
                         </label>
                     </cell>
-                    <cell id="4448">
-                        <label id="4449">
+                    <cell id="4618">
+                        <label id="4516">
                             <property name="fontWeight">bold</property>
                             <property name="textUnderline">underline</property>
                             <property name="textAlign">left</property>
-                            <text-property name="text">Indice</text-property>
+                            <text-property name="text">Statut</text-property>
                         </label>
                     </cell>
-                    <cell id="4450">
-                        <label id="4451">
+                    <cell id="4620">
+                        <label id="4518">
                             <property name="fontWeight">bold</property>
                             <property name="textUnderline">underline</property>
                             <property name="textAlign">left</property>
-                            <text-property name="text">Date Echelon</text-property>
+                            <text-property name="text">Echelle</text-property>
                         </label>
                     </cell>
-                    <cell id="4452">
-                        <label id="4453">
+                    <cell id="4622">
+                        <label id="4520">
                             <property name="fontWeight">bold</property>
                             <property name="textUnderline">underline</property>
                             <property name="textAlign">left</property>
-                            <text-property name="text">Date Grade</text-property>
+                            <text-property name="text">Grade Date</text-property>
+                        </label>
+                    </cell>
+                    <cell id="4624">
+                        <label id="4522">
+                            <property name="fontWeight">bold</property>
+                            <property name="textUnderline">underline</property>
+                            <property name="textAlign">left</property>
+                            <text-property name="text">Fonction</text-property>
+                        </label>
+                    </cell>
+                    <cell id="4626">
+                        <label id="4524">
+                            <property name="fontWeight">bold</property>
+                            <property name="textUnderline">underline</property>
+                            <property name="textAlign">left</property>
+                            <text-property name="text">Service</text-property>
+                        </label>
+                    </cell>
+                    <cell id="4628">
+                        <label id="4526">
+                            <property name="fontWeight">bold</property>
+                            <property name="textUnderline">underline</property>
+                            <property name="textAlign">left</property>
+                            <text-property name="text">Résidence</text-property>
                         </label>
                     </cell>
                 </row>
             </header>
+            <group id="4686">
+                <property name="groupName">GradeGroup</property>
+                <expression name="keyExpr" type="javascript">row["grade"]</expression>
+                <structure name="toc">
+                    <expression name="expressionValue" type="javascript">row["grade"]</expression>
+                </structure>
+                <property name="hideDetail">false</property>
+                <header>
+                    <row id="4687">
+                        <cell id="4688">
+                            <property name="colSpan">6</property>
+                            <property name="rowSpan">1</property>
+                            <data id="4715">
+                                <property name="fontSize">12pt</property>
+                                <property name="fontWeight">bold</property>
+                                <property name="textUnderline">underline</property>
+                                <property name="marginTop">4pt</property>
+                                <property name="marginBottom">2pt</property>
+                                <property name="resultSetColumn">grade</property>
+                            </data>
+                        </cell>
+                        <cell id="4694"/>
+                        <cell id="4695"/>
+                        <cell id="4696"/>
+                        <cell id="4697"/>
+                        <cell id="4698"/>
+                        <cell id="4699"/>
+                    </row>
+                </header>
+                <footer>
+                    <row id="4701">
+                        <cell id="4702">
+                            <property name="colSpan">2</property>
+                            <property name="rowSpan">1</property>
+                            <label id="4717">
+                                <property name="fontWeight">bold</property>
+                                <property name="textUnderline">none</property>
+                                <property name="textAlign">right</property>
+                                <text-property name="text">Effectif totale dans le grade :</text-property>
+                            </label>
+                        </cell>
+                        <cell id="4704">
+                            <data id="4716">
+                                <property name="fontWeight">bold</property>
+                                <property name="textUnderline">none</property>
+                                <property name="textAlign">left</property>
+                                <property name="resultSetColumn">Aggregation</property>
+                            </data>
+                        </cell>
+                        <cell id="4705"/>
+                        <cell id="4706"/>
+                        <cell id="4707"/>
+                        <cell id="4708"/>
+                        <cell id="4709"/>
+                        <cell id="4710"/>
+                        <cell id="4711"/>
+                        <cell id="4712"/>
+                        <cell id="4713"/>
+                    </row>
+                </footer>
+            </group>
             <detail>
-                <row id="4454">
-                    <cell id="4455">
-                        <data id="4456">
-                            <property name="resultSetColumn">matricule</property>
-                        </data>
-                    </cell>
-                    <cell id="4457">
-                        <data id="4458">
-                            <property name="resultSetColumn">cin</property>
-                        </data>
-                    </cell>
-                    <cell id="4459">
-                        <data id="4460">
+                <row id="4632">
+                    <cell id="4633">
+                        <data id="4636">
                             <property name="resultSetColumn">nom</property>
                         </data>
                     </cell>
-                    <cell id="4461">
-                        <data id="4462">
+                    <cell id="4635">
+                        <data id="4638">
                             <property name="resultSetColumn">prenom</property>
                         </data>
                     </cell>
-                    <cell id="4463">
-                        <text id="4500">
+                    <cell id="4637">
+                        <data id="4640">
+                            <property name="resultSetColumn">cin</property>
+                        </data>
+                    </cell>
+                    <cell id="4639">
+                        <text id="4719">
                             <property name="contentType">html</property>
                             <text-property name="content"><![CDATA[<VALUE-OF format="dd/MM/yyyy">row["birthday"]</VALUE-OF>]]></text-property>
                         </text>
                     </cell>
-                    <cell id="4465">
-                        <text id="4501">
+                    <cell id="4641">
+                        <text id="4718">
                             <property name="contentType">html</property>
                             <text-property name="content"><![CDATA[<VALUE-OF format="dd/MM/yyyy">row["hire_date"]</VALUE-OF>]]></text-property>
                         </text>
                     </cell>
-                    <cell id="4467">
-                        <data id="4468">
-                            <property name="resultSetColumn">grade</property>
+                    <cell id="4643">
+                        <data id="4646">
+                            <property name="resultSetColumn">matricule</property>
                         </data>
                     </cell>
-                    <cell id="4469">
-                        <data id="4470">
+                    <cell id="4645">
+                        <data id="4648">
+                            <property name="resultSetColumn">statut</property>
+                        </data>
+                    </cell>
+                    <cell id="4647">
+                        <data id="4650">
                             <property name="resultSetColumn">echelon</property>
                         </data>
                     </cell>
-                    <cell id="4471">
-                        <data id="4472">
-                            <property name="resultSetColumn">indice</property>
-                        </data>
-                    </cell>
-                    <cell id="4473">
-                        <text id="4502">
-                            <property name="contentType">html</property>
-                            <text-property name="content"><![CDATA[<VALUE-OF format="dd/MM/yyyy">row["echelon_date"]</VALUE-OF>]]></text-property>
-                        </text>
-                    </cell>
-                    <cell id="4475">
-                        <text id="4503">
+                    <cell id="4649">
+                        <text id="4720">
                             <property name="contentType">html</property>
                             <text-property name="content"><![CDATA[<VALUE-OF format="dd/MM/yyyy">row["grade_date"]</VALUE-OF>]]></text-property>
                         </text>
                     </cell>
+                    <cell id="4651">
+                        <data id="4654">
+                            <property name="resultSetColumn">fonction</property>
+                        </data>
+                    </cell>
+                    <cell id="4653">
+                        <data id="4656">
+                            <property name="resultSetColumn">service</property>
+                        </data>
+                    </cell>
+                    <cell id="4655">
+                        <data id="4658">
+                            <property name="resultSetColumn">residence</property>
+                        </data>
+                    </cell>
                 </row>
             </detail>
             <footer>
-                <row id="4477">
-                    <cell id="4478"/>
-                    <cell id="4479"/>
-                    <cell id="4480"/>
-                    <cell id="4481"/>
-                    <cell id="4482"/>
-                    <cell id="4483"/>
-                    <cell id="4484"/>
-                    <cell id="4485"/>
-                    <cell id="4486"/>
-                    <cell id="4487"/>
-                    <cell id="4488"/>
+                <row id="4659">
+                    <cell id="4660"/>
+                    <cell id="4661"/>
+                    <cell id="4662"/>
+                    <cell id="4663"/>
+                    <cell id="4664"/>
+                    <cell id="4665"/>
+                    <cell id="4666"/>
+                    <cell id="4667"/>
+                    <cell id="4668"/>
+                    <cell id="4669"/>
+                    <cell id="4670"/>
+                    <cell id="4671"/>
                 </row>
             </footer>
         </table>

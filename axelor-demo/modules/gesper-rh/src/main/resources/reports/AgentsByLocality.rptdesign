@@ -520,12 +520,6 @@ OFFICE REGIONAL DE MISE EN VALEUR AGRICOLE DU HAOUZ</text-property>
                         </cell>
                         <cell id="4009">
                             <property name="textAlign">center</property>
-                            <image id="4012">
-                                <property name="height">1.125in</property>
-                                <property name="width">1.2604166666666667in</property>
-                                <property name="source">file</property>
-                                <expression name="uri" type="constant">img/ormvah.png</expression>
-                            </image>
                         </cell>
                         <cell id="4010">
                             <label id="4017">
@@ -562,14 +556,6 @@ OFFICE REGIONAL DE MISE EN VALEUR AGRICOLE DU HAOUZ</text-property>
                         </cell>
                         <cell id="4027">
                             <property name="verticalAlign">bottom</property>
-                            <text id="4028">
-                                <property name="fontFamily">sans-serif</property>
-                                <property name="fontSize">9pt</property>
-                                <property name="textAlign">right</property>
-                                <property name="contentType">html</property>
-                                <text-property name="content"><![CDATA[<VALUE-OF>pageNumber</VALUE-OF>/<value-of>totalPage</value-of>
-]]></text-property>
-                            </text>
                         </cell>
                     </row>
                 </grid>
@@ -735,22 +721,16 @@ OFFICE REGIONAL DE MISE EN VALEUR AGRICOLE DU HAOUZ</text-property>
                         </data>
                     </cell>
                     <cell id="4114">
-                        <data id="4115">
-                            <structure name="dateTimeFormat">
-                                <property name="category">Short Date</property>
-                                <property name="pattern">Short Date</property>
-                            </structure>
-                            <property name="resultSetColumn">date_naissance</property>
-                        </data>
+                        <text id="4135">
+                            <property name="contentType">html</property>
+                            <text-property name="content"><![CDATA[<VALUE-OF format="dd/MM/yyyy">row["date_naissance"]</VALUE-OF>]]></text-property>
+                        </text>
                     </cell>
                     <cell id="4116">
-                        <data id="4117">
-                            <structure name="dateTimeFormat">
-                                <property name="category">Short Date</property>
-                                <property name="pattern">Short Date</property>
-                            </structure>
-                            <property name="resultSetColumn">radiation_date</property>
-                        </data>
+                        <text id="4136">
+                            <property name="contentType">html</property>
+                            <text-property name="content"><![CDATA[<VALUE-OF format="dd/MM/yyyy">row["radiation_date"]</VALUE-OF>]]></text-property>
+                        </text>
                     </cell>
                 </row>
             </detail>

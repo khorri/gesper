@@ -563,24 +563,16 @@ OFFICE REGIONAL DE MISE EN VALEUR AGRICOLE DU HAOUZ</text-property>
                         </data>
                     </cell>
                     <cell id="4231">
-                        <data id="4232">
-                            <property name="paddingTop">2pt</property>
-                            <structure name="dateTimeFormat">
-                                <property name="category">Short Date</property>
-                                <property name="pattern">Short Date</property>
-                            </structure>
-                            <property name="resultSetColumn">date_debut</property>
-                        </data>
+                        <text id="4246">
+                            <property name="contentType">html</property>
+                            <text-property name="content"><![CDATA[<VALUE-OF format="dd/MM/yyyy">row["date_debut"]</VALUE-OF>]]></text-property>
+                        </text>
                     </cell>
                     <cell id="4233">
-                        <data id="4234">
-                            <property name="paddingTop">2pt</property>
-                            <structure name="dateTimeFormat">
-                                <property name="category">Short Date</property>
-                                <property name="pattern">Short Date</property>
-                            </structure>
-                            <property name="resultSetColumn">date_fin</property>
-                        </data>
+                        <text id="4247">
+                            <property name="contentType">html</property>
+                            <text-property name="content"><![CDATA[<VALUE-OF format="dd/MM/yyyy">row["date_fin"]</VALUE-OF>]]></text-property>
+                        </text>
                     </cell>
                 </row>
             </detail>

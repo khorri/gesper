@@ -732,6 +732,7 @@ OFFICE REGIONAL DE MISE EN VALEUR AGRICOLE DU HAOUZ&#13;
                             </label>
                         </cell>
                         <cell id="296">
+                            <property name="verticalAlign">middle</property>
                             <image id="278">
                                 <property name="marginTop">10pt</property>
                                 <property name="marginLeft">54pt</property>

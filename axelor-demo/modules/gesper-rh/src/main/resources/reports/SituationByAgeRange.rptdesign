@@ -1103,13 +1103,10 @@ OFFICE REGIONAL DE MISE EN VALEUR AGRICOLE DU HAOUZ</text-property>
                         </data>
                     </cell>
                     <cell id="4545">
-                        <data id="4546">
-                            <structure name="dateTimeFormat">
-                                <property name="category">Short Date</property>
-                                <property name="pattern">Short Date</property>
-                            </structure>
-                            <property name="resultSetColumn">birthday</property>
-                        </data>
+                        <text id="4637">
+                            <property name="contentType">html</property>
+                            <text-property name="content"><![CDATA[<VALUE-OF format="dd/MM/yyyy" >row["birthday"]</VALUE-OF>]]></text-property>
+                        </text>
                     </cell>
                     <cell id="4547">
                         <data id="4548">

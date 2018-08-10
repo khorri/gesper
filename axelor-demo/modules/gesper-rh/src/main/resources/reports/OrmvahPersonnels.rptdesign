@@ -132,65 +132,49 @@
         </oda-data-source>
     </data-sources>
     <data-sets>
-        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="AgentsByEntite" id="3850">
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="agents" id="4429">
             <list-property name="columnHints">
                 <structure>
-                    <property name="columnName">id</property>
-                    <property name="analysis">measure</property>
-                    <text-property name="displayName">id</text-property>
-                    <text-property name="heading">id</text-property>
+                    <property name="columnName">Nom &amp; Prénom</property>
+                    <text-property name="displayName">Nom &amp; Prénom</text-property>
+                    <text-property name="heading">Nom &amp; Prénom</text-property>
                 </structure>
                 <structure>
-                    <property name="columnName">matricule</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">matricule</text-property>
-                    <text-property name="heading">matricule</text-property>
+                    <property name="columnName">Matricule</property>
+                    <text-property name="displayName">Matricule</text-property>
+                    <text-property name="heading">Matricule</text-property>
                 </structure>
                 <structure>
-                    <property name="columnName">nom</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">nom</text-property>
-                    <text-property name="heading">nom</text-property>
+                    <property name="columnName">Fonction</property>
+                    <text-property name="displayName">Fonction</text-property>
+                    <text-property name="heading">Fonction</text-property>
                 </structure>
                 <structure>
-                    <property name="columnName">fonction</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">fonction</text-property>
-                    <text-property name="heading">fonction</text-property>
-                </structure>
-                <structure>
-                    <property name="columnName">entite</property>
-                    <property name="analysis">dimension</property>
-                    <text-property name="displayName">entite</text-property>
-                    <text-property name="heading">entite</text-property>
+                    <property name="columnName">Entité</property>
+                    <text-property name="displayName">Entité</text-property>
+                    <text-property name="heading">Entité</text-property>
                 </structure>
             </list-property>
-            <list-property name="parameters"/>
             <structure name="cachedMetaData">
                 <list-property name="resultSet">
                     <structure>
                         <property name="position">1</property>
-                        <property name="name">id</property>
-                        <property name="dataType">decimal</property>
+                        <property name="name">Nom &amp; Prénom</property>
+                        <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">2</property>
-                        <property name="name">matricule</property>
+                        <property name="name">Matricule</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">3</property>
-                        <property name="name">nom</property>
+                        <property name="name">Fonction</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">4</property>
-                        <property name="name">fonction</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">5</property>
-                        <property name="name">entite</property>
+                        <property name="name">Entité</property>
                         <property name="dataType">string</property>
                     </structure>
                 </list-property>
@@ -199,46 +183,44 @@
             <list-property name="resultSet">
                 <structure>
                     <property name="position">1</property>
-                    <property name="name">id</property>
-                    <property name="nativeName">id</property>
-                    <property name="dataType">decimal</property>
-                    <property name="nativeDataType">-5</property>
+                    <property name="name">Nom &amp; Prénom</property>
+                    <property name="nativeName">Nom &amp; Prénom</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">2</property>
-                    <property name="name">matricule</property>
+                    <property name="name">Matricule</property>
                     <property name="nativeName">matricule</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">3</property>
-                    <property name="name">nom</property>
-                    <property name="nativeName">nom</property>
+                    <property name="name">Fonction</property>
+                    <property name="nativeName">name</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">4</property>
-                    <property name="name">fonction</property>
-                    <property name="nativeName">name</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                </structure>
-                <structure>
-                    <property name="position">5</property>
-                    <property name="name">entite</property>
+                    <property name="name">Entité</property>
                     <property name="nativeName">name</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[select emp.id ,emp.matricule as matricule, CONCAT(emp.firstname,' ',emp.lastname) as nom, fonc.name as fonction, en.name as entite from rh_employe as emp 
+            <xml-property name="queryText"><![CDATA[select CONCAT(emp.firstname,' ',emp.lastname) as 'Nom &amp; Prénom', 
+	emp.matricule 'Matricule', 
+	fonc.name as 'Fonction',
+	en.name as 'Entité'
+		from rh_employe as emp 
 join rh_affectation as aff on aff.employee=emp.id
 join config_fonction as fonc on fonc.id=aff.fonction
 join config_entite as en on en.id=aff.entite
-where aff.active is true and emp.activated is true
-order by emp.matricule*1]]></xml-property>
+join rh_situation as sit on sit.employee=emp.id
+join config_service as ser on ser.id=aff.service
+where aff.active is true and emp.activated is true and sit.active is true and fonc.is_responsable is true]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
   <Version>2.0</Version>
@@ -248,21 +230,21 @@ order by emp.matricule*1]]></xml-property>
         <design:resultColumnDefinitions>
           <design:attributes>
             <design:identifier>
-              <design:name>id</design:name>
+              <design:name>Nom &amp;amp; Prénom</design:name>
               <design:position>1</design:position>
             </design:identifier>
-            <design:nativeDataTypeCode>-5</design:nativeDataTypeCode>
-            <design:precision>20</design:precision>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>511</design:precision>
             <design:scale>0</design:scale>
-            <design:nullability>NotNullable</design:nullability>
+            <design:nullability>Nullable</design:nullability>
             <design:uiHints>
-              <design:displayName>id</design:displayName>
+              <design:displayName>Nom &amp;amp; Prénom</design:displayName>
             </design:uiHints>
           </design:attributes>
           <design:usageHints>
-            <design:label>id</design:label>
+            <design:label>Nom &amp;amp; Prénom</design:label>
             <design:formattingHints>
-              <design:displaySize>20</design:displaySize>
+              <design:displaySize>511</design:displaySize>
             </design:formattingHints>
           </design:usageHints>
         </design:resultColumnDefinitions>
@@ -277,11 +259,11 @@ order by emp.matricule*1]]></xml-property>
             <design:scale>0</design:scale>
             <design:nullability>NotNullable</design:nullability>
             <design:uiHints>
-              <design:displayName>matricule</design:displayName>
+              <design:displayName>Matricule</design:displayName>
             </design:uiHints>
           </design:attributes>
           <design:usageHints>
-            <design:label>matricule</design:label>
+            <design:label>Matricule</design:label>
             <design:formattingHints>
               <design:displaySize>255</design:displaySize>
             </design:formattingHints>
@@ -290,21 +272,21 @@ order by emp.matricule*1]]></xml-property>
         <design:resultColumnDefinitions>
           <design:attributes>
             <design:identifier>
-              <design:name>nom</design:name>
+              <design:name>name</design:name>
               <design:position>3</design:position>
             </design:identifier>
             <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
-            <design:precision>511</design:precision>
+            <design:precision>255</design:precision>
             <design:scale>0</design:scale>
-            <design:nullability>Nullable</design:nullability>
+            <design:nullability>NotNullable</design:nullability>
             <design:uiHints>
-              <design:displayName>nom</design:displayName>
+              <design:displayName>Fonction</design:displayName>
             </design:uiHints>
           </design:attributes>
           <design:usageHints>
-            <design:label>nom</design:label>
+            <design:label>Fonction</design:label>
             <design:formattingHints>
-              <design:displaySize>511</design:displaySize>
+              <design:displaySize>255</design:displaySize>
             </design:formattingHints>
           </design:usageHints>
         </design:resultColumnDefinitions>
@@ -317,34 +299,13 @@ order by emp.matricule*1]]></xml-property>
             <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
             <design:precision>255</design:precision>
             <design:scale>0</design:scale>
-            <design:nullability>NotNullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>fonction</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>fonction</design:label>
-            <design:formattingHints>
-              <design:displaySize>255</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:identifier>
-              <design:name>name</design:name>
-              <design:position>5</design:position>
-            </design:identifier>
-            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
-            <design:precision>255</design:precision>
-            <design:scale>0</design:scale>
             <design:nullability>Nullable</design:nullability>
             <design:uiHints>
-              <design:displayName>entite</design:displayName>
+              <design:displayName>Entité</design:displayName>
             </design:uiHints>
           </design:attributes>
           <design:usageHints>
-            <design:label>entite</design:label>
+            <design:label>Entité</design:label>
             <design:formattingHints>
               <design:displaySize>255</design:displaySize>
             </design:formattingHints>
@@ -365,49 +326,75 @@ order by emp.matricule*1]]></xml-property>
     </styles>
     <page-setup>
         <simple-master-page name="mainMasterPage" id="2">
-            <property name="orientation">landscape</property>
-            <property name="headerHeight">140px</property>
+            <property name="orientation">portrait</property>
+            <property name="headerHeight">240px</property>
             <property name="footerHeight">40px</property>
             <page-header>
                 <grid id="4003">
                     <column id="4004"/>
-                    <column id="4005"/>
-                    <column id="4006"/>
                     <row id="4007">
+                        <property name="fontFamily">"Arial"</property>
                         <cell id="4008">
                             <property name="fontSize">12pt</property>
-                            <label id="4015">
-                                <property name="fontFamily">sans-serif</property>
-                                <property name="textAlign">center</property>
-                                <text-property name="text">ROYAUME DU MAROC</text-property>
-                            </label>
-                            <label id="4016">
-                                <property name="fontFamily">sans-serif</property>
-                                <property name="fontSize">10pt</property>
-                                <property name="textAlign">center</property>
-                                <text-property name="text">MINISTERE DE L’AGRICULTURE, DE LA PECHE MARITIME,&#13;
+                            <grid id="4169">
+                                <column id="4170"/>
+                                <column id="4171"/>
+                                <column id="4172"/>
+                                <row id="4173">
+                                    <cell id="4174">
+                                        <label id="4015">
+                                            <property name="fontFamily">"Arial"</property>
+                                            <property name="textAlign">center</property>
+                                            <text-property name="text">ROYAUME DU MAROC</text-property>
+                                        </label>
+                                        <label id="4016">
+                                            <property name="fontFamily">"Arial"</property>
+                                            <property name="fontSize">10pt</property>
+                                            <property name="textAlign">center</property>
+                                            <text-property name="text">MINISTERE DE L’AGRICULTURE, DE LA PECHE MARITIME,&#13;
 DU DEVELOPPEMENT RURAL ET DES EAUX ET FORETS&#13;
 OFFICE REGIONAL DE MISE EN VALEUR AGRICOLE DU HAOUZ</text-property>
-                            </label>
-                        </cell>
-                        <cell id="4009">
-                            <property name="textAlign">center</property>
-                            <property name="verticalAlign">middle</property>
-                        </cell>
-                        <cell id="4010">
-                            <label id="4017">
-                                <property name="fontFamily">sans-serif</property>
-                                <property name="fontSize">12pt</property>
-                                <property name="fontWeight">bold</property>
-                                <property name="textAlign">center</property>
-                                <text-property name="text">المملكة المغربية</text-property>
-                            </label>
-                            <label id="4018">
-                                <property name="fontFamily">sans-serif</property>
-                                <property name="fontWeight">bold</property>
-                                <property name="textAlign">center</property>
-                                <text-property name="text">وزارة الفلاحة والصيد البحري والتنمية القروية والمياه والغابات&#13;
+                                        </label>
+                                    </cell>
+                                    <cell id="4175"/>
+                                    <cell id="4176">
+                                        <label id="4017">
+                                            <property name="fontFamily">sans-serif</property>
+                                            <property name="fontSize">12pt</property>
+                                            <property name="fontWeight">bold</property>
+                                            <property name="textAlign">center</property>
+                                            <text-property name="text">المملكة المغربية</text-property>
+                                        </label>
+                                        <label id="4018">
+                                            <property name="fontFamily">sans-serif</property>
+                                            <property name="fontWeight">bold</property>
+                                            <property name="textAlign">center</property>
+                                            <text-property name="text">وزارة الفلاحة والصيد البحري والتنمية القروية والمياه والغابات&#13;
 المكتب الجهوي للإستثمار الفلاحي الحوز</text-property>
+                                        </label>
+                                    </cell>
+                                </row>
+                            </grid>
+                        </cell>
+                    </row>
+                    <row id="4165">
+                        <property name="fontFamily">"Arial"</property>
+                        <cell id="4166">
+                            <property name="fontSize">12pt</property>
+                            <label id="4486">
+                                <property name="fontSize">16pt</property>
+                                <property name="fontWeight">normal</property>
+                                <property name="fontStyle">italic</property>
+                                <property name="paddingTop">1pt</property>
+                                <property name="paddingLeft">30pt</property>
+                                <property name="paddingRight">30pt</property>
+                                <property name="textAlign">center</property>
+                                <text-property name="text">OFFICE REGIONAL DE MISE EN VALEUR AGRICOLE DU HAOUZ SAF/BPOS</text-property>
+                            </label>
+                            <label id="4487">
+                                <property name="marginTop">3pt</property>
+                                <property name="textAlign">center</property>
+                                <text-property name="text">Liste des Responsables de l'ORMVA du HAOUZ</text-property>
                             </label>
                         </cell>
                     </row>
@@ -419,127 +406,200 @@ OFFICE REGIONAL DE MISE EN VALEUR AGRICOLE DU HAOUZ</text-property>
                     <column id="4024"/>
                     <row id="4025">
                         <cell id="4026">
+                            <property name="verticalAlign">bottom</property>
                             <text id="4029">
                                 <property name="fontFamily">sans-serif</property>
-                                <property name="fontSize">12pt</property>
+                                <property name="fontSize">9pt</property>
                                 <property name="contentType">html</property>
                                 <text-property name="content"><![CDATA[<VALUE-OF format="dd/MM/yyyy hh:mm:ss">new Date()</VALUE-OF>]]></text-property>
                             </text>
                         </cell>
-                        <cell id="4027"/>
+                        <cell id="4027">
+                            <property name="verticalAlign">bottom</property>
+                        </cell>
                     </row>
                 </grid>
             </page-footer>
         </simple-master-page>
     </page-setup>
     <body>
-        <table id="3945">
-            <property name="dataSet">AgentsByEntite</property>
+        <table id="4430">
+            <property name="dataSet">agents</property>
             <list-property name="boundDataColumns">
                 <structure>
-                    <property name="name">matricule</property>
-                    <text-property name="displayName">matricule</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["matricule"]</expression>
+                    <property name="name">Nom &amp; Prénom</property>
+                    <text-property name="displayName">Nom &amp; Prénom</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Nom &amp; Prénom"]</expression>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
-                    <property name="name">nom</property>
-                    <text-property name="displayName">nom</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["nom"]</expression>
+                    <property name="name">Matricule</property>
+                    <text-property name="displayName">Matricule</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Matricule"]</expression>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
-                    <property name="name">fonction</property>
-                    <text-property name="displayName">fonction</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["fonction"]</expression>
+                    <property name="name">Fonction</property>
+                    <text-property name="displayName">Fonction</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Fonction"]</expression>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
-                    <property name="name">entite</property>
-                    <text-property name="displayName">entite</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["entite"]</expression>
+                    <property name="name">Entité</property>
+                    <text-property name="displayName">Entité</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Entité"]</expression>
                     <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">Aggregation</property>
+                    <property name="dataType">integer</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>NewTableGroup1</value>
+                    </simple-property-list>
+                    <property name="aggregateFunction">COUNT</property>
+                    <list-property name="arguments">
+                        <structure>
+                            <property name="name">Expression</property>
+                            <expression name="value" type="javascript">row["Matricule"]</expression>
+                        </structure>
+                    </list-property>
+                    <property name="allowExport">true</property>
                 </structure>
             </list-property>
-            <property name="pageBreakInterval">20</property>
-            <column id="3969"/>
-            <column id="3970">
+            <column id="4454">
+                <property name="width">70px</property>
+            </column>
+            <column id="4455">
+                <property name="width">200px</property>
+            </column>
+            <column id="4478">
                 <property name="width">80px</property>
             </column>
-            <column id="3971"/>
-            <column id="3972"/>
+            <column id="4485">
+                <property name="width">60px</property>
+            </column>
+            <column id="4456"/>
             <header>
-                <row id="3946">
-                    <property name="backgroundColor">#EBEDEB</property>
-                    <property name="verticalAlign">middle</property>
-                    <property name="height">30px</property>
-                    <cell id="3947">
-                        <label id="3948">
-                            <property name="fontFamily">sans-serif</property>
-                            <property name="fontSize">12pt</property>
-                            <text-property name="text">Entité</text-property>
-                        </label>
-                    </cell>
-                    <cell id="3949">
-                        <label id="3950">
-                            <property name="fontFamily">sans-serif</property>
-                            <property name="fontSize">12pt</property>
+                <row id="4431">
+                    <property name="borderBottomStyle">solid</property>
+                    <property name="borderBottomWidth">2px</property>
+                    <cell id="4432">
+                        <label id="4435">
+                            <property name="fontWeight">bold</property>
+                            <property name="textUnderline">underline</property>
+                            <property name="textAlign">left</property>
                             <text-property name="text">Matricule</text-property>
                         </label>
                     </cell>
-                    <cell id="3951">
-                        <label id="3952">
-                            <property name="fontFamily">sans-serif</property>
-                            <property name="fontSize">12pt</property>
-                            <text-property name="text">Nom et prénom</text-property>
+                    <cell id="4434">
+                        <label id="4433">
+                            <property name="fontWeight">bold</property>
+                            <property name="textUnderline">underline</property>
+                            <property name="textAlign">left</property>
+                            <text-property name="text">Nom &amp; Prénom</text-property>
                         </label>
                     </cell>
-                    <cell id="3953">
-                        <label id="3954">
-                            <property name="fontFamily">sans-serif</property>
-                            <property name="fontSize">12pt</property>
-                            <text-property name="text">Fonction</text-property>
+                    <cell id="4473">
+                        <property name="colSpan">3</property>
+                        <property name="rowSpan">1</property>
+                        <label id="4439">
+                            <property name="fontWeight">bold</property>
+                            <property name="textUnderline">underline</property>
+                            <property name="textAlign">left</property>
+                            <text-property name="text">Entité</text-property>
                         </label>
                     </cell>
                 </row>
             </header>
+            <group id="4458">
+                <property name="groupName">NewTableGroup1</property>
+                <expression name="keyExpr" type="javascript">row["Fonction"]</expression>
+                <structure name="toc">
+                    <expression name="expressionValue" type="javascript">row["Fonction"]</expression>
+                </structure>
+                <property name="hideDetail">false</property>
+                <header>
+                    <row id="4459">
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">1px</property>
+                        <cell id="4460">
+                            <property name="colSpan">2</property>
+                            <property name="rowSpan">1</property>
+                            <data id="4469">
+                                <property name="fontSize">11pt</property>
+                                <property name="fontWeight">bold</property>
+                                <property name="textUnderline">none</property>
+                                <property name="marginTop">5pt</property>
+                                <property name="resultSetColumn">Fonction</property>
+                            </data>
+                        </cell>
+                        <cell id="4474">
+                            <property name="borderBottomStyle">solid</property>
+                            <property name="borderBottomWidth">1px</property>
+                            <label id="4479">
+                                <property name="fontSize">11pt</property>
+                                <property name="fontWeight">bold</property>
+                                <property name="textUnderline">none</property>
+                                <property name="marginTop">5pt</property>
+                                <text-property name="text">Nombre :</text-property>
+                            </label>
+                        </cell>
+                        <cell id="4481">
+                            <property name="borderBottomStyle">solid</property>
+                            <property name="borderBottomWidth">1px</property>
+                            <data id="4472">
+                                <property name="fontSize">11pt</property>
+                                <property name="fontWeight">bold</property>
+                                <property name="textUnderline">none</property>
+                                <property name="marginTop">5pt</property>
+                                <property name="resultSetColumn">Aggregation</property>
+                            </data>
+                        </cell>
+                        <cell id="4471"/>
+                    </row>
+                </header>
+                <footer>
+                    <row id="4464">
+                        <cell id="4465"/>
+                        <cell id="4466"/>
+                        <cell id="4476"/>
+                        <cell id="4483"/>
+                        <cell id="4467"/>
+                    </row>
+                </footer>
+            </group>
             <detail>
-                <row id="3955">
+                <row id="4440">
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">1px</property>
-                    <property name="borderTopStyle">solid</property>
-                    <property name="borderTopWidth">1px</property>
-                    <property name="verticalAlign">middle</property>
-                    <cell id="3956">
-                        <data id="3963">
-                            <property name="fontFamily">sans-serif</property>
-                            <property name="textAlign">left</property>
-                            <property name="resultSetColumn">entite</property>
+                    <cell id="4441">
+                        <data id="4444">
+                            <property name="resultSetColumn">Matricule</property>
                         </data>
                     </cell>
-                    <cell id="3958">
-                        <data id="3957">
-                            <property name="fontFamily">sans-serif</property>
-                            <property name="textAlign">center</property>
-                            <property name="resultSetColumn">matricule</property>
+                    <cell id="4443">
+                        <data id="4442">
+                            <property name="resultSetColumn">Nom &amp; Prénom</property>
                         </data>
                     </cell>
-                    <cell id="3960">
-                        <data id="3959">
-                            <property name="fontFamily">sans-serif</property>
-                            <property name="textAlign">center</property>
-                            <property name="resultSetColumn">nom</property>
-                        </data>
-                    </cell>
-                    <cell id="3962">
-                        <data id="3961">
-                            <property name="fontFamily">sans-serif</property>
-                            <property name="textAlign">center</property>
-                            <property name="resultSetColumn">fonction</property>
+                    <cell id="4475">
+                        <property name="colSpan">3</property>
+                        <property name="rowSpan">1</property>
+                        <data id="4448">
+                            <property name="resultSetColumn">Entité</property>
                         </data>
                     </cell>
                 </row>
             </detail>
+            <footer>
+                <row id="4449">
+                    <cell id="4450"/>
+                    <cell id="4451"/>
+                    <cell id="4477"/>
+                    <cell id="4484"/>
+                    <cell id="4452"/>
+                </row>
+            </footer>
         </table>
     </body>
 </report>

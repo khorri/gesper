@@ -49,6 +49,9 @@
 	<menuitem name="menu-avancement-validation" parent="menu-avancement"
 			  title="Valider les avancement" action="avancement.validate.all"/>
 
+	<menuitem name="menu-reporting" parent="menu-gesper-rh"
+			  title="Rapports" action="action.rapport.all"/>
+
 	<!-- ACTIONS -->
 
 	<action-view name="top.new.employe.view" title="Créer Agent" model="com.axelor.rh.db.Employe" >
