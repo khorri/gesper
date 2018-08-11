@@ -11,12 +11,12 @@ import com.axelor.rh.db.Employe;
 import com.axelor.rh.db.repo.AffectationRepository;
 import com.axelor.rh.db.repo.EmployeRepository;
 import com.axelor.rh.service.EmployeService;
+import com.axelor.rh.utils.SQLQueries;
 import com.axelor.rpc.ActionRequest;
 import com.axelor.rpc.ActionResponse;
 import com.axelor.rpc.Context;
 import com.google.inject.persist.Transactional;
 import com.google.inject.Inject;
-import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

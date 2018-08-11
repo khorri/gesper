@@ -70,4 +70,20 @@
         <option value="2">Après-midi</option>
     </selection>
 
+    <selection name="report.types.select">
+        <option value="AgentsByEntities" order="1">Situation des agents par entité</option>
+        <option value="AgentsByLocality" order="2">Situation des agents par localité</option>
+        <option value="EffectifByGrade" order="3">Effectif des personnels par grade</option>
+        <option value="EffectifByCadre" order="4">Effectif des personnellle par cadre</option>
+        <option value="AgentsBenificiereMed" order="5">Agents benéificières de la mise en disponibilité</option>
+        <option value="SituationByCadreSexe" order="6">Situation du personnel par cadre et sexe</option>
+        <option value="SituationProfAgents" order="7">Situation profetionnelle des agents</option>
+        <option value="SituationByAgeRange" order="8">Situation des agents par tranche d'age</option>
+        <option value="SituationGlobalsPersonnel" order="9">Situation global du personnel</option>
+        <option value="PersonnelByCsfs" order="10">Situation du personnel par cadre, sexe, filiere, service, statut</option>
+        <option value="SituationPersonnelDetache" order="11">Situation des personnels détachés</option>
+        <option value="SituationPersonnelContractuel" order="12">Situation des personnels contractuel</option>
+        <option value="OrmvahPersonnels" order="13">Liste des reponsables de l'ormva du HAOUZ</option>
+    </selection>
+
 </object-views>

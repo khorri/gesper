@@ -71,6 +71,7 @@
                 <field name="birthday" colSpan="2"/>
                 <field name="birthplace" colSpan="2"/>
                 <field name="birthplaceAr" colSpan="2"/>
+
                 <panel title="Info.professionnelles" colSpan="12">
                     <field name="hireDate" colSpan="3" onChange="action-employee-validate-date"/>
                     <field name="mutationDate" colSpan="3" onChange="action-employee-validate-date"

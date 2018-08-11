@@ -1,4 +1,4 @@
-package com.axelor.rh.web;
+package com.axelor.rh.utils;
 
 /**
  * Created by HB on 10/05/2018.

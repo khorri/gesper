@@ -5,11 +5,11 @@
 
     <module name="rh" package="com.axelor.rh.db"/>
 
-    <entity name="Med"  cachable="true">
+    <entity name="Med" cachable="true">
         <date name="dateDebut" title="Date début"  />
         <date name="dateFin" title="Date fin"  />
+        <date name="dateEffet" title="Date d'effet"  />
         <many-to-one name="employee" ref="com.axelor.rh.db.Employe" title="Agent"></many-to-one>
         <many-to-one name="decision" ref="com.axelor.config.db.Decision" title="Decision"></many-to-one>
     </entity>
-
 </domain-models>

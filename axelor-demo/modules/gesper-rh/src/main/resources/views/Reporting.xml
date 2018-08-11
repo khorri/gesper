@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://axelor.com/xml/ns/object-views
+  http://axelor.com/xml/ns/object-views/object-views_4.0.xsd">
+
+
+
+    <form name="reporting-rh-form" title="Rapports" canEdit="false" canNew="false" canSave="false" model="com.axelor.rh.db.Retraite">
+        <toolbar>
+            <button name="btnPrint" css="btn-success" title="Imprimer" onClick="validate, action-print-reporting-rapport" colSpan="4" icon="fa-print"/>
+        </toolbar>
+        <panel name="Retraite" showTitle="false" colSpan="12">
+            <field name="typeReport" required="true" title="Type rapport" colSpan="8" selection="report.types.select"/>
+            <field name="dateDebut" title="Date" showIf="typeReport=='PersonnelByCsfs'" x-type="date" colSpan="4"></field>
+            <field name="startAge" title="Age 1" widget="Integer" min="15" max="70" showIf="typeReport=='SituationByAgeRange'" x-type="integer" colSpan="4"></field>
+            <field name="endAge" title="Age 2" widget="Integer" min="15" max="70" showIf="typeReport=='SituationByAgeRange'" x-type="integer" colSpan="4"></field>
+        </panel>
+    </form>
+
+    <action-view name="action.rapport.all" model="com.axelor.rh.db.Conge" title="Rapports">
+        <view name="reporting-rh-form" type="form"/>
+    </action-view>
+
+    <action-method name="action-print-reporting-rapport" model="com.axelor.rh.db.Retraite">
+        <call method="print" class="com.axelor.rh.web.ReportingController"/>
+    </action-method>
+
+</object-views>

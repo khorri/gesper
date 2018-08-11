@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 4.6.0.v201606072122</property>
+    <list-property name="propertyBindings">
+        <structure>
+            <property name="name">odaDriverClass</property>
+            <property name="id">250</property>
+            <expression name="value" type="javascript">params["DefaultDriver"].value</expression>
+        </structure>
+        <structure>
+            <property name="name">odaURL</property>
+            <property name="id">250</property>
+            <expression name="value" type="javascript">params["DBName"].value</expression>
+        </structure>
+        <structure>
+            <property name="name">odaUser</property>
+            <property name="id">250</property>
+            <expression name="value" type="javascript">params["UserName"].value</expression>
+        </structure>
+        <structure>
+            <property name="name">odaPassword</property>
+            <property name="id">250</property>
+            <expression name="value" type="javascript">params["Password"].value</expression>
+        </structure>
+    </list-property>
+    <property name="units">in</property>
+    <property name="iconFile">/templates/first_report.gif</property>
+    <property name="cheatSheet">org.eclipse.birt.reports.designer.ui.cheatsheet.firstreport</property>
+    <property name="bidiLayoutOrientation">ltr</property>
+    <property name="imageDPI">96</property>
+    <parameters>
+        <scalar-parameter name="UserName" id="3796">
+            <property name="hidden">true</property>
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">root</value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="DBName" id="3797">
+            <property name="hidden">true</property>
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">jdbc:mysql://localhost:3306/gesper</value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="Password" id="3798">
+            <property name="hidden">true</property>
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">root</value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="DefaultDriver" id="3819">
+            <property name="hidden">true</property>
+            <property name="valueType">static</property>
+            <property name="isRequired">true</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">com.mysql.jdbc.Driver</value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="AttachmentPath" id="3849">
+            <property name="hidden">true</property>
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">string</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant"></value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+    </parameters>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="Data Source" id="250">
+            <list-property name="privateDriverProperties">
+                <ex-property>
+                    <name>metadataBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+                <ex-property>
+                    <name>disabledMetadataBidiFormatStr</name>
+                </ex-property>
+                <ex-property>
+                    <name>contentBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+                <ex-property>
+                    <name>disabledContentBidiFormatStr</name>
+                </ex-property>
+            </list-property>
+            <property name="odaDriverClass">com.mysql.jdbc.Driver</property>
+            <property name="odaURL">jdbc:mysql://localhost:3306/gesper</property>
+            <property name="odaUser">root</property>
+            <encrypted-property name="odaPassword" encryptionID="base64">cm9vdA==</encrypted-property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Grades" id="4135">
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">id</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">id</text-property>
+                    <text-property name="heading">id</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">cadre</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">cadre</text-property>
+                    <text-property name="heading">cadre</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">nombre_effective</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">nombre_effective</text-property>
+                    <text-property name="heading">nombre_effective</text-property>
+                </structure>
+            </list-property>
+            <list-property name="parameters"/>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">id</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">cadre</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">nombre_effective</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">Data Source</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">id</property>
+                    <property name="nativeName">id</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">-5</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">cadre</property>
+                    <property name="nativeName">cadre</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">nombre_effective</property>
+                    <property name="nativeName">nombre_effective</property>
+                    <property name="dataType">decimal</property>
+                    <property name="nativeDataType">-5</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[select cd.id, IFNULL(cd.name,'SANS CADRE') as cadre, count(emp.id) as nombre_effective
+		from rh_employe as emp 
+join rh_affectation as aff on aff.employee=emp.id
+join config_fonction as fonc on fonc.id=aff.fonction
+join config_entite as en on en.id=aff.entite
+left join rh_situation as sit on sit.employee=emp.id
+left join config_grade_echelon as ge on sit.grade=ge.id
+left join config_grade as g on g.id=ge.grade
+left join config_cadre as cd on cd.id=g.cadre
+where aff.active is true and sit.active is true and emp.activated is true
+group by cd.id, cd.name
+order by cd.id]]></xml-property>
+            <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
+  <Version>2.0</Version>
+  <design:ResultSets derivedMetaData="true">
+    <design:resultSetDefinitions>
+      <design:resultSetColumns>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>grade</design:name>
+              <design:position>1</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>60</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>NotNullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>grade</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>grade</design:label>
+            <design:formattingHints>
+              <design:displaySize>60</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>nombre_effective</design:name>
+              <design:position>2</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>-5</design:nativeDataTypeCode>
+            <design:precision>21</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>NotNullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>nombre_effective</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>nombre_effective</design:label>
+            <design:formattingHints>
+              <design:displaySize>21</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+      </design:resultSetColumns>
+      <design:criteria/>
+    </design:resultSetDefinitions>
+  </design:ResultSets>
+</model:DesignValues>]]></xml-property>
+        </oda-data-set>
+    </data-sets>
+    <styles>
+        <style name="reports" id="110">
+            <property name="fontFamily">sans-serif</property>
+            <property name="fontSize">10pt</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="mainMasterPage" id="2">
+            <property name="orientation">portrait</property>
+            <property name="headerHeight">200px</property>
+            <property name="footerHeight">40px</property>
+            <page-header>
+                <grid id="4003">
+                    <column id="4004"/>
+                    <row id="4007">
+                        <property name="fontFamily">"Arial"</property>
+                        <cell id="4008">
+                            <property name="fontSize">12pt</property>
+                            <grid id="4169">
+                                <column id="4170"/>
+                                <column id="4171"/>
+                                <column id="4172"/>
+                                <row id="4173">
+                                    <cell id="4174">
+                                        <label id="4015">
+                                            <property name="fontFamily">"Arial"</property>
+                                            <property name="textAlign">center</property>
+                                            <text-property name="text">ROYAUME DU MAROC</text-property>
+                                        </label>
+                                        <label id="4016">
+                                            <property name="fontFamily">"Arial"</property>
+                                            <property name="fontSize">10pt</property>
+                                            <property name="textAlign">center</property>
+                                            <text-property name="text">MINISTERE DE L’AGRICULTURE, DE LA PECHE MARITIME,&#13;
+DU DEVELOPPEMENT RURAL ET DES EAUX ET FORETS&#13;
+OFFICE REGIONAL DE MISE EN VALEUR AGRICOLE DU HAOUZ</text-property>
+                                        </label>
+                                    </cell>
+                                    <cell id="4175"/>
+                                    <cell id="4176">
+                                        <label id="4017">
+                                            <property name="fontFamily">sans-serif</property>
+                                            <property name="fontSize">12pt</property>
+                                            <property name="fontWeight">bold</property>
+                                            <property name="textAlign">center</property>
+                                            <text-property name="text">المملكة المغربية</text-property>
+                                        </label>
+                                        <label id="4018">
+                                            <property name="fontFamily">sans-serif</property>
+                                            <property name="fontWeight">bold</property>
+                                            <property name="textAlign">center</property>
+                                            <text-property name="text">وزارة الفلاحة والصيد البحري والتنمية القروية والمياه والغابات&#13;
+المكتب الجهوي للإستثمار الفلاحي الحوز</text-property>
+                                        </label>
+                                    </cell>
+                                </row>
+                            </grid>
+                        </cell>
+                    </row>
+                    <row id="4165">
+                        <property name="fontFamily">"Arial"</property>
+                        <cell id="4166">
+                            <property name="fontSize">12pt</property>
+                            <label id="4177">
+                                <property name="fontSize">16pt</property>
+                                <property name="paddingTop">10pt</property>
+                                <property name="textAlign">center</property>
+                                <text-property name="text">EFFECTIF DU PERSONNEL PAR CADRE</text-property>
+                            </label>
+                        </cell>
+                    </row>
+                </grid>
+            </page-header>
+            <page-footer>
+                <grid id="4022">
+                    <column id="4023"/>
+                    <column id="4024"/>
+                    <row id="4025">
+                        <cell id="4026">
+                            <property name="verticalAlign">bottom</property>
+                            <text id="4029">
+                                <property name="fontFamily">sans-serif</property>
+                                <property name="fontSize">9pt</property>
+                                <property name="contentType">html</property>
+                                <text-property name="content"><![CDATA[<VALUE-OF format="dd/MM/yyyy hh:mm:ss">new Date()</VALUE-OF>]]></text-property>
+                            </text>
+                        </cell>
+                        <cell id="4027">
+                            <property name="verticalAlign">bottom</property>
+                        </cell>
+                    </row>
+                </grid>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <table id="4190">
+            <property name="marginLeft">100pt</property>
+            <property name="marginRight">100pt</property>
+            <property name="dataSet">Grades</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">cadre</property>
+                    <text-property name="displayName">cadre</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["cadre"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">nombre_effective</property>
+                    <text-property name="displayName">nombre_effective</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["nombre_effective"]</expression>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="name">Aggregation</property>
+                    <text-property name="displayName">totale</text-property>
+                    <property name="dataType">float</property>
+                    <property name="aggregateFunction">SUM</property>
+                    <list-property name="arguments">
+                        <structure>
+                            <property name="name">Expression</property>
+                            <expression name="value" type="javascript">row["nombre_effective"]</expression>
+                        </structure>
+                    </list-property>
+                    <property name="allowExport">true</property>
+                </structure>
+            </list-property>
+            <column id="4204">
+                <property name="width">470px</property>
+            </column>
+            <column id="4205">
+                <property name="width">70px</property>
+            </column>
+            <detail>
+                <row id="4196">
+                    <property name="borderBottomStyle">solid</property>
+                    <property name="borderBottomWidth">1px</property>
+                    <cell id="4197">
+                        <data id="4210">
+                            <property name="paddingTop">5pt</property>
+                            <property name="resultSetColumn">cadre</property>
+                        </data>
+                    </cell>
+                    <cell id="4199">
+                        <data id="4200">
+                            <property name="paddingTop">5pt</property>
+                            <property name="textAlign">right</property>
+                            <property name="resultSetColumn">nombre_effective</property>
+                        </data>
+                    </cell>
+                </row>
+            </detail>
+            <footer>
+                <row id="4201">
+                    <list-property name="userProperties">
+                        <structure>
+                            <property name="name">Totale</property>
+                            <property name="type">expression</property>
+                            <expression name="default" type="javascript">row["nombre_effective"]</expression>
+                        </structure>
+                    </list-property>
+                    <property name="borderBottomStyle">solid</property>
+                    <property name="borderBottomWidth">medium</property>
+                    <cell id="4202">
+                        <label id="4209">
+                            <property name="fontSize">12pt</property>
+                            <property name="fontWeight">bold</property>
+                            <property name="paddingTop">10pt</property>
+                            <text-property name="text">TOTAL GENERAL :</text-property>
+                        </label>
+                    </cell>
+                    <cell id="4203">
+                        <data id="4208">
+                            <property name="fontSize">12pt</property>
+                            <property name="fontWeight">bold</property>
+                            <property name="paddingTop">10pt</property>
+                            <property name="textAlign">right</property>
+                            <property name="resultSetColumn">Aggregation</property>
+                        </data>
+                    </cell>
+                </row>
+            </footer>
+        </table>
+    </body>
+</report>
