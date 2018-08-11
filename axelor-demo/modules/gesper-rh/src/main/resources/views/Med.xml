@@ -19,12 +19,12 @@
 
 
     <form name="med-rh-form" title="Mise en disponibilité" model="com.axelor.rh.db.Med"
-          onLoad="com.axelor.rh.web.MedController:getLastDecision" onNew="affectation-set-employee">
+          onLoad="com.axelor.rh.web.DecisionWorkFlowController:fillDecisionDummyFields"
+          onNew="affectation-set-employee">
         <panel name="main" readonlyIf="id!=null &amp;&amp; decision != null">
             <field name="decision.status" showTitle="false" colSpan="12" widget="NavSelect"/>
-            <field name="dateDebut"
-                   onChange="action-aos-validate-datedebut-datefin"
-                   validIf="(dateDebut ==null || dateFin==null || dateDebut &lt;= dateFin) &amp;&amp; (lastMedDate == null || dateDebut &gt;= lastMedDate)"/>
+            <field name="dateDebut" onChange="action-aos-validate-datedebut-datefin"
+                   validIf="(dateDebut ==null || dateFin==null || dateDebut &lt;= dateFin) &amp;&amp; (lastMedDate == null || dateDebut >= lastMedDate)"/>
             <field name="dateFin" onChange="action-aos-validate-datedebut-datefin"
                    validIf="dateDebut ==null || dateFin==null || dateDebut &lt;= dateFin"/>
         </panel>
@@ -60,7 +60,7 @@
             <field name="decisionCode" title="N° décision" colSpan="2" type="string"/>
             <field name="entreprise" showTitle="false" readonly="true" colSpan="2" type="string"/>
             <field name="emitteur" title="Emitteur" colSpan="2" type="many-to-one" canView="false" canEdit="false"
-                   x-target="com.axelor.config.db.Entite" x-target-name="shortName"/>
+                   x-target-name="shortName" x-target="com.axelor.config.db.Entite"/>
             <field name="decisionDate" title="Date" colSpan="3" type="date"/>
             <field name="attachement" title="Attachement" colSpan="3" type="many-to-one" widget="binary-link"
                    canNew="true" x-target="com.axelor.meta.db.MetaFile"/>
@@ -77,6 +77,7 @@
         <view-param name="popup-save" value="false"/>
         <domain>self.employee.id = :_id</domain>
         <context name="_id" expr="eval: id"/>
+        <context name="lastMedDate" expr="call:com.axelor.rh.web.MedController:lastMedDateByEmployeeId(__this__.id)"/>
     </action-view>
 
     <action-view name="med-popup-form-edit" model="com.axelor.rh.db.Med" title="Mise en diponibilité">
@@ -87,6 +88,7 @@
         <view-param name="popup-save" value="false"/>
         <view-param name="forceEdit" value="true"/>
         <context name="_showRecord" expr="eval: id"/>
+        <context name="lastMedDate" expr="call:com.axelor.rh.web.MedController:lastMedDateByEmployeeId(__parent__.id)"/>
     </action-view>
 
 </object-views>

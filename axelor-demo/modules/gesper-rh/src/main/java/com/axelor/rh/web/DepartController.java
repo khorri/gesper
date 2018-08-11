@@ -57,6 +57,7 @@ public class DepartController {
         decision.setEmitteur(entiteRep.all().filter("self.shortName = ?1", "SAF").fetchOne());
         decision.setVerifiedBy(user);
         decision.setVerifiedOn(new LocalDate());
+        decisionRepo.save(decision);
         originDepart.setDecision(decision);
         response.setValue("depart", originDepart);
         response.setValue("decisionStatus", DecisionRepository.STATUS_VERIFIED);
@@ -65,7 +66,7 @@ public class DepartController {
         response.setValue("entreprise", decision.getEntreprise());
         response.setValue("emitteur", decision.getEmitteur());
         response.setReload(true);
-//        decisionService.printMedDecision(decision, med.getId());
+        decisionService.printDecision(decision, depart.getId(), response);
     }
 
     //
@@ -130,8 +131,10 @@ public class DepartController {
             decision.setRejectedBy(user);
             decision.setRejectedOn(new LocalDate());
             decision.setStatus(DecisionRepository.STATUS_REJECTED);
+            response.setValue("depart", null);
             employe.setDepart(null);
             employeRepository.save(employe);
+
             departRepository.remove(depart);
 
         }

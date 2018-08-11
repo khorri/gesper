@@ -11,11 +11,13 @@ import com.axelor.rh.db.Conge;
 public class CongeDecisionValidationListener implements DecisionValidationListener {
     @Override
     public void decisionValidated(DecisionValidationEvent event) {
-        Conge conge = (Conge) event.getModel();
-        Repository repository = JpaRepository.of(Conge.class);
-        if (conge != null) {
-            conge.setStatus(DecisionRepository.STATUS_VALIDATED);
-            repository.save(conge);
+        if (event.getModel() instanceof Conge) {
+            Conge conge = (Conge) event.getModel();
+            Repository repository = JpaRepository.of(Conge.class);
+            if (conge != null) {
+                conge.setStatus(DecisionRepository.STATUS_VALIDATED);
+                repository.save(conge);
+            }
         }
     }
 }

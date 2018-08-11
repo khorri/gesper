@@ -39,6 +39,8 @@ public class DecisionWorkFlowController {
         Model model = getModel(request);
         Decision decision = decisionWorkFlow.verify(model);
         decisionService.fillDecisionDummyFields(response, decision);
+        //TODO we need to figure out which report model to use
+        decisionService.printDecision(decision, model.getId(), response);
     }
 
 
@@ -108,5 +110,16 @@ public class DecisionWorkFlowController {
         return null;
     }
 
-
+    @Transactional
+    public void fillDecisionDummyFields(ActionRequest request, ActionResponse response) {
+        Context context = request.getContext();
+        Decision decision = (Decision) context.get("decision");
+        if (decision != null) {
+            response.setValue("decisionCode", decision.getDecisionCode());
+            response.setValue("decisionDate", decision.getDecisionDate());
+            response.setValue("entreprise", decision.getEntreprise());
+            response.setValue("emitteur", decision.getEmitteur());
+            response.setValue("attachement", decision.getAttachement());
+        }
+    }
 }

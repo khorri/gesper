@@ -135,51 +135,53 @@
                                grid-view="enfant-rh-grid" canNew="true"/>
             </panel>
             <panel name="depart" title="Départ" hideIf="id==null">
-            <panel colSpan="9" showTitle="false">
-                <field name="depart" readonlyIf=" depart.status > 2" showTitle="false" colSpan="12" canNew="true"
-                       canRemove="false" canEdit="false" canSearch="false" canSelect="false"
-                       form-view="depart-rh-form" from="gesper-config">
-                    <editor>
-                        <panel colSpan="12">
-                            <field name="dateDepart" colSpan="4"/>
-                            <field name="type" colSpan="4" selection="employee.depart.type.select"/>
-                            <field name="motif" colSpan="4"/>
-                            <field name="observation" colSpan="12" height="5" widget="text"/>
-                        </panel>
-                    </editor>
-                </field>
-            </panel>
-            <panel name="actions" showTitle="false" title="Actions" colSpan="3" sidebar="true" stacked="true">
-                <button name="createButton" title="Créer" showIf="depart.id == null" readonlyIf="depart == null"
-                        colSpan="4" css="btn-info" icon="fa-plus" onClick="save"/>
-                <button name="verifyButton" title="Vérifier" showIf="depart.id &amp;&amp; depart.status==1" colSpan="4"
-                        icon="fa-check" onClick="com.axelor.rh.web.DepartController:verifie,save"/>
-                <button name="validateButton" title="Valider" showIf="depart.id &amp;&amp; depart.status==2" colSpan="4"
-                        icon="fa-check" onClick="com.axelor.rh.web.DepartController:valider"/>
-                <button name="refuseButton" title="Refuser" showIf="depart.id &amp;&amp; depart.status==2" colSpan="4"
-                        css="btn-danger" icon="fa-close" onClick="com.axelor.rh.web.DepartController:refuser"/>
-            </panel>
-            <panel title="Decision" showIf="true||depart.id!=null &amp;&amp; depart.decision!=null"
-                   readonlyIf=" depart.status > 2" colSpan="9">
-                <field name="decisionCode" title="N° décision" colSpan="2" type="string"/>
-                <field name="entreprise" showTitle="false" readonly="true" colSpan="2" type="string"/>
-                <field name="emitteur" title="Emitteur" colSpan="2" type="many-to-one" canView="false" canEdit="false"
-                       x-target="com.axelor.config.db.Entite" x-target-name="shortName"/>
-                <field name="decisionDate" title="Date" colSpan="3" type="date"/>
-                <field name="attachement" title="Attachement" colSpan="3" type="many-to-one" widget="binary-link"
-                       canNew="true" x-target="com.axelor.meta.db.MetaFile"/>
-                <field name="motifRejet" title="Motif de rejet" colSpan="12" type="string"/>
-            </panel>
-            <panel name="audit" showTitle="false" colSpan="3" sidebar="true" stacked="false">
-                <field name="verifiedBy" title="Verifié par" readonly="true" showIf="verifiedBy!=null" colSpan="3"
-                       canView="false"/>
-                <field name="verifiedOn" title="Verifié le" readonly="true" showIf="verifiedOn!=null" colSpan="3"/>
-                <field name="validatedBy" title="Validé par" readonly="true" showIf="validatedBy!=null" colSpan="3"
-                       canView="false"/>
-                <field name="validatedOn" title="Validé le" readonly="true" showIf="validatedOn!=null" colSpan="3"/>
-                <field name="rejectedBy" title="rejeté par" readonly="true" showIf="rejectedBy!=null" colSpan="3"
-                       canView="false"/>
-                <field name="rejectedOn" title="rejeté le" readonly="true" showIf="rejectedOn!=null" colSpan="3"/>
+                <panel showTitle="false" colSpan="9">
+                    <field name="depart" showTitle="false" readonlyIf=" depart.status > 1" colSpan="12"
+                           canSelect="false" canNew="true" canEdit="false" canRemove="false" form-view="depart-rh-form"
+                           from="gesper-config" canSearch="false">
+                        <editor>
+                            <panel colSpan="12">
+                                <field name="dateDepart" colSpan="4"/>
+                                <field name="type" colSpan="4" selection="employee.depart.type.select"/>
+                                <field name="motif" colSpan="4"/>
+                                <field name="observation" colSpan="12" height="5" widget="text"/>
+                            </panel>
+                        </editor>
+                    </field>
+                </panel>
+                <panel name="actions" title="Actions" showTitle="false" colSpan="3" sidebar="true" stacked="true">
+                    <button name="createButton" title="Créer" showIf="depart.id == null" readonlyIf="depart == null"
+                            colSpan="4" css="btn-info" icon="fa-plus" onClick="save"/>
+                    <button name="verifyButton" title="Vérifier" showIf="depart.id &amp;&amp; depart.status==1"
+                            colSpan="4" icon="fa-check" onClick="com.axelor.rh.web.DepartController:verifie,save"/>
+                    <button name="validateButton" title="Valider" showIf="depart.id &amp;&amp; depart.status==2"
+                            colSpan="4" icon="fa-check" onClick="com.axelor.rh.web.DepartController:valider"/>
+                    <button name="refuseButton" title="Refuser" showIf="depart.id &amp;&amp; depart.status==2"
+                            colSpan="4" css="btn-danger" icon="fa-close"
+                            onClick="com.axelor.rh.web.DepartController:refuser"/>
+                </panel>
+                <panel title="Decision" showIf="depart.id!=null &amp;&amp; depart.decision!=null"
+                       readonlyIf=" depart.status > 2" colSpan="9">
+                    <field name="decisionCode" title="N° décision" colSpan="2" type="string"/>
+                    <field name="entreprise" showTitle="false" readonly="true" colSpan="2" type="string"/>
+                    <field name="emitteur" title="Emitteur" colSpan="2" type="many-to-one" canView="false"
+                           canEdit="false" x-target-name="shortName" x-target="com.axelor.config.db.Entite"/>
+                    <field name="decisionDate" title="Date" colSpan="3" type="date"/>
+                    <field name="attachement" title="Attachement" colSpan="3" type="many-to-one" widget="binary-link"
+                           canNew="true" x-target="com.axelor.meta.db.MetaFile"/>
+                    <field name="motifRejet" title="Motif de rejet" colSpan="12" type="string"/>
+                </panel>
+                <panel name="audit" showTitle="false" colSpan="3" sidebar="true" stacked="false">
+                    <field name="verifiedBy" title="Verifié par" readonly="true" showIf="verifiedBy!=null" colSpan="3"
+                           canView="false"/>
+                    <field name="verifiedOn" title="Verifié le" readonly="true" showIf="verifiedOn!=null" colSpan="3"/>
+                    <field name="validatedBy" title="Validé par" readonly="true" showIf="validatedBy!=null" colSpan="3"
+                           canView="false"/>
+                    <field name="validatedOn" title="Validé le" readonly="true" showIf="validatedOn!=null" colSpan="3"/>
+                    <field name="rejectedBy" title="rejeté par" readonly="true" showIf="rejectedBy!=null" colSpan="3"
+                           canView="false"/>
+                    <field name="rejectedOn" title="rejeté le" readonly="true" showIf="rejectedOn!=null" colSpan="3"/>
+                </panel>
             </panel>
             <panel title="Information de référence" hideIf="id==null">
                 <panel-related title="Formation" colSpan="12" field="diplome" form-view="diplome-rh-form"

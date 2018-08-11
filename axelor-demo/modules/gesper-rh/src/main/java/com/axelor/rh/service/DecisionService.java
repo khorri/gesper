@@ -4,14 +4,20 @@ package com.axelor.rh.service;
  * Created by HB on 26/07/2018.
  */
 
+import com.axelor.apps.ReportFactory;
+import com.axelor.apps.report.engine.ReportSettings;
 import com.axelor.auth.AuthUtils;
 import com.axelor.auth.db.User;
 import com.axelor.config.db.Decision;
 import com.axelor.config.db.Entite;
 import com.axelor.config.db.repo.DecisionRepository;
 import com.axelor.config.db.repo.EntiteRepository;
+import com.axelor.exception.AxelorException;
+import com.axelor.i18n.I18n;
 import com.axelor.meta.db.MetaFile;
 import com.axelor.meta.db.repo.MetaFileRepository;
+import com.axelor.meta.schema.actions.ActionView;
+import com.axelor.rh.report.IReport;
 import com.axelor.rpc.ActionResponse;
 import com.axelor.rpc.Context;
 import com.google.inject.Inject;
@@ -136,8 +142,18 @@ public class DecisionService implements Serializable {
 
     }
 
-    public void printDecision(Decision decision, Long id) {
-
+    public void printDecision(Decision decision, Long id, ActionResponse response) throws AxelorException {
+        String name = I18n.get("Decision") + " " + decision.getDecisionCode();
+        String fileLink = ReportFactory.createReport(IReport.BASE_DECISION, name + "-${date}")
+                .addParam("Locale", "fr")
+                .addParam("decision", decision.getId().intValue())
+                .addFormat(ReportSettings.FORMAT_DOCX)
+                .generate()
+                .getFileLink();
+        logger.debug("Printing " + name);
+        response.setView(ActionView
+                .define(name)
+                .add("html", fileLink).map());
     }
 
     public void printSanctionDecision(Decision decision, Long id) {

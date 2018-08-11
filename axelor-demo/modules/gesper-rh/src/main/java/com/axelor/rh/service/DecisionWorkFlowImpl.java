@@ -34,6 +34,8 @@ public class DecisionWorkFlowImpl implements IDecisionWorkFlow {
     private EntiteRepository entiteRep;
 
     @Inject
+    private DecisionRepository decisionRepository;
+    @Inject
     private DecisionService decisionService;
 
     public DecisionWorkFlowImpl() {
@@ -54,8 +56,7 @@ public class DecisionWorkFlowImpl implements IDecisionWorkFlow {
         decision.setEmitteur(entiteRep.all().filter("self.shortName = ?1", "SAF").fetchOne());
         decision.setVerifiedBy(user);
         decision.setVerifiedOn(new LocalDate());
-        decisionService.printDecision(decision, model.getId());
-        return decision;
+        return decisionRepository.save(decision);
     }
 
     @Override
