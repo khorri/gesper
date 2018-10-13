@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://axelor.com/xml/ns/object-views
+  http://axelor.com/xml/ns/object-views/object-views_4.0.xsd">
+
+
+    <grid name="conge-equipe-grid" title="Mes Demandes de l'equipe" model="com.axelor.rh.db.Conge" canEdit="false" canNew="false" canDelete="false">
+        <field name="employee.matricule" title="Matricule"/>
+        <field name="employee.firstname" title="Nom"/>
+        <field name="employee.lastname" title="Prénom"/>
+        <field name="typeConge"/>
+        <field name="dateDebut"/>
+        <field name="dateFin"/>
+        <field name="duree"/>
+        <field name="interime.matricule" title="Intérim Matricule"/>
+        <field name="interime.firstname" title="Intérim Nom"/>
+        <field name="interime.lastname" title="Intérim Prénom"/>
+        <field name="Statut" title="Statut">
+            <hilite if="status == 1" background="info"/>
+            <hilite if="status == 2" background="danger"/>
+            <hilite if="status == 3" background="success"/>
+            <hilite if="status == 4" background="warning"/>
+        </field>
+    </grid>
+</object-views>

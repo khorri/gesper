@@ -7,6 +7,7 @@ import com.axelor.db.JpaRepository;
 import com.axelor.db.Model;
 import com.axelor.db.Repository;
 import com.axelor.exception.AxelorException;
+import com.axelor.rh.service.CongeService;
 import com.axelor.rh.service.DecisionService;
 import com.axelor.rh.service.IDecisionWorkFlow;
 import com.axelor.rpc.ActionRequest;

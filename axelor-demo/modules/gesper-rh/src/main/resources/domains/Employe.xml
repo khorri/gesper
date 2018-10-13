@@ -5,6 +5,8 @@
   <module name="rh" package="com.axelor.rh.db"/>
 
   <entity name="Employe" cachable="true">
+    <one-to-one name="user" column="user_id" ref="com.axelor.auth.db.User" mappedBy="employee"/>
+    <many-to-one name="groupe" ref="com.axelor.auth.db.Group" required="true"/>
     <string name="sex" title="Sexe" selection="employee.sex.type.select"></string>
     <string name="title" title="Civilité"></string>
     <string name="sexAr" title="الجنس" selection="employee.sexar.type.select"></string>
@@ -58,6 +60,7 @@
     <one-to-many name="interimeConges" ref="com.axelor.rh.db.Conge" mappedBy="interime" help="true"/>
     <one-to-many name="autorisationabsence" ref="com.axelor.rh.db.AutorisationAbsence" mappedBy="employee" help="true"/>
     <one-to-many name="ouissams" ref="com.axelor.rh.db.Ouissam" mappedBy="employee" help="true"/>
+
     <string name="name"  search="matricule,firstname,lastname" namecolumn="true" >
       <![CDATA[
         String displayName = matricule;

@@ -17,12 +17,30 @@
 	<menuitem name="menu-gesper-rh-conge" parent="" order="-9"
 			  title="Congé" icon="fa-plane" icon-background="purple" />
 
-	<menuitem name="menu-gesper-rh-conge-config" parent="menu-gesper-rh-conge"
-			  title="Configuration"/>
+
+
+	<!--<menuitem name="menu-gesper-rh-conge-my-demande-conge" parent="menu-gesper-rh-conge"-->
+			  <!--title="Ma Demande de congé"-->
+			  <!--action="my.conge"/>-->
+
+	<!--<action-view name="my.conge" model="com.axelor.rh.db.Conge" title="Demande de Congé">-->
+		<!--<view name="conge-form" type="form"/>-->
+	<!--</action-view>-->
 
 	<menuitem name="menu-gesper-rh-conge-demande-conge" parent="menu-gesper-rh-conge"
-			  title="Demandes congé"
-	action="conge.all"/>
+			  title="Mes Demandes"
+	action="conge.my"/>
+
+	<menuitem name="menu-gesper-rh-conge-demande-equipe-conge" groups="admins" parent="menu-gesper-rh-conge"
+			  title="Demandes de l'equipe"
+			  action="conge-equipe-by-constraints"/>
+
+	<menuitem name="menu-gesper-rh-all-demande-conge" groups="admins" parent="menu-gesper-rh-conge"
+			  title="Demandes du Congés"
+			  action="all-conge-admin"/>
+
+	<menuitem name="menu-gesper-rh-conge-config" parent="menu-gesper-rh-conge"
+			  title="Configuration"/>
 
 	<menuitem name="menu-gesper-rh-conge-config-type-conge" parent="menu-gesper-rh-conge-config"
 			  title="Type congé"
@@ -93,8 +111,22 @@
 		<view name="jour-ferie-form" type="form"/>
 	</action-view>
 
-	<action-view name="conge.all" model="com.axelor.rh.db.Conge" title="Demanade de Congé">
+	<action-view name="conge.my" model="com.axelor.rh.db.Conge" title="Mes Demande du Congé">
+		<view name="conge-grid" type="grid"/>
+		<view name="conge-form" type="form"/>
+		<domain>self.employee.matricule = :_matricule</domain>
+		<context name="_matricule" expr="eval: __user__.code"/>
+	</action-view>
+
+	<action-group name="conge-equipe-by-constraints" model="com.axelor.rh.db.Conge" >
+		<action name="com.axelor.rh.web.CongeController:getlistDemandeDuCongeequipe"/>
+	</action-group>
+
+	<action-view name="all-conge-admin" model="com.axelor.rh.db.Conge" title="Demandes du Congés">
 		<view name="conge-grid" type="grid"/>
 		<view name="conge-form" type="form"/>
 	</action-view>
+
+
+
 </object-views>

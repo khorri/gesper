@@ -15,8 +15,11 @@
         <field name="cin"/>
         <field name="activated"/>
     </grid>
+    <!--
+    com.axelor.rh.web.EmployeController:validate,
+    -->
     <form name="employe-rh-form" title="Fiche agent" model="com.axelor.rh.db.Employe" width="large"
-          onSave="com.axelor.rh.web.EmployeController:validate" onNew="action-employee-record-set-default"
+          onSave="save,action-group-employee" onNew="action-employee-record-set-default"
           onLoad="com.axelor.rh.web.DepartController:getDummies">
         <toolbar>
             <button name="printFiche" title="Imprimer fiche" icon="fa-print"/>
@@ -38,7 +41,7 @@
             </panel>
             <panel colSpan="9">
                 <field name="title" title="Titre" colSpan="2" selection="employee.title.type.select"/>
-                <field name="firstname" colSpan="3" css="label-bold bold large" x-bind="{{firstname|uppercase}}"/>
+                <field name="firstname" colSpan="3" onChange="set.user" css="label-bold bold large" x-bind="{{firstname|uppercase}}"/>
                 <field name="lastname" colSpan="2" css="label-bold bold large"/>
                 <field name="lastnameAr" colSpan="2" css="label-bold bold large"/>
                 <field name="firstnameAr" colSpan="3" css="label-bold bold large"/>
@@ -61,6 +64,13 @@
                 <field name="urgentContactName"/>
                 <field name="urgentContactPhone" placeholder="+21200000000"/>
             </panel>
+        </panel>
+
+        <panel name="droitAcces" title="Gestion du Utilisateur" showIf="id==null">
+            <field name="matricule" title="Login" colSpan="4" readonly="true"/>
+            <field name="matricule" title="Password" colSpan="4" readonly="true"/>
+            <field name="groupe" required="true" title="Group" colSpan="4" />
+            <!--<button name="createEmploye" colSpan="4" onClick="action-group-employee"/>-->
         </panel>
         <panel-tabs>
             <panel name="informations" title="Informations">
@@ -238,5 +248,11 @@
         <call class="com.axelor.rh.web.EmployeController" method="printWorkCertificateWord"/>
     </action-method>
 
+    <action-record name="set.user" model="com.axelor.rh.db.Employe">
+        <field name="user" expr="eval:__user__"/>
+    </action-record>
 
+    <action-group name="action-group-employee">
+        <action name="com.axelor.rh.web.EmployeController:createUser"/>
+    </action-group>
 </object-views>

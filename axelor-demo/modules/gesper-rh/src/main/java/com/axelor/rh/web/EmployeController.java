@@ -111,4 +111,11 @@ public class EmployeController {
                 .define(name)
                 .add("html", fileLink).map());
     }
+
+    @Transactional
+    public void createUser(ActionRequest request, ActionResponse response) throws AxelorException {
+        Employe employe = request.getContext().asType(Employe.class);
+        employeService.createUser(employe);
+        response.setReload(true);
+    }
 }

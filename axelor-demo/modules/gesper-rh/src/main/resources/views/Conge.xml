@@ -5,7 +5,7 @@
   http://axelor.com/xml/ns/object-views/object-views_4.0.xsd">
 
 
-    <grid name="conge-grid" title="Demande de congé" model="com.axelor.rh.db.Conge" edit-icon="true">
+    <grid name="conge-grid" title="Mes Demandes de congé" model="com.axelor.rh.db.Conge" edit-icon="true">
         <field name="employee.matricule" title="Matricule"/>
         <field name="employee.firstname" title="Nom"/>
         <field name="employee.lastname" title="Prénom"/>
@@ -16,18 +16,21 @@
         <field name="interime.matricule" title="Intérim Matricule"/>
         <field name="interime.firstname" title="Intérim Nom"/>
         <field name="interime.lastname" title="Intérim Prénom"/>
-        <field name="Statut" title="Statut">
+        <field name="status" title="Statut">
             <hilite if="status == 1" background="info"/>
             <hilite if="status == 2" background="danger"/>
             <hilite if="status == 3" background="success"/>
             <hilite if="status == 4" background="warning"/>
         </field>
+
     </grid>
+
+
 
     <!-- START FORM CONGE -->
 
-    <form name="conge-form" title="Demande de congé" model="com.axelor.rh.db.Conge" width="large" onNew="conge-defaults"
-          canSave="false" onLoad="calculate-droit-conge-group">
+    <form name="conge-form" title="Demande de congé" model="com.axelor.rh.db.Conge" width="large"  onNew="conge-defaults"
+          canSave="false" onLoad="calculate-droit-conge-group,action-employe-responsible">
         <panel name="main">
             <field name="status" showTitle="false" readonly="true" colSpan="12" widget="NavSelect"/>
             <field name="employee" readonlyIf="status &gt;= 2" colSpan="5" canView="false" canEdit="false"
@@ -36,23 +39,26 @@
                    onChange="calculate-droit-conge-group"/>
             <field name="droitConge" title="Droit au congé" readonly="true" colSpan="2"/>
             <field name="dateDebut" readonlyIf="status &gt;= 2" colSpan="5"
-                   onChange="action-conge-methode-compute-duration-group"/>
-            <field name="commenceA" readonlyIf="status &gt;= 2" colSpan="5" selection="conge.start.select"/>
+                   onChange="validate-dates,action-conge-methode-compute-duration-group"/>
+            <field name="commenceA" readonlyIf="status &gt;= 2" colSpan="5" selection="conge.start.select"
+                   onChange="validate-dates,action-conge-methode-compute-duration-group"/>
             <field name="duree" readonly="true" colSpan="2"/>
             <field name="dateFin" readonlyIf="status &gt;= 2" title="Date retour(inclu)" colSpan="5"
-                   onChange="action-conge-methode-compute-duration-group"/>
-            <field name="termineA" readonlyIf="status &gt;= 2" colSpan="5" selection="conge.start.select"/>
+                   onChange="validate-dates,action-conge-methode-compute-duration-group"/>
+            <field name="termineA" readonlyIf="status &gt;= 2" colSpan="5" selection="conge.start.select"
+                   onChange="validate-dates,action-conge-methode-compute-duration-group"/>
             <field name="interime" readonlyIf="status &gt;= 2" colSpan="12" canView="false" canEdit="false"
                    domain="self.activated=true"/>
+            <field name="responsible" title="Responsible" readonly="true"/>
         </panel>
         <panel name="actions" title="Actions" sidebar="true" stacked="true">
-            <button name="createButton" title="Créer" showIf="id==null" colSpan="4" css="btn-info" icon="fa-plus"
+            <button name="createButton" title="Envoyer" showIf="id==null &amp;&amp; status==1" colSpan="4" css="btn-info" icon="fa-plus"
                     onClick="save"/>
-            <button name="verifyButton" title="Vérifier" showIf="id!=null &amp;&amp; status==1" colSpan="4"
+            <button name="verifyButton" title="Vérifier" showIf="id!=null &amp;&amp; status==1 " colSpan="4"
                     icon="fa-check" onClick="com.axelor.rh.web.DecisionWorkFlowController:verifie,save"/>
-            <button name="validateButton" title="Valider" showIf="id!=null &amp;&amp; status == 2" colSpan="4"
+            <button name="validateButton" title="Valider" colSpan="4" showIf="id!=null &amp;&amp; status == 2 &amp;&amp; responsible == true"
                     icon="fa-check" onClick="com.axelor.rh.web.DecisionWorkFlowController:valider"/>
-            <button name="refuseButton" title="Refuser" showIf="id!=null &amp;&amp; status == 2" colSpan="4"
+            <button name="refuseButton" title="Refuser" showIf="status &gt; 0" colSpan="4"
                     css="btn-danger" icon="fa-close" onClick="com.axelor.rh.web.DecisionWorkFlowController:refuser"/>
         </panel>
         <panel name="audit" showTitle="false"
@@ -147,15 +153,26 @@
 
     </form>
 
-
+    <action-validate name="validate-dates">
+        <error if="( dateFin &lt; dateDebut || (dateDebut == dateFin &amp;&amp; commenceA > termineA)) &amp;&amp; dateDebut != null &amp;&amp; dateFin != null" message="Invalide dates"/>
+    </action-validate>
     <action-record name="conge-defaults" model="com.axelor.rh.db.Conge">
         <field name="commenceA" expr="1"/>
         <field name="termineA" expr="2"></field>
+        <field name="dateDebut" expr="eval:__date__"/>
+        <field name="user" expr="eval:__user__"/>
     </action-record>
+
+
 
     <action-method name="calculate-droit-conge" >
         <call class="com.axelor.rh.web.CongeController" method="getDroitConge" />
     </action-method>
+
+    <action-method name="action-employe-responsible" >
+        <call class="com.axelor.rh.web.CongeController" method="employeIsResponsable" />
+    </action-method>
+
 
     <action-group name="calculate-droit-conge-group">
         <action name="calculate-droit-conge" if="employee!=null &amp;&amp; typeConge!=null"/>
@@ -170,5 +187,9 @@
     <action-group name="action-conge-methode-compute-duration-group">
         <action name="action-conge-methode-compute-duration" if="dateFin &amp;&amp; dateDebut"/>
     </action-group>
+
+    <action-attrs name="action-demande-conge-attrs-buttons">
+        <attribute name="hidden" for="validateButton"  expr="eval:!(status == 2 &amp;&amp; responsible == true)" />
+    </action-attrs>
 
 </object-views>
