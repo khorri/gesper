@@ -41,7 +41,7 @@ public class DecisionWorkFlowController {
         Decision decision = decisionWorkFlow.verify(model);
         decisionService.fillDecisionDummyFields(response, decision);
         //TODO we need to figure out which report model to use
-        decisionService.printDecision(decision, model.getId(), response);
+//        decisionService.printDecision(decision, model.getId(), response);
     }
 
 

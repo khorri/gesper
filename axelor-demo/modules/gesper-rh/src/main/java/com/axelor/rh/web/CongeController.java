@@ -1,7 +1,8 @@
 package com.axelor.rh.web;
 
-import com.axelor.auth.AuthUtils;
-import com.axelor.db.JPA;
+import com.axelor.config.db.repo.DecisionRepository;
+import com.axelor.db.Model;
+import com.axelor.meta.schema.views.MenuItem;
 import com.axelor.i18n.I18n;
 import com.axelor.inject.Beans;
 import com.axelor.meta.schema.actions.ActionView;
@@ -9,9 +10,9 @@ import com.axelor.rh.db.Employe;
 import com.axelor.rh.db.TypeConge;
 import com.axelor.rh.service.CongeCalculator;
 import com.axelor.rh.service.CongeService;
-import com.axelor.rh.utils.SQLQueries;
 import com.axelor.rpc.ActionRequest;
 import com.axelor.rpc.ActionResponse;
+import com.axelor.rpc.Context;
 import com.google.common.base.Joiner;
 import com.google.inject.Inject;
 import com.google.inject.name.Names;
@@ -23,9 +24,6 @@ import org.slf4j.LoggerFactory;
 import com.axelor.exception.AxelorException;
 
 import java.lang.invoke.MethodHandles;
-import java.util.ArrayList;
-import java.util.List;
-import java.math.BigInteger;
 
 import com.axelor.rh.db.Conge;
 
@@ -72,38 +70,42 @@ public class CongeController {
 
     @Transactional
     public void getlistDemandeDuCongeequipe(ActionRequest request, ActionResponse response) throws AxelorException {
-        BigInteger idEntite = congeService.getIdEntiteByMatriculeEmploye(AuthUtils.getUser().getCode());
-        String leaveListIdStr = "-2";
-        if (!idEntite.equals(null)) {
-            List<BigInteger> EmployeListId = congeService.getListIdEmployeCongeEquipe(idEntite.intValue());
-            List<Long> CongeListID = new ArrayList<>();
 
-            if (!EmployeListId.isEmpty()) {
-                for (BigInteger idEmploye : EmployeListId) {
-                    CongeListID.add(congeService.getCongeByIdEmploye(idEmploye).getId());
-                }
-                if (!CongeListID.isEmpty()) {
-                    leaveListIdStr = Joiner.on(",").join(CongeListID);
-                }
-            } else {
-
-            }
-        }
+        String leaveListIdStr = Joiner.on(",").join(congeService.getlistDemandeDuCongeEquipeService());
 
         response.setView(ActionView.define(I18n.get("Demandes de l'equipes"))
                 .model(Conge.class.getName())
-                .add("grid", "conge-grid")
+                .add("grid", "conge-equipe-grid")
                 .add("form", "conge-form")
                 .domain("self.id in (" + leaveListIdStr + ")")
                 .map());
-        logger.debug("End getlistDemandeDuCongeequipe ...");
 
 
     }
 
-
+    @Transactional
+    public void valider(ActionRequest request, ActionResponse response) throws AxelorException {
+        Employe employe= congeService.getEmployeByCodeCurrentUser();
+        Conge conge =  request.getContext().asType(Conge.class);
+        if(!congeService.valider(employe,conge).equals(null)){
+            response.setReload(true);
+            response.setValue("isValidate",true);
+        }
+    }
     public void employeIsResponsable(ActionRequest request, ActionResponse response) throws AxelorException {
         Boolean responsible = congeService.employeIsResponsable();
+        Boolean isDrh=congeService.employeIsDRH();
+        if(!responsible)
+        response.setValue("employee",congeService.getEmployeByCodeCurrentUser());
         response.setValue("responsible", responsible);
+        response.setValue("isDrh", isDrh);
+        logger.debug("ff");
+    }
+    public void showOtherMenuIfEmployeIsResponsable(ActionRequest request, ActionResponse response) throws AxelorException {
+        Boolean responsible = congeService.employeIsResponsable();
+        if(responsible){
+            response.setView(null);
+        }
+
     }
 }

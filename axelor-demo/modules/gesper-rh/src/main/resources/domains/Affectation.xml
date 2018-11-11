@@ -22,14 +22,20 @@
         <many-to-many name="decision" ref="com.axelor.config.db.Decision" title="Decision"></many-to-many>
         <many-to-one name="employee" ref="com.axelor.rh.db.Employe" title="Agent"></many-to-one>
         <string name="status" title="Etat" selection="decision.config.status" default="1" readonly="true"/>
-
+        <finder-method name="findByEmployee" using="String:code"
+                filter="self.employee.matricule = :code AND self.typeAffectation=1"/>
+        <finder-method name="findByEntite" using="Long:entite,Long:empId"
+                       filter="self.entite.id = :entite AND self.typeAffectation=1 and self.employee.id != :empId" all="true"/>
         <extra-code>
             <![CDATA[
 	           	// TYPE SELECT
 	        	public static final String TYPE_PRINCIPAL = "1";
 	        	public static final String TYPE_SECONDARY = "2";
 		        public static final String TYPE_CANCELED = "3";
+
+
 	        ]]>
+
         </extra-code>
     </entity>
 

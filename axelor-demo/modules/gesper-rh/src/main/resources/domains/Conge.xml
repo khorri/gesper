@@ -22,5 +22,6 @@
         <one-to-many name="avisRetour" ref="com.axelor.rh.db.AvisRetour" ></one-to-many>
         <one-to-many name="avisDepart" ref="com.axelor.rh.db.AvisDepart" ></one-to-many>
         <one-to-many name="historiqueDemandeConge" ref="com.axelor.rh.db.HistoriqueDemandeConge" ></one-to-many>
+
     </entity>
 </domain-models>

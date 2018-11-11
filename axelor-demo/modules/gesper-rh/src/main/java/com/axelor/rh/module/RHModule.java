@@ -19,18 +19,16 @@ public class RHModule extends AxelorModule {
 
     private final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-    /**
-     * Configures a {@link Binder} via the exposed methods.
-     */
+
     @Override
     protected void configure() {
         logger.info(" Configure RH Module... ");
         try {
             Reflections reflections = new Reflections("com.axelor.rh.service");
-
             Set<Class<? extends CongeCalculator>> allClasses =
                     reflections.getSubTypesOf(CongeCalculator.class);
             for (Class clazz : allClasses) {
+
                 CongeCalculator obj = (CongeCalculator) clazz.newInstance();
                 bind(CongeCalculator.class).annotatedWith(Names.named(obj.getCode())).to(clazz);
             }

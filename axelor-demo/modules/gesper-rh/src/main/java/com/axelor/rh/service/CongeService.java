@@ -5,11 +5,11 @@ import com.axelor.auth.db.User;
 import com.axelor.config.db.Entite;
 import com.axelor.db.JPA;
 import com.axelor.db.Query;
-import com.axelor.rh.db.Conge;
-import com.axelor.rh.db.Employe;
-import com.axelor.rh.db.JourFerie;
+import com.axelor.rh.db.*;
+import com.axelor.rh.db.repo.AffectationRepository;
 import com.axelor.rh.db.repo.CongeRepository;
 import com.axelor.rh.db.repo.JourFerieRepository;
+import com.axelor.rh.db.repo.ValidationcongeRepository;
 import com.axelor.rh.utils.SQLQueries;
 import com.google.common.base.Joiner;
 import com.google.inject.Inject;
@@ -18,8 +18,9 @@ import org.joda.time.DateTimeConstants;
 import org.joda.time.Days;
 import org.joda.time.LocalDate;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.google.common.collect.Lists;
+
+import java.util.*;
 import java.math.BigInteger;
 import java.util.logging.Logger;
 
@@ -35,6 +36,10 @@ public class CongeService {
     CongeRepository congeRepository;
     @Inject
     EmployeService employeService;
+    @Inject
+    ValidationcongeRepository validatecongeRepository;
+    @Inject
+    AffectationRepository affectationRepository;
 
     public int getDuration(LocalDate start, LocalDate end) {
         List<JourFerie> jourFeries = jourFerieRepository.all().filter("self.dateDebut > ?1 and self.dateFin < ?2", start, end).fetch();
@@ -61,24 +66,24 @@ public class CongeService {
     }
 
     @Transactional
-    public Conge getCongeByIdEmploye(BigInteger idEmploye) {
+    public List<Conge> getCongeByIdEmploye(BigInteger idsEmploye) {
 
         return Query.of(Conge.class)
                 .filter("self.employee.id = :employee")
-                .bind("employee", idEmploye)
-                .fetchOne();
+                .bind("employee", idsEmploye)
+                .fetch();
 
     }
 
-    public List<BigInteger> getListIdEmployeCongeEquipe(int idEntite) {
+    public List<BigInteger> getListIdEmployeCongeEquipe(int idEntite,Long idemploye) {
 
-        return JPA.em().createNativeQuery(SQLQueries.getListIDEmployeCongeDuEquipe(idEntite)).getResultList();
+        return JPA.em().createNativeQuery(SQLQueries.getListIDEmployeCongeDuEquipe(idEntite,idemploye)).getResultList();
     }
 
     public Long getIdEntiteByMatriculeEmploye(String idEmploye) {
-        Long idEntite = (Long) JPA.em().createNativeQuery(SQLQueries.getIdEntite(idEmploye)).getSingleResult();
+        BigInteger idEntite = (BigInteger) JPA.em().createNativeQuery(SQLQueries.getIdEntite(idEmploye)).getSingleResult();
         if (!idEntite.equals(null))
-            return idEntite;
+            return idEntite.longValue();
         return null;
     }
 
@@ -93,51 +98,87 @@ public class CongeService {
         return Query.of(Entite.class).filter("self.id= :id").bind("id", idEntite).fetchOne();
     }
 
-    public List<Entite> getListSubordonnerByIdentite(Long identite){
-        return Query.of(Entite.class).filter("self.parent = :id").bind("id",identite).fetch() ;
-    }
-    public List<Long> getlistDemandeDuCongeEquipeService() {
-        Long idEntiteUser = getIdEntiteByMatriculeEmploye(AuthUtils.getUser().getCode());
 
-        
-        Entite parent =getParentByEntiteId(idEntiteUser);
-
-        String leaveListIdStr = "-2";
-        while (!parent.equals(null)){
-
-            parent = getParentByEntiteId(getEntite(parent.getId()).getId());
-        }
-
-        if (!idEntiteUser.equals(null)) {
-            List<BigInteger> EmployeListId = getListIdEmployeCongeEquipe(idEntiteUser.intValue());
-            List<Long> CongeListID = new ArrayList<>();
-
-            if (!EmployeListId.isEmpty()) {
-                for (BigInteger idEmploye : EmployeListId) {
-                    CongeListID.add(getCongeByIdEmploye(idEmploye).getId());
-                }
-                if (!CongeListID.isEmpty()) {
-                    leaveListIdStr = Joiner.on(",").join(CongeListID);
-                }
-            } else {
-
+    static Set<Long>  idsSubordonner= new HashSet<>();
+    public Set<Long> getAllSubordonnerByParentIds(String identite){
+        List<BigInteger> result = JPA.em().createNativeQuery(SQLQueries.getAllSubordonnerByParentIds(identite)).getResultList();
+        if(!result.isEmpty()){
+            Set<BigInteger> set =new HashSet<>(result);
+            for (BigInteger id:set) {
+                CongeService.idsSubordonner.add(id.longValue());
             }
-            return CongeListID;
+            return getAllSubordonnerByParentIds(Joiner.on(",").join(set));
+        }else {
+            return  CongeService.idsSubordonner;
         }
-        return null;
+    }
+
+    private Set<Long> setIdsConge(Long idEntite){
+        Set<Long> ids=new HashSet<>();
+        Long idemploye = employeService.getEmployeByCodeUser(AuthUtils.getUser()).getId();
+        List<BigInteger> EmployeListId = getListIdEmployeCongeEquipe(idEntite.intValue(),idemploye);
+        for (BigInteger idEmploye:EmployeListId) {
+            List<Conge> conges =getCongeByIdEmploye( idEmploye );
+            if (!conges.isEmpty())
+                for (Conge  c: conges) {
+                    ids.add(c.getId());
+                }
+        }
+
+        return ids;
+    }
+
+    public Set<Long> getlistDemandeDuCongeEquipeService() {
+//        Affectation affectation = affectationRepository.findByEmployee(AuthUtils.getUser().getCode());
+//        List<Affectation> affectations = affectationRepository.findByEntite(affectation.getEntite().getId(),affectation.getEmployee().getId()).fetch();
+//        System.out.println("===========================> Affectation "+affectation.getId());
+        Long idEntiteUser = getIdEntiteByMatriculeEmploye(AuthUtils.getUser().getCode());
+        Set<Long> IdsConge = setIdsConge(idEntiteUser);
+//        if(!CongeService.idsSubordonner.isEmpty()){
+//            CongeService.idsSubordonner = new HashSet<>();
+//        }else{
+//            CongeService.idsSubordonner.addAll(IdsConge);
+//        }
+        Set<Long> idsSub = getAllSubordonnerByParentIds(idEntiteUser.toString());
+        if(!idsSub.isEmpty()){
+            for (Long sub:idsSub)
+                    IdsConge.addAll(setIdsConge(sub));
+            CongeService.idsSubordonner = new HashSet<>();
+        }
+        return IdsConge;
+    }
+
+    public Employe getEmployeByCodeCurrentUser(){
+        return employeService.getEmployeByCodeUser(AuthUtils.getUser());
     }
 
     public Boolean employeIsResponsable() {
         Boolean respo = false;
-
         try {
-            Long idemploye = employeService.getEmployeByCodeUser(AuthUtils.getUser()).getId();
+            Long idemploye = getEmployeByCodeCurrentUser().getId();
             if (!idemploye.equals(null))
                 respo = (Boolean) JPA.em().createNativeQuery(SQLQueries.employeIsResponsable(Long.toString(idemploye))).getSingleResult();
         } catch (Exception e) {
         }
-
         return respo;
+    }
+    public Boolean employeIsDRH() {
+        Boolean drh = false;
+        try {
 
+                Object user= JPA.em().createNativeQuery(SQLQueries.employeIsDRH(AuthUtils.getUser().getCode())).getSingleResult();
+                if(!JPA.em().createNativeQuery(SQLQueries.employeIsDRH(AuthUtils.getUser().getCode())).getSingleResult().equals(null))
+                    drh= true;
+        } catch (Exception e) {
+        }
+        return drh;
+    }
+
+    public Validationconge valider(Employe employe,Conge conge){
+        Validationconge validateconge=new Validationconge();
+        validateconge.setEmployee((employe.getId()).intValue());
+        validateconge.setConge((conge.getId()).intValue());
+        validateconge.setMotif("null");
+        return validatecongeRepository.save(validateconge) ;
     }
 }

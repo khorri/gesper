@@ -42,11 +42,19 @@ public class SQLQueries {
                 " WHERE d.decision_code='" + code + "'";
     }
 
-    public static String getListIDEmployeCongeDuEquipe(int idEntite) {
+    public static String getListIDEmployeCongeDuEquipe(int idEntite,Long idemploye) {
         return "select e.id from  rh_affectation as a " +
-                "left join rh_employe as e on a.employee= e.id " +
-                "left join config_fonction as f on a.fonction=f.id " +
-                "where entite=" + idEntite + " and e.id in (select c.employee from rh_conge c)";
+                " left join rh_employe as e on a.employee= e.id " +
+                " left join config_fonction as f on a.fonction=f.id " +
+                " where a.entite=" + idEntite + " and a.type_affectation=1 and a.employee != "+idemploye;
+    }
+
+    public static String getListsidEntiteByParentId(Long idParent){
+        return "SELECT DISTINCT id FROM config_entite where parent="+idParent;
+    }
+
+    public static String getAllSubordonnerByParentIds(String parentIds){
+        return "SELECT DISTINCT id FROM `config_entite` where parent in (" +parentIds+")";
     }
 
     public static String getIdEntite(String matricule) {
@@ -63,5 +71,10 @@ public class SQLQueries {
                 "left join config_fonction as f on f.id = a.fonction " +
                 "left join rh_employe as e on a.employee=e.id " +
                 "where a.employee= " + idEmploye + " and a.type_affectation=1 ";
+    }
+
+    public static String employeIsDRH(String idEmploye) {
+        return "SELECT * FROM auth_user " +
+                "where name="+ idEmploye+" and group_id=1"  ;
     }
 }
