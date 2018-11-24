@@ -414,7 +414,7 @@ UPDATE gesper.rh_type_conge_seq  set next_val = (SELECT MAX(id)+1 as seq from ge
 
 #-----------Migration des natures conges -------------
 #By Ayoub
-INSERT INTO gesper.rh_nature_conge (`id`,`code`, `name`,`droit_jour`,`version`,`type_conge`)
+INSERT INTO gesper.rh_nature_conge (`id`,`code`, `name`,`limite`,`version`,`type_conge`)
 	SELECT
 	    @rownum := @rownum + 1 AS position,
 	    nc.NAT_COD,nc.NAT_LIB,
@@ -554,9 +554,7 @@ INSERT INTO gesper.rh_droit_avancement (
 UPDATE gesper.rh_droit_avancement_seq
 set next_val = IF((SELECT id+1 as seq from gesper.rh_droit_avancement ORDER BY id desc LIMIT 1) is null,1,(SELECT id+1 as seq from gesper.rh_droit_avancement ORDER BY id desc LIMIT 1));
 
-UPDATE gesper.rh_droit_avancement av, (SELECT a.AVA_NUM numero, d.id decision FROM grh.avancements as a
-	JOIN gesper.config_decision as d on d.decision_code=a.DEC_NUM
-WHERE a.AVA_NUM IN (SELECT AVA_NUM FROM grh.droit_avancement)) as avn set av.decision=avn.decision, av.statut=1 where av.numero=avn.numero;
+
 
 #------------------------------------------------------------------------------------
 #------------------------------- Migration des decisions ----------------------------
@@ -569,6 +567,11 @@ SELECT @rownum := @rownum + 1 AS position, d.DEC_NUM, d.DEC_DAT, ent.id entite, 
 		WHERE d.DEC_NUM
 		NOT IN ( SELECT IFNULL(ex.decision_code,"no code, lol") FROM gesper.config_decision ex);
 UPDATE gesper.config_decision_seq  set next_val = (SELECT MAX(id)+1 as seq from gesper.config_decision);
+
+#-----------droit avnc cont.
+UPDATE gesper.rh_droit_avancement av, (SELECT a.AVA_NUM numero, d.id decision FROM grh.avancements as a
+	JOIN gesper.config_decision as d on d.decision_code=a.DEC_NUM
+WHERE a.AVA_NUM IN (SELECT AVA_NUM FROM grh.droit_avancement)) as avn set av.decision=avn.decision, av.status=1 where av.numero=avn.numero;
 #------------------------------------------------------------------------------------
 #------------------------------- Migration des situation ----------------------------
 #------------------------------------------------------------------------------------
@@ -617,7 +620,7 @@ set next_val = IF((SELECT id+1 as seq from gesper.rh_situation ORDER BY id desc 
 
 #---- Affectation a nightmare . i pity the person reading this query
 
-INSERT INTO gesper.rh_affectation (id, employee, entite, service, residence, fonction, caida, affectation_date, observation,active, status,version, type_affectation)
+INSERT INTO gesper.rh_affectation (id, employee, entite, service, residence, fonction, caida, affectation_date, fonction_date, observation,active, status, version, type_affectation)
 	SELECT
 		@rownum := @rownum + 1 AS position,
 		emp.id as employee,
@@ -626,6 +629,7 @@ INSERT INTO gesper.rh_affectation (id, employee, entite, service, residence, fon
 		res.id as residence,
 		fo.id as fonction,
 		gcai.id as caida,
+		af.AFF_DAT,
 		af.AFF_DAT,
 		af.FON_OBS,
 		af.AFF_ACT,

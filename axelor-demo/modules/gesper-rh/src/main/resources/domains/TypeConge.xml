@@ -9,7 +9,7 @@
         <string name="code" title="Code" unique="true" required="true"/>
         <string name="name" title="Libellé"/>
         <integer name="droitJour" title="Nombre jours"/>
-        <string name="annotation" required="true" title="Annotation technique"></string>
+        <string name="annotation"  title="Annotation technique"></string>
         <one-to-many name="natureCongeList" ref="com.axelor.rh.db.NatureConge" mappedBy="typeConge" help="true"/>
 
     </entity>

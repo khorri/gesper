@@ -14,11 +14,11 @@
                 required="true"></string>
         <string name="observation" title="Observation" large="true" multiline="true"></string>
         <boolean name="active" title="Activé"></boolean>
-        <many-to-one name="entite" ref="com.axelor.config.db.Entite" title="Filière" required="true"/>
+        <many-to-one name="entite" ref="com.axelor.config.db.Entite" title="Filière"/>
         <many-to-one name="service" ref="com.axelor.config.db.Service" title="Cadre"/>
         <many-to-one name="caida" ref="com.axelor.config.db.Caida" title="Grade"></many-to-one>
         <many-to-one name="residence" ref="com.axelor.config.db.Residence" title="Cadre"/>
-        <many-to-one name="fonction" ref="com.axelor.config.db.Fonction" title="Grade" required="true"></many-to-one>
+        <many-to-one name="fonction" ref="com.axelor.config.db.Fonction" title="Grade"></many-to-one>
         <many-to-many name="decision" ref="com.axelor.config.db.Decision" title="Decision"></many-to-many>
         <many-to-one name="employee" ref="com.axelor.rh.db.Employe" title="Agent"></many-to-one>
         <string name="status" title="Etat" selection="decision.config.status" default="1" readonly="true"/>
